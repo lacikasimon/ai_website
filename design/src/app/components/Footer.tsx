@@ -115,20 +115,22 @@ export function Footer() {
                   ))}
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  {siteContent.contact.emails.map((email) => (
-                    <a
-                      key={email}
-                      href={`mailto:${email}`}
-                      className="text-slate-400 hover:text-cyan-400 transition-colors text-sm block"
-                    >
-                      {email}
-                    </a>
-                  ))}
+              {siteContent.contact.emails.length > 0 && (
+                <div className="flex items-start gap-3">
+                  <Mail className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    {siteContent.contact.emails.map((email) => (
+                      <a
+                        key={email}
+                        href={`mailto:${email}`}
+                        className="text-slate-400 hover:text-cyan-400 transition-colors text-sm block"
+                      >
+                        {email}
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
                 <div className="text-slate-400 text-sm">
@@ -160,6 +162,10 @@ export function Footer() {
         </div>
 
         <div className="border-t border-slate-800 pt-8">
+          <p className="text-slate-600 text-xs text-center md:text-left mb-6 max-w-4xl mx-auto md:mx-0 leading-relaxed">
+            {siteContent.company.name} · CUI {siteContent.company.cui} · Reg. Com.{' '}
+            {siteContent.company.regCom} · {siteContent.company.cuiNote} · EUID {siteContent.company.euid}
+          </p>
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-500 text-sm">
               © {currentYear} GENE SYS SECURITY SRL. Toate drepturile rezervate.

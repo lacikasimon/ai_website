@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { siteContent } from '../content/siteContent';
 
@@ -32,23 +32,27 @@ export function Contact() {
   const contactInfo = [
     {
       icon: Phone,
-      title: 'Telefon',
+      title: 'Telefon / mobil',
       lines: siteContent.contact.phones.map((p) => ({
         text: p.display,
         href: `tel:${p.tel}` as const,
       })),
     },
-    {
-      icon: Mail,
-      title: 'Email',
-      lines: siteContent.contact.emails.map((email) => ({
-        text: email,
-        href: `mailto:${email}` as const,
-      })),
-    },
+    ...(siteContent.contact.emails.length > 0
+      ? [
+          {
+            icon: Mail,
+            title: 'Email',
+            lines: siteContent.contact.emails.map((email) => ({
+              text: email,
+              href: `mailto:${email}` as const,
+            })),
+          },
+        ]
+      : []),
     {
       icon: MapPin,
-      title: 'Adresă',
+      title: 'Adresă sediu',
       lines: siteContent.contact.addressLines.map((text) => ({ text, href: null as const })),
     },
     {
@@ -73,7 +77,7 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
           {/* Contact Info Cards */}
           {contactInfo.map((info, index) => {
             const Icon = info.icon;
@@ -196,20 +200,33 @@ export function Contact() {
             )}
           </div>
 
-          {/* Image */}
-          <div className="relative rounded-xl overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1724041875334-0a6397111c7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2xhciUyMHBhbmVscyUyMHBob3Rvdm9sdGFpYyUyMHN5c3RlbXxlbnwxfHx8fDE3NzM5OTUzMTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-              alt="Sisteme fotovoltaice GENE SYS SECURITY"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent flex items-end p-8">
-              <div>
-                <h4 className="text-2xl mb-2 text-white">Energie regenerabilă</h4>
-                <p className="text-slate-300">
-                  Soluții fotovoltaice pentru un viitor sustenabil
-                </p>
-              </div>
+          {/* Hartă sediu */}
+          <div className="flex flex-col gap-4">
+            <div>
+              <h3 className="text-2xl mb-2 text-white">Locație — sediu social</h3>
+              <p className="text-slate-400 text-sm mb-1">
+                {siteContent.company.street}, {siteContent.company.locality},{' '}
+                {siteContent.company.postalCode}, județ {siteContent.company.county}
+              </p>
+              <a
+                href={siteContent.contact.mapOpenUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+              >
+                Deschide în Google Maps
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+            <div className="relative rounded-xl overflow-hidden border border-slate-700/50 bg-slate-900/50 shadow-xl min-h-[320px] md:min-h-[420px] flex-1">
+              <iframe
+                title="Hartă — GENE SYS SECURITY SRL, Satu Mare"
+                src={siteContent.contact.mapEmbedUrl}
+                className="absolute inset-0 w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>

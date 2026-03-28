@@ -68,16 +68,20 @@ export function Hero() {
                 {siteContent.contact.phones[0].display}
               </a>
             </div>
-            <div className="hidden sm:block w-px h-6 bg-slate-600" />
-            <div className="flex items-center gap-2">
-              <Mail className="w-5 h-5 text-cyan-400" />
-              <a
-                href={`mailto:${siteContent.contact.emails[0]}`}
-                className="hover:text-cyan-400 transition-colors"
-              >
-                {siteContent.contact.emails[0]}
-              </a>
-            </div>
+            {siteContent.contact.emails.length > 0 && (
+              <>
+                <div className="hidden sm:block w-px h-6 bg-slate-600" />
+                <div className="flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-cyan-400" />
+                  <a
+                    href={`mailto:${siteContent.contact.emails[0]}`}
+                    className="hover:text-cyan-400 transition-colors"
+                  >
+                    {siteContent.contact.emails[0]}
+                  </a>
+                </div>
+              </>
+            )}
           </div>
           <p className="text-sm text-slate-500 max-w-xl text-center">
             {siteContent.contact.coverage}

@@ -18,9 +18,10 @@ export function ContactPage() {
             Solicită o ofertă sau o consultanță
           </h1>
           <p className="text-slate-400 max-w-2xl leading-relaxed">
-            Echipa {siteContent.meta.ogTitle} răspunde solicitărilor pentru instalații electrice,
-            sisteme fotovoltaice, securitate și mentenanță. Completați formularul sau folosiți datele
-            de mai jos — revenim în cel mai scurt timp.
+            Echipa {siteContent.meta.ogTitle} din {siteContent.company.locality}, județul{' '}
+            {siteContent.company.county}, răspunde solicitărilor pentru instalații electrice, sisteme
+            fotovoltaice, securitate și mentenanță. Completați formularul sau sunați la numărul de mobil
+            afișat mai jos — revenim în cel mai scurt timp posibil.
           </p>
         </div>
       </section>
