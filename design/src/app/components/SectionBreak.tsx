@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
 /**
- * Separator vizual: linie clară (sfârșit de bloc anterior) + bandă pe toată lățimea, fără text.
- * `onDark` — fundal albastru închis / hero (contrast mai bun).
+ * Separator vizual: doar linie pe toată lățimea (sfârșit de bloc anterior).
+ * `onDark` — fundal albastru închis / hero.
  */
 export function SectionBreak({
   className = '',
@@ -15,15 +15,10 @@ export function SectionBreak({
     variant === 'onDark'
       ? 'h-0.5 w-full rounded-full bg-gradient-to-r from-transparent via-white/45 to-transparent shadow-[0_1px_0_0_rgba(255,255,255,0.12)]'
       : 'h-0.5 w-full rounded-full bg-gradient-to-r from-transparent via-blue-600/55 to-transparent shadow-[0_1px_0_0_rgba(37,99,235,0.15)]';
-  const band =
-    variant === 'onDark'
-      ? 'mt-4 h-3 w-full rounded-md bg-gradient-to-r from-white/14 via-white/6 to-white/12 ring-1 ring-inset ring-white/22 shadow-sm sm:h-3.5'
-      : 'mt-4 h-3 w-full rounded-md bg-gradient-to-r from-blue-100/70 via-white to-slate-100/80 ring-1 ring-inset ring-blue-300/35 shadow-sm shadow-blue-950/5 sm:h-3.5';
 
   return (
     <div className={`w-full ${className}`}>
       <div className={line} aria-hidden />
-      <div className={band} aria-hidden />
     </div>
   );
 }

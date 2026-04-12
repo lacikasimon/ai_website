@@ -1,4 +1,3 @@
-import logo from '../../assets/genesys-logo.svg';
 import { Shield, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
@@ -22,13 +21,6 @@ export function Hero() {
 
       {/* Hero Content */}
       <div id="home" className="relative z-10 container mx-auto px-4 text-center pt-24">
-        <div className="flex justify-center mb-8">
-          <div className="relative">
-            <div className="absolute inset-0 bg-blue-400/25 blur-3xl rounded-full scale-110" />
-            <img src={logo} alt="GENE SYS SECURITY" className="h-32 w-32 relative z-10 drop-shadow-lg" />
-          </div>
-        </div>
-        
         <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 text-blue-950 tracking-tight max-w-5xl mx-auto leading-[1.1] font-semibold">
           {siteContent.home.hero.headline}
         </h1>
