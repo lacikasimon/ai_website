@@ -1,0 +1,15 @@
+# GENE SYS SECURITY SRL
+
+> Site corporativ (limba română). Instalații electrice, sisteme fotovoltaice, securitate și supraveghere CCTV, detecție la efracție, mentenanță tehnică, consultanță și infrastructură. Societate cu sediul în Satu Mare, România (CUI RO 38322763).
+
+## Contact public
+- Telefon: +40 749 235 958
+
+## Structură
+- Pagina principală: informații despre companie, servicii, certificări.
+- /contact — solicitare ofertă și date de contact.
+- /proiecte — referințe și portofoliu.
+- /servicii/{slug} — detalii per serviciu (ex.: instalatii-electrice, fotovoltaice, securitate-cctv).
+
+## Notă
+Pentru URL-uri canonice și sitemap complet, folosiți domeniul de producție configurat la build (VITE_SITE_URL).

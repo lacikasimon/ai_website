@@ -1,4 +1,4 @@
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/genesys-logo.svg';
 import { Shield, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
@@ -17,65 +17,65 @@ export function Hero() {
           backgroundImage: `url('https://images.unsplash.com/photo-1770838773181-e1b17ec22fee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwaW5zdGFsbGF0aW9uJTIwaW5kdXN0cmlhbHxlbnwxfHx8fDE3NzQwOTUzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')`
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-cyan-900/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/25 via-white/93 to-blue-50/70" />
       </div>
 
       {/* Hero Content */}
       <div id="home" className="relative z-10 container mx-auto px-4 text-center pt-24">
         <div className="flex justify-center mb-8">
           <div className="relative">
-            <div className="absolute inset-0 bg-cyan-500/20 blur-3xl rounded-full"></div>
-            <img src={logo} alt="GENE SYS SECURITY" className="h-32 w-32 relative z-10" />
+            <div className="absolute inset-0 bg-blue-400/25 blur-3xl rounded-full scale-110" />
+            <img src={logo} alt="GENE SYS SECURITY" className="h-32 w-32 relative z-10 drop-shadow-lg" />
           </div>
         </div>
         
-        <h1 className="text-4xl md:text-6xl lg:text-7xl mb-6 text-white tracking-tight max-w-5xl mx-auto leading-tight">
-          Soluții Complete de Instalații Electrice și Securitate pentru Viitor.
+        <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 text-blue-950 tracking-tight max-w-5xl mx-auto leading-[1.1] font-semibold">
+          {siteContent.home.hero.headline}
         </h1>
         
-        <div className="inline-block bg-cyan-500/10 border border-cyan-500/30 px-6 py-2 rounded-full mb-8">
-          <p className="text-cyan-400 text-lg">GENE SYS SECURITY SRL</p>
+        <div className="inline-block border border-blue-200/90 bg-blue-50/95 shadow-sm px-6 py-2 rounded-full mb-8">
+          <p className="text-blue-900 text-lg tracking-wide font-medium">{siteContent.home.hero.badge}</p>
         </div>
         
-        <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-          Transformăm spațiile prin tehnologie de vârf, oferind servicii de proiectare și execuție pentru construcții civile și industriale.
+        <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+          {siteContent.home.hero.subheadline}
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
           <Link 
             to="/contact"
-            className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20"
+            className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors shadow-lg shadow-blue-900/25"
           >
             Cere o Ofertă
           </Link>
           <button 
             onClick={scrollToServices}
-            className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg border border-white/20 transition-all backdrop-blur-sm"
+            className="bg-white/95 hover:bg-white text-blue-950 px-8 py-4 rounded-lg text-lg border-2 border-blue-200 hover:border-blue-400 transition-colors shadow-sm"
           >
             Vezi Serviciile Noastre
           </button>
         </div>
 
         {/* Quick Contact Info */}
-        <div className="flex flex-col gap-4 justify-center items-center text-slate-300">
+        <div className="flex flex-col gap-4 justify-center items-center text-slate-600">
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
             <div className="flex items-center gap-2">
-              <Phone className="w-5 h-5 text-cyan-400" />
+              <Phone className="w-5 h-5 text-blue-600" />
               <a
                 href={`tel:${siteContent.contact.phones[0].tel}`}
-                className="hover:text-cyan-400 transition-colors"
+                className="hover:text-blue-800 transition-colors font-medium"
               >
                 {siteContent.contact.phones[0].display}
               </a>
             </div>
             {siteContent.contact.emails.length > 0 && (
               <>
-                <div className="hidden sm:block w-px h-6 bg-slate-600" />
+                <div className="hidden sm:block w-px h-6 bg-blue-200" />
                 <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-cyan-400" />
+                  <Mail className="w-5 h-5 text-blue-600" />
                   <a
                     href={`mailto:${siteContent.contact.emails[0]}`}
-                    className="hover:text-cyan-400 transition-colors"
+                    className="hover:text-blue-800 transition-colors font-medium"
                   >
                     {siteContent.contact.emails[0]}
                   </a>
@@ -83,7 +83,7 @@ export function Hero() {
               </>
             )}
           </div>
-          <p className="text-sm text-slate-500 max-w-xl text-center">
+          <p className="text-sm text-blue-900/80 max-w-xl text-center border border-blue-100 bg-white/85 rounded-lg px-4 py-2 shadow-sm">
             {siteContent.contact.coverage}
           </p>
         </div>
@@ -91,7 +91,7 @@ export function Hero() {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-        <div className="flex flex-col items-center gap-2 text-slate-400 animate-bounce">
+        <div className="flex flex-col items-center gap-2 text-blue-700/70 animate-bounce">
           <span className="text-sm">Derulați în jos</span>
           <Shield className="w-6 h-6" />
         </div>

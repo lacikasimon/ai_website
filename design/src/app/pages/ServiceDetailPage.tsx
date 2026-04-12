@@ -1,5 +1,8 @@
 import { useParams, Link } from 'react-router';
+import { SectionBreak, SectionEyebrow } from '../components/SectionBreak';
 import { Zap, Sun, Camera, ShieldAlert, Wrench, Network, CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { siteContent } from '../content/siteContent';
+import { useSeo } from '../seo/useSeo';
 
 export function ServiceDetailPage() {
   const { serviceSlug } = useParams();
@@ -183,12 +186,30 @@ export function ServiceDetailPage() {
 
   const service = serviceSlug ? servicesData[serviceSlug as keyof typeof servicesData] : null;
 
+  useSeo(
+    service
+      ? {
+          title: `${service.title} | ${siteContent.meta.ogTitle}`,
+          description: `${service.tagline} ${service.description.slice(0, 120)}…`,
+          path: `/servicii/${serviceSlug}`,
+          ogImage: service.image,
+          keywords: `${siteContent.meta.keywords}, ${service.title}`,
+        }
+      : {
+          title: `Serviciu negăsit | ${siteContent.meta.ogTitle}`,
+          description: 'Pagina solicitată nu există.',
+          path: `/servicii/${serviceSlug ?? ''}`,
+          keywords: '',
+          noindex: true,
+        },
+  );
+
   if (!service) {
     return (
-      <div className="pt-24 pb-20 min-h-screen flex items-center justify-center">
+      <div className="pt-24 pb-20 min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
-          <h1 className="text-4xl mb-4 text-white">Serviciu negăsit</h1>
-          <Link to="/" className="text-cyan-400 hover:text-cyan-300">
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">Serviciu negăsit</h1>
+          <Link to="/" className="text-blue-700 hover:text-blue-900 font-medium">
             Înapoi la pagina principală
           </Link>
         </div>
@@ -201,35 +222,36 @@ export function ServiceDetailPage() {
   return (
     <div className="pt-24 pb-20">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+      <section className="py-20 relative overflow-hidden border-b border-blue-900/30 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900">
+        <div className="absolute inset-0 opacity-[0.12] pointer-events-none">
+          <img src={service.image} alt="" className="w-full h-full object-cover" aria-hidden />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/97 via-blue-900/95 to-slate-900/98 pointer-events-none" />
+        <div className="absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-sky-500/10 blur-3xl" />
         
         <div className="container mx-auto px-4 relative z-10">
-          <Link to="/" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8 transition-colors">
+          <Link to="/" className="inline-flex items-center gap-2 text-blue-200 hover:text-white mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Înapoi la pagina principală
           </Link>
-          
+
+          <div className="mb-6 w-full">
+            <SectionBreak variant="onDark" />
+          </div>
+
           <div className="max-w-4xl">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="bg-cyan-500/10 p-4 rounded-xl">
-                <Icon className="w-12 h-12 text-cyan-400" />
-              </div>
-              <div className="inline-block bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 rounded-full">
-                <span className="text-cyan-400">Servicii</span>
-              </div>
+            <SectionEyebrow variant="onDark">{siteContent.home.servicesIntro.sectionLabel}</SectionEyebrow>
+            <div className="mb-6 inline-flex rounded-xl bg-white/10 p-4 backdrop-blur-sm border border-white/20 shadow-lg">
+              <Icon className="w-12 h-12 text-sky-200" aria-hidden />
             </div>
             
-            <h1 className="text-4xl md:text-6xl mb-6 text-white">
+            <h1 className="text-5xl md:text-7xl mb-6 text-white font-semibold tracking-tight leading-tight">
               {service.title}
             </h1>
-            <p className="text-2xl text-cyan-400 mb-6">
+            <p className="text-2xl text-blue-100 mb-6 font-light">
               {service.tagline}
             </p>
-            <p className="text-xl text-slate-300 leading-relaxed">
+            <p className="text-xl text-blue-100/90 leading-relaxed">
               {service.description}
             </p>
           </div>
@@ -237,20 +259,20 @@ export function ServiceDetailPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl mb-12 text-white text-center">
+          <h2 className="text-4xl md:text-5xl mb-12 font-semibold tracking-tight text-slate-900 text-center">
             Ce oferim
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
             {service.features.map((feature, index) => (
               <div 
                 key={index}
-                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/50 transition-all"
+                className="bg-slate-50 border border-slate-200 border-l-4 border-l-blue-600 rounded-xl p-6 hover:border-blue-200 transition-all shadow-sm"
               >
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1" />
-                  <span className="text-slate-300">{feature}</span>
+                  <CheckCircle2 className="w-5 h-5 text-blue-700 flex-shrink-0 mt-1" />
+                  <span className="text-slate-700">{feature}</span>
                 </div>
               </div>
             ))}
@@ -259,19 +281,23 @@ export function ServiceDetailPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-slate-800">
+      <section className="py-20 bg-slate-50 border-y border-slate-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl mb-12 text-white text-center">
+          <h2 className="text-4xl md:text-5xl mb-12 font-semibold tracking-tight text-slate-900 text-center">
             Avantajele noastre
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {service.benefits.map((benefit, index) => (
               <div 
                 key={index}
-                className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl p-6 text-center"
+                className={`rounded-xl p-6 text-center shadow-md border ${
+                  index === 1
+                    ? 'bg-gradient-to-br from-blue-950 to-blue-900 border-blue-800 text-white'
+                    : 'bg-white border-slate-200'
+                }`}
               >
-                <h3 className="text-xl mb-3 text-white">{benefit.title}</h3>
-                <p className="text-slate-400">{benefit.desc}</p>
+                <h3 className={`text-xl mb-3 ${index === 1 ? 'text-white font-semibold' : 'text-slate-900'}`}>{benefit.title}</h3>
+                <p className={index === 1 ? 'text-blue-100' : 'text-slate-600'}>{benefit.desc}</p>
               </div>
             ))}
           </div>
@@ -279,24 +305,24 @@ export function ServiceDetailPage() {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl mb-12 text-white text-center">
+          <h2 className="text-4xl md:text-5xl mb-12 font-semibold tracking-tight text-slate-900 text-center">
             Procesul nostru de lucru
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             {service.process.map((step, index) => (
               <div key={index} className="relative">
-                <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/50 transition-all">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-cyan-500/20 rounded-full mb-4 text-cyan-400 text-xl">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:border-slate-300 transition-all shadow-sm">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 rounded-full mb-4 text-blue-900 text-xl font-semibold border border-blue-200 shadow-sm">
                     {step.step}
                   </div>
-                  <h3 className="text-xl mb-3 text-white">{step.title}</h3>
-                  <p className="text-slate-400">{step.desc}</p>
+                  <h3 className="text-xl mb-3 text-slate-900">{step.title}</h3>
+                  <p className="text-slate-600">{step.desc}</p>
                 </div>
                 {index < service.process.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                    <ArrowRight className="w-8 h-8 text-cyan-400/30" />
+                    <ArrowRight className="w-8 h-8 text-blue-200" />
                   </div>
                 )}
               </div>
@@ -306,18 +332,18 @@ export function ServiceDetailPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-slate-800">
+      <section className="py-20 bg-gradient-to-b from-blue-50/60 to-white border-t border-blue-100">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 md:p-12 text-center max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl mb-4 text-white">
+          <div className="overflow-hidden rounded-2xl border border-blue-200/80 bg-gradient-to-br from-blue-950 to-blue-900 p-8 md:p-12 text-center max-w-4xl mx-auto shadow-xl shadow-blue-950/20">
+            <h2 className="text-4xl md:text-5xl mb-4 font-semibold tracking-tight text-white">
               Pregătit să începem?
             </h2>
-            <p className="text-xl text-slate-400 mb-8">
+            <p className="text-xl text-blue-100/95 mb-8">
               Contactați-ne astăzi pentru o consultanță gratuită și o ofertă personalizată
             </p>
             <Link 
               to="/contact"
-              className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20"
+              className="inline-block bg-white text-blue-950 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg"
             >
               Solicită o Ofertă Gratuită
             </Link>

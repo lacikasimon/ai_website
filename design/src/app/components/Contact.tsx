@@ -1,6 +1,7 @@
 import { Mail, Phone, MapPin, Clock, Send, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { siteContent } from '../content/siteContent';
+import { SectionBreak, SectionEyebrow } from './SectionBreak';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -63,18 +64,24 @@ export function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-slate-800">
+    <section id="contact" className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <div className="inline-block bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 rounded-full mb-4">
-            <span className="text-cyan-400">Contact</span>
+        <div className="mb-16 overflow-hidden rounded-2xl border border-blue-200/80 shadow-xl shadow-blue-950/10">
+          <div className="bg-gradient-to-r from-blue-950 via-blue-800 to-blue-900 px-6 py-12 md:py-14 text-center relative">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.08),_transparent_55%)]" />
+            <div className="relative">
+              <div className="mb-6 w-full sm:mb-7">
+                <SectionBreak variant="onDark" />
+              </div>
+              <SectionEyebrow variant="onDark">Contact</SectionEyebrow>
+              <h2 className="text-5xl md:text-6xl mb-4 font-semibold tracking-tight text-white">
+                Contactați-ne astăzi
+              </h2>
+              <p className="text-lg md:text-xl text-blue-100/95 max-w-2xl mx-auto leading-relaxed">
+                Suntem gata să răspundem întrebărilor dumneavoastră și să discutăm despre proiectul dumneavoastră
+              </p>
+            </div>
           </div>
-          <h2 className="text-4xl md:text-5xl mb-4 text-white">
-            Contactați-ne astăzi
-          </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            Suntem gata să răspundem întrebărilor dumneavoastră și să discutăm despre proiectul dumneavoastră
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
@@ -84,18 +91,18 @@ export function Contact() {
             return (
               <div 
                 key={index}
-                className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-cyan-500/50 transition-all"
+                className="bg-white border border-slate-200 rounded-xl p-6 hover:border-blue-200 transition-all shadow-sm hover:shadow-md hover:shadow-blue-950/5"
               >
                 <div className="flex flex-col items-center text-center gap-4">
-                  <div className="bg-cyan-500/10 p-3 rounded-lg">
-                    <Icon className="w-6 h-6 text-cyan-400" />
+                  <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
+                    <Icon className="w-6 h-6 text-blue-800" />
                   </div>
                   <div>
-                    <h3 className="text-lg mb-2 text-white">{info.title}</h3>
+                    <h3 className="text-lg mb-2 text-slate-900">{info.title}</h3>
                     {info.lines.map((line, idx) => (
-                      <p key={idx} className="text-slate-400 text-sm">
+                      <p key={idx} className="text-slate-600 text-sm">
                         {line.href ? (
-                          <a href={line.href} className="hover:text-cyan-400 transition-colors">
+                          <a href={line.href} className="hover:text-slate-900 transition-colors">
                             {line.text}
                           </a>
                         ) : (
@@ -113,21 +120,21 @@ export function Contact() {
         {/* Contact Form and Image */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Form */}
-          <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-8">
-            <h3 className="text-2xl mb-6 text-white">Trimiteți-ne un mesaj</h3>
+          <div className="bg-gradient-to-br from-slate-50 to-blue-50/40 border border-blue-100 rounded-xl p-8 shadow-md shadow-blue-950/5">
+            <h3 className="text-2xl mb-6 text-blue-950">Trimiteți-ne un mesaj</h3>
             
             {submitted ? (
-              <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-6 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-500/20 rounded-full mb-4">
-                  <Send className="w-8 h-8 text-cyan-400" />
+              <div className="bg-white border border-slate-200 rounded-lg p-6 text-center shadow-sm">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-full mb-4 border border-slate-200">
+                  <Send className="w-8 h-8 text-slate-700" />
                 </div>
-                <h4 className="text-xl text-white mb-2">Mulțumim pentru mesaj!</h4>
-                <p className="text-slate-400">Vă vom contacta în cel mai scurt timp posibil.</p>
+                <h4 className="text-xl text-slate-900 mb-2">Mulțumim pentru mesaj!</h4>
+                <p className="text-slate-600">Vă vom contacta în cel mai scurt timp posibil.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm mb-2 text-slate-300">
+                  <label htmlFor="name" className="block text-sm mb-2 text-slate-700">
                     Nume complet *
                   </label>
                   <input
@@ -137,13 +144,13 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors"
                     placeholder="Numele dumneavoastră"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm mb-2 text-slate-300">
+                  <label htmlFor="email" className="block text-sm mb-2 text-slate-700">
                     Adresă email *
                   </label>
                   <input
@@ -153,13 +160,13 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors"
                     placeholder="exemplu@email.ro"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="phone" className="block text-sm mb-2 text-slate-300">
+                  <label htmlFor="phone" className="block text-sm mb-2 text-slate-700">
                     Telefon
                   </label>
                   <input
@@ -168,13 +175,13 @@ export function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors"
                     placeholder={siteContent.contact.phones[0].display}
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="message" className="block text-sm mb-2 text-slate-300">
+                  <label htmlFor="message" className="block text-sm mb-2 text-slate-700">
                     Mesaj *
                   </label>
                   <textarea
@@ -184,14 +191,14 @@ export function Contact() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors resize-none"
                     placeholder="Descrieți proiectul dumneavoastră sau întrebările pe care le aveți..."
                   />
                 </div>
                 
                 <button
                   type="submit"
-                  className="w-full bg-cyan-500 hover:bg-cyan-600 text-white px-6 py-4 rounded-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2"
+                  className="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-950/25"
                 >
                   <Send className="w-5 h-5" />
                   Trimite mesajul
@@ -203,8 +210,8 @@ export function Contact() {
           {/* Hartă sediu */}
           <div className="flex flex-col gap-4">
             <div>
-              <h3 className="text-2xl mb-2 text-white">Locație — sediu social</h3>
-              <p className="text-slate-400 text-sm mb-1">
+              <h3 className="text-2xl mb-2 text-slate-900">Locație — sediu social</h3>
+              <p className="text-slate-600 text-sm mb-1">
                 {siteContent.company.street}, {siteContent.company.locality},{' '}
                 {siteContent.company.postalCode}, județ {siteContent.company.county}
               </p>
@@ -212,13 +219,13 @@ export function Contact() {
                 href={siteContent.contact.mapOpenUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-slate-900 transition-colors"
               >
                 Deschide în Google Maps
                 <ExternalLink className="w-4 h-4" />
               </a>
             </div>
-            <div className="relative rounded-xl overflow-hidden border border-slate-700/50 bg-slate-900/50 shadow-xl min-h-[320px] md:min-h-[420px] flex-1">
+            <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-white shadow-lg min-h-[320px] md:min-h-[420px] flex-1">
               <iframe
                 title="Hartă — GENE SYS SECURITY SRL, Satu Mare"
                 src={siteContent.contact.mapEmbedUrl}

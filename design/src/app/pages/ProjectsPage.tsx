@@ -1,8 +1,18 @@
 import { Building2, Factory, Home, ShoppingBag, Zap, Sun, Camera, Award } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
+import { useSeo } from '../seo/useSeo';
+import { SectionBreak, SectionEyebrow } from '../components/SectionBreak';
 
 export function ProjectsPage() {
+  const { meta, company } = siteContent;
+  useSeo({
+    title: `Proiecte și referințe | ${meta.ogTitle}`,
+    description: `Portofoliu de proiecte ${meta.ogTitle} — instalații electrice, fotovoltaice și securitate în ${company.locality} și la nivel național.`,
+    path: '/proiecte',
+    keywords: `${meta.keywords}, proiecte, referințe, portofoliu`,
+  });
+
   const projects = [
     {
       id: 1,
@@ -60,42 +70,35 @@ export function ProjectsPage() {
     }
   ];
 
-  const categories = [
-    { name: 'Toate', count: projects.length },
-    { name: 'Instalații Electrice', count: 2 },
-    { name: 'Sisteme Fotovoltaice', count: 1 },
-    { name: 'Securitate CCTV', count: 1 },
-    { name: 'Detecție Efracție', count: 1 },
-    { name: 'Mentenanță', count: 1 }
-  ];
-
   return (
     <div className="pt-24 pb-20">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
+      <section className="py-20 relative overflow-hidden border-b border-blue-900/40 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900">
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, cyan 1px, transparent 0)`,
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgb(147 197 253 / 0.35) 1px, transparent 0)`,
             backgroundSize: '40px 40px'
           }}></div>
         </div>
+        <div className="absolute -right-20 top-10 h-56 w-56 rounded-full bg-sky-500/15 blur-3xl" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <nav className="text-sm text-slate-500 mb-6 text-left md:text-center">
-              <Link to="/" className="hover:text-cyan-400 transition-colors">
+            <nav className="text-sm text-blue-200/90 mb-6 text-left md:text-center">
+              <Link to="/" className="hover:text-white transition-colors">
                 Home
               </Link>
               <span className="mx-2">/</span>
-              <span className="text-slate-400">Proiecte</span>
+              <span className="text-white/95">Proiecte</span>
             </nav>
-            <div className="inline-block bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 rounded-full mb-4">
-              <span className="text-cyan-400">Portofoliu</span>
+            <div className="mb-6 w-full sm:mb-8">
+              <SectionBreak variant="onDark" />
             </div>
-            <h1 className="text-4xl md:text-6xl mb-6 text-white">
+            <SectionEyebrow variant="onDark">Portofoliu</SectionEyebrow>
+            <h1 className="text-5xl md:text-7xl mb-6 text-white font-semibold tracking-tight leading-tight">
               Proiecte realizate
             </h1>
-            <p className="text-xl text-slate-400 leading-relaxed">
+            <p className="text-xl text-blue-100/90 leading-relaxed">
               Exemple reprezentative de lucrări pentru {siteContent.meta.ogTitle}: instalații electrice,
               energie regenerabilă și sisteme de securitate. Portofoliul poate fi completat cu proiecte
               și referințe concrete, după validare internă.
@@ -105,35 +108,35 @@ export function ProjectsPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-slate-900 border-b border-slate-800">
+      <section className="py-12 bg-gradient-to-b from-blue-50/90 to-white border-b border-blue-100">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl text-cyan-400 mb-2">
+            <div className="text-center rounded-xl bg-white border border-blue-100 py-4 shadow-sm">
+              <div className="text-4xl md:text-5xl text-blue-900 mb-2 font-semibold tabular-nums">
                 {siteContent.statsKpi[1].value}+
               </div>
-              <div className="text-slate-400">Proiecte livrate (estimare)</div>
+              <div className="text-slate-600 text-sm">Proiecte livrate (estimare)</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl text-cyan-400 mb-2">50+</div>
-              <div className="text-slate-400">Clienți și parteneri</div>
+            <div className="text-center rounded-xl bg-white border border-sky-100 py-4 shadow-sm">
+              <div className="text-4xl md:text-5xl text-sky-800 mb-2 font-semibold tabular-nums">50+</div>
+              <div className="text-slate-600 text-sm">Clienți și parteneri</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl text-cyan-400 mb-2">
+            <div className="text-center rounded-xl bg-white border border-indigo-100 py-4 shadow-sm">
+              <div className="text-4xl md:text-5xl text-indigo-900 mb-2 font-semibold tabular-nums">
                 {siteContent.statsKpi[0].value}+
               </div>
-              <div className="text-slate-400">Ani experiență</div>
+              <div className="text-slate-600 text-sm">Ani experiență</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl md:text-5xl text-cyan-400 mb-2">24/7</div>
-              <div className="text-slate-400">Intervenții urgență</div>
+            <div className="text-center rounded-xl bg-gradient-to-br from-blue-950 to-blue-900 py-4 shadow-md text-white border border-blue-800">
+              <div className="text-4xl md:text-5xl mb-2 font-semibold tabular-nums">24/7</div>
+              <div className="text-blue-100 text-sm">Intervenții urgență</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Projects Grid */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => {
@@ -141,7 +144,7 @@ export function ProjectsPage() {
               return (
                 <div 
                   key={project.id}
-                  className="group bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10"
+                  className="group bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all hover:shadow-lg hover:shadow-slate-900/5 shadow-sm"
                 >
                   <div className="relative h-64 overflow-hidden">
                     <img 
@@ -149,29 +152,29 @@ export function ProjectsPage() {
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
-                    <div className="absolute top-4 right-4 bg-cyan-500/20 backdrop-blur-sm border border-cyan-500/30 px-3 py-1 rounded-full">
-                      <span className="text-cyan-400 text-sm">{project.category}</span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"></div>
+                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-1 rounded-full shadow-sm">
+                      <span className="text-slate-700 text-sm">{project.category}</span>
                     </div>
                     <div className="absolute bottom-4 left-4">
-                      <div className="bg-cyan-500/10 p-2 rounded-lg">
-                        <Icon className="w-6 h-6 text-cyan-400" />
+                      <div className="bg-white/95 p-2 rounded-lg border border-slate-200 shadow-sm">
+                        <Icon className="w-6 h-6 text-slate-700" />
                       </div>
                     </div>
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="text-xl mb-3 text-white group-hover:text-cyan-400 transition-colors">
+                    <h3 className="text-xl mb-3 text-slate-900 group-hover:text-slate-950 transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-slate-400 mb-4 text-sm leading-relaxed">
+                    <p className="text-slate-600 mb-4 text-sm leading-relaxed">
                       {project.description}
                     </p>
                     
                     <div className="flex flex-wrap gap-3 text-xs text-slate-500">
                       {Object.entries(project.stats).map(([key, value]) => (
                         <div key={key} className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
+                          <div className="w-1.5 h-1.5 bg-slate-500 rounded-full" />
                           <span className="capitalize">{key}: {value}</span>
                         </div>
                       ))}
@@ -185,21 +188,21 @@ export function ProjectsPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-slate-800">
+      <section className="py-20 bg-gradient-to-b from-white to-blue-50/40 border-t border-blue-100">
         <div className="container mx-auto px-4">
-          <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 md:p-12 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-500/20 rounded-full mb-6">
-              <Award className="w-8 h-8 text-cyan-400" />
+          <div className="overflow-hidden rounded-2xl border border-blue-200/80 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 p-8 md:p-12 text-center shadow-xl shadow-blue-950/25">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-6 border border-white/20">
+              <Award className="w-8 h-8 text-amber-100" />
             </div>
-            <h2 className="text-3xl md:text-4xl mb-4 text-white">
+            <h2 className="text-4xl md:text-5xl mb-4 font-semibold tracking-tight text-white">
               Aveți un proiect în minte?
             </h2>
-            <p className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-100/95 mb-8 max-w-2xl mx-auto">
               Contactați-ne astăzi pentru o consultanță gratuită și transformăm viziunea dumneavoastră în realitate
             </p>
             <Link 
               to="/contact"
-              className="inline-block bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-4 rounded-lg text-lg transition-all transform hover:scale-105 shadow-lg shadow-cyan-500/20"
+              className="inline-block bg-white text-blue-950 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg"
             >
               Discutați cu Noi
             </Link>

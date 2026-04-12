@@ -9,6 +9,9 @@
   # Alkönyvtár (pl. public_html/site/): kommenteld ki a fentit és:
   # RewriteBase /site/
 
+  # Böngészők alap favicon.ico kérése → SVG (elkerüli a 404-et)
+  RewriteRule ^favicon\.ico$ favicon.svg [L,NC]
+
   # Meglévő fájlok és mappák kiszolgálása
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f

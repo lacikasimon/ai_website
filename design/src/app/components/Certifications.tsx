@@ -1,72 +1,49 @@
 import { ShieldCheck, FileCheck, Award, CheckCircle2 } from 'lucide-react';
+import { siteContent } from '../content/siteContent';
+import { SectionBreak, SectionEyebrow } from './SectionBreak';
+
+const ICON_BY_KEY = {
+  anre: ShieldCheck,
+  igpr: FileCheck,
+} as const;
 
 export function Certifications() {
-  const certifications = [
-    {
-      icon: ShieldCheck,
-      title: 'ANRE',
-      fullName: 'Autoritatea Națională de Reglementare în domeniul Energiei',
-      description: 'Certificare pentru instalații electrice și sisteme energetice',
-      status: 'Autorizat'
-    },
-    {
-      icon: FileCheck,
-      title: 'IGPR',
-      fullName: 'Inspectoratul General al Poliției Române',
-      description:
-        'Autorizație pentru instalarea și mentenanța sistemelor de securitate (inclusiv CCTV și detecție la efracție), conform reglementărilor pentru firme de specialitate.',
-      status: 'Autorizat'
-    }
-  ];
-
-  const qualityStandards = [
-    'Sisteme certificate de management al calității',
-    'Personal calificat și instruit continuu',
-    'Echipamente și materiale de ultimă generație',
-    'Conformitate cu standardele europene'
-  ];
+  const cc = siteContent.home.certificationsContent;
 
   return (
-    <section id="certificari" className="py-20 bg-slate-900">
+    <section id="certificari" className="py-20 bg-gradient-to-b from-blue-50/90 via-white to-slate-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <div className="inline-block bg-cyan-500/10 border border-cyan-500/30 px-4 py-2 rounded-full mb-4">
-            <span className="text-cyan-400">Certificări și Autorizații</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl mb-4 text-white">
-            Credibilitate și conformitate
-          </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            Operăm în conformitate cu cele mai înalte standarde de calitate și siguranță
-          </p>
+        <div className="mb-6 w-full sm:mb-8">
+          <SectionBreak />
+        </div>
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <SectionEyebrow>{cc.sectionLabel}</SectionEyebrow>
+          <h2 className="text-5xl md:text-6xl mb-4 font-semibold tracking-tight text-slate-900">{cc.title}</h2>
+          <p className="text-xl text-slate-600 leading-relaxed">{cc.subtitle}</p>
         </div>
 
-        {/* Certifications Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          {certifications.map((cert, index) => {
-            const Icon = cert.icon;
+          {cc.cards.map((cert, index) => {
+            const Icon = ICON_BY_KEY[cert.key];
+            const stripe = index === 0 ? 'border-l-blue-700' : 'border-l-sky-600';
             return (
-              <div 
-                key={index}
-                className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10"
+              <div
+                key={cert.key}
+                className={`bg-white border border-slate-200 border-l-4 ${stripe} rounded-2xl p-8 hover:border-slate-300 hover:shadow-xl hover:shadow-blue-950/10 transition-all shadow-md`}
               >
                 <div className="flex items-start gap-6">
-                  <div className="bg-cyan-500/10 p-4 rounded-xl flex-shrink-0">
-                    <Icon className="w-10 h-10 text-cyan-400" />
+                  <div className="bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl flex-shrink-0 border border-blue-100 shadow-sm">
+                    <Icon className="w-10 h-10 text-blue-800" />
                   </div>
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <h3 className="text-2xl text-white">{cert.title}</h3>
-                      <span className="bg-green-500/10 border border-green-500/30 text-green-400 text-xs px-3 py-1 rounded-full">
+                    <div className="flex items-center gap-3 mb-3 flex-wrap">
+                      <h3 className="text-2xl text-slate-900">{cert.title}</h3>
+                      <span className="bg-green-50 border border-green-200 text-green-800 text-xs px-3 py-1 rounded-full">
                         {cert.status}
                       </span>
                     </div>
-                    <p className="text-cyan-400 mb-3">
-                      {cert.fullName}
-                    </p>
-                    <p className="text-slate-400">
-                      {cert.description}
-                    </p>
+                    <p className="text-slate-700 mb-3 text-sm">{cert.fullName}</p>
+                    <p className="text-slate-600 text-[15px] leading-relaxed">{cert.description}</p>
                   </div>
                 </div>
               </div>
@@ -74,37 +51,34 @@ export function Certifications() {
           })}
         </div>
 
-        {/* Quality Standards */}
-        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-2xl p-8 md:p-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="overflow-hidden rounded-2xl border border-blue-200/80 bg-white shadow-lg shadow-blue-950/5">
+          <div className="h-1.5 bg-gradient-to-r from-blue-800 via-sky-500 to-blue-700" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center p-8 md:p-12">
             <div>
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-cyan-500/20 rounded-full mb-6">
-                <Award className="w-8 h-8 text-cyan-400" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-950 rounded-full mb-6 border border-blue-800 shadow-lg">
+                <Award className="w-8 h-8 text-amber-100" />
               </div>
-              <h3 className="text-3xl mb-4 text-white">
-                Standarde de calitate
-              </h3>
-              <p className="text-lg text-slate-400 leading-relaxed">
-                Ne mândrim cu respectarea strictă a tuturor reglementărilor și standardelor de calitate în toate proiectele noastre.
-              </p>
+              <h3 className="text-3xl mb-4 text-slate-900">{cc.qualityTitle}</h3>
+              <p className="text-lg text-slate-600 leading-relaxed">{cc.qualityLead}</p>
             </div>
             <div className="space-y-4">
-              {qualityStandards.map((standard, index) => (
-                <div key={index} className="flex items-start gap-3 bg-slate-800/50 rounded-lg p-4">
-                  <CheckCircle2 className="w-6 h-6 text-cyan-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-slate-300">{standard}</span>
+              {cc.qualityBullets.map((standard, index) => (
+                <div
+                  key={standard}
+                  className={`flex items-start gap-3 rounded-lg p-4 border ${
+                    index % 2 === 0 ? 'bg-blue-50/80 border-blue-100' : 'bg-slate-50 border-slate-100'
+                  }`}
+                >
+                  <CheckCircle2 className="w-6 h-6 text-blue-700 flex-shrink-0 mt-0.5" />
+                  <span className="text-slate-800 text-[15px] leading-relaxed">{standard}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Trust Section */}
         <div className="mt-12 text-center">
-          <p className="text-lg text-slate-400 max-w-3xl mx-auto">
-            Toate soluțiile furnizate sunt personalizate pentru fiecare proiect în parte, 
-            asigurând conformitatea cu cerințele legale și satisfacția completă a clienților noștri.
-          </p>
+          <p className="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">{cc.closingNote}</p>
         </div>
       </div>
     </section>

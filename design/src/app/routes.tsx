@@ -4,6 +4,7 @@ import { HomePage } from './pages/HomePage';
 import { ContactPage } from './pages/ContactPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { ServiceDetailPage } from './pages/ServiceDetailPage';
+import { CookiePolicyPage } from './pages/CookiePolicyPage';
 
 const routeTree = [
   {
@@ -25,6 +26,10 @@ const routeTree = [
       {
         path: 'servicii/:serviceSlug',
         Component: ServiceDetailPage,
+      },
+      {
+        path: 'politica-cookie-uri',
+        Component: CookiePolicyPage,
       },
     ],
   },

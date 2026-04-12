@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Crawlere AI (antrenare / rezumate — modificați dacă nu doriți indexare)
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://genesys-example.ro/sitemap.xml
