@@ -6,26 +6,29 @@ import { siteContent } from '../content/siteContent';
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const services = [
-    'Instalații Electrice',
-    'Sisteme Fotovoltaice',
-    'Securitate CCTV',
-    'Detecție Efracție',
-    'Mentenanță Tehnică',
-    'Consultanță',
-  ];
+  const services = siteContent.servicesCatalog.map((service) => ({
+    label: service.title,
+    to: `/servicii/${service.slug}`,
+  }));
 
-  const companyLinks: { label: string; to: { pathname: string; hash?: string } | string }[] = [
-    { label: 'Despre Noi', to: { pathname: '/', hash: 'despre-noi' } },
-    { label: 'De ce noi', to: { pathname: '/', hash: 'de-ce-noi' } },
-    { label: 'Servicii', to: { pathname: '/', hash: 'servicii' } },
-    { label: 'Sectoare', to: { pathname: '/', hash: 'sectoare' } },
-    { label: 'Proces', to: { pathname: '/', hash: 'proces' } },
-    { label: 'Certificări', to: { pathname: '/', hash: 'certificari' } },
-    { label: 'Experiență', to: { pathname: '/', hash: 'experienta' } },
-    { label: 'Întrebări', to: { pathname: '/', hash: 'intrebari' } },
+  const companyLinks: { label: string; to: string }[] = [
+    { label: 'Despre Noi', to: '/#despre-noi' },
+    { label: 'De ce noi', to: '/#de-ce-noi' },
+    { label: 'Servicii', to: '/#servicii' },
+    { label: 'Sectoare', to: '/#sectoare' },
+    { label: 'Proces', to: '/#proces' },
+    { label: 'Certificări', to: '/#certificari' },
+    { label: 'Experiență', to: '/#experienta' },
+    { label: 'Întrebări', to: '/#intrebari' },
     { label: 'Proiecte', to: '/proiecte' },
     { label: 'Contact', to: '/contact' },
+  ];
+
+  const legalLinks: ({ label: string; to: string } | { label: string; href: string })[] = [
+    { label: 'Politică cookie', to: '/politica-cookie-uri' },
+    { label: 'ANPC', href: 'https://anpc.ro/' },
+    { label: 'Soluționarea alternativă a litigiilor', href: 'https://anpc.ro/sal/' },
+    { label: 'Soluționarea online a litigiilor', href: 'https://ec.europa.eu/consumers/odr/' },
   ];
 
   return (
@@ -79,13 +82,13 @@ export function Footer() {
           <div>
             <h3 className="text-lg mb-4 text-slate-900">Servicii</h3>
             <ul className="space-y-2">
-              {services.map((service, index) => (
-                <li key={index}>
+              {services.map((service) => (
+                <li key={service.to}>
                   <Link
-                    to={{ pathname: '/', hash: 'servicii' }}
+                    to={service.to}
                     className="text-slate-600 hover:text-slate-900 transition-colors text-sm"
                   >
-                    {service}
+                    {service.label}
                   </Link>
                 </li>
               ))}
@@ -181,18 +184,23 @@ export function Footer() {
               © {currentYear} GENE SYS SECURITY SRL. Toate drepturile rezervate.
             </p>
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm md:justify-end">
-              <a href="#" className="text-slate-600 hover:text-slate-900 transition-colors">
-                Politică de confidențialitate
-              </a>
-              <Link to="/politica-cookie-uri" className="text-slate-600 hover:text-slate-900 transition-colors">
-                Politică cookie
-              </Link>
-              <a href="#" className="text-slate-600 hover:text-slate-900 transition-colors">
-                Termeni și condiții
-              </a>
-              <a href="#" className="text-slate-600 hover:text-slate-900 transition-colors">
-                GDPR
-              </a>
+              {legalLinks.map((link) =>
+                'to' in link ? (
+                  <Link key={link.label} to={link.to} className="text-slate-600 hover:text-slate-900 transition-colors">
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-slate-600 hover:text-slate-900 transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ),
+              )}
             </div>
           </div>
         </div>

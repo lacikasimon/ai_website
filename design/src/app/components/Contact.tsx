@@ -120,7 +120,10 @@ export function Contact() {
         {/* Contact Form and Image */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Form */}
-          <div className="bg-gradient-to-br from-slate-50 to-blue-50/40 border border-blue-100 rounded-xl p-8 shadow-md shadow-blue-950/5">
+          <div
+            id="formular-contact"
+            className="bg-gradient-to-br from-slate-50 to-blue-50/40 border border-blue-100 rounded-xl p-8 shadow-md shadow-blue-950/5"
+          >
             <h3 className="text-2xl mb-6 text-blue-950">Trimiteți-ne un mesaj</h3>
             
             {submitted ? (

@@ -33,7 +33,12 @@ export default defineConfig(({ mode }) => {
         apply: 'build',
         closeBundle() {
           const siteUrl = env.VITE_SITE_URL?.replace(/\/$/, '')
-          if (!siteUrl) return
+          if (!siteUrl || /(^https?:\/\/)?(www\.)?(genesys-example\.ro|example\.[a-z]+|domeniu\.ro|pelda\.ro)/i.test(siteUrl)) {
+            if (siteUrl) {
+              console.warn(`Skipping sitemap generation for placeholder VITE_SITE_URL: ${siteUrl}`)
+            }
+            return
+          }
 
           const baseNorm = base === '/' ? '' : base.replace(/\/$/, '')
           const prefix = baseNorm

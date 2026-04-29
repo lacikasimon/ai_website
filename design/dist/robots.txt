@@ -1,11 +1,11 @@
 User-agent: *
 Allow: /
 
-# Crawlere AI (antrenare / rezumate — modificați dacă nu doriți indexare)
+# După deploy cu VITE_SITE_URL, `npm run build` generează sitemap.xml și completează linia Sitemap în dist/robots.txt.
+
+# Crawlere AI (dezactivați blocând dacă nu doriți utilizare în antrenare)
 User-agent: GPTBot
 Allow: /
 
 User-agent: Google-Extended
 Allow: /
-
-Sitemap: https://genesys-example.ro/sitemap.xml
