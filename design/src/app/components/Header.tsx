@@ -2,14 +2,13 @@ import logo from '../../assets/genesys-logo.svg';
 import { Link, useLocation } from 'react-router';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { siteContent } from '../content/siteContent';
 
-const primaryPhone = siteContent.contact.phones[0];
 const offerPath = '/contact#formular-contact';
+const contactPath = '/contact#contact';
 
 const ctaOfferClass =
   'rounded-md bg-amber-400 px-3 py-2 text-sm font-bold text-blue-950 shadow-sm shadow-amber-300/30 transition-colors hover:bg-amber-300';
-const ctaPhoneClass =
+const ctaContactClass =
   'rounded-md border border-blue-100 bg-white px-3 py-2 text-sm font-semibold text-blue-950 shadow-sm shadow-blue-950/5 transition-colors hover:bg-blue-50';
 
 export function Header() {
@@ -40,13 +39,13 @@ export function Header() {
             <Link to={offerPath} className={`${ctaOfferClass} px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm`}>
               Cere ofertă
             </Link>
-            <a
-              href={`tel:${primaryPhone.tel}`}
-              className={`${ctaPhoneClass} px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm`}
-              title={primaryPhone.display}
+            <Link
+              to={contactPath}
+              className={`${ctaContactClass} px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm`}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Contact
-            </a>
+            </Link>
             <button
               type="button"
               className="ml-0.5 text-blue-950"
@@ -63,9 +62,9 @@ export function Header() {
             <Link to={offerPath} className={ctaOfferClass}>
               Cere ofertă
             </Link>
-            <a href={`tel:${primaryPhone.tel}`} className={ctaPhoneClass} title={primaryPhone.display}>
+            <Link to={contactPath} className={ctaContactClass}>
               Contact
-            </a>
+            </Link>
             <div className="hidden h-8 w-px shrink-0 bg-blue-200/80 lg:block" aria-hidden />
             <nav className="flex items-center gap-4 text-sm font-medium text-blue-950/75 lg:gap-6">
               <Link to="/" className="whitespace-nowrap transition-colors hover:text-blue-950">
@@ -136,13 +135,13 @@ export function Header() {
               >
                 Cere ofertă
               </Link>
-              <a
-                href={`tel:${primaryPhone.tel}`}
-                className={`${ctaPhoneClass} text-center`}
+              <Link
+                to={contactPath}
+                className={`${ctaContactClass} text-center`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Contact · {primaryPhone.display}
-              </a>
+                Contact
+              </Link>
             </div>
             <Link to="/" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Home

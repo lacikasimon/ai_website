@@ -1,7 +1,34 @@
 import logo from '../../assets/genesys-logo.svg';
-import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import adrLogo from '../../assets/funding/adr-nord-vest.svg';
+import regioLogo from '../../assets/funding/regio-nord-vest.png';
+import euLogo from '../../assets/funding/uniunea-europeana-cofinantat.png';
+import govLogo from '../../assets/funding/guvernul-romaniei.png';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
+
+const fundingLogos = [
+  {
+    src: euLogo,
+    alt: 'Cofinanțat de Uniunea Europeană',
+    className: 'h-16 w-auto max-w-[17rem]',
+  },
+  {
+    src: govLogo,
+    alt: 'Guvernul României',
+    className: 'h-16 w-auto',
+  },
+  {
+    src: regioLogo,
+    alt: 'REGIO Nord-Vest',
+    className: 'h-16 w-auto',
+  },
+  {
+    src: adrLogo,
+    alt: 'Agenția de Dezvoltare Regională Nord-Vest',
+    className: 'h-16 w-auto',
+  },
+];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -54,29 +81,6 @@ export function Footer() {
             <p className="text-slate-600 mb-6 text-sm">
               Lucrăm cu beneficiari privați, firme de construcții și administratori de patrimoniu — oferte clare, documentație conformă și suport după recepție.
             </p>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="w-10 h-10 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-lg flex items-center justify-center transition-all group shadow-sm"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-5 h-5 text-slate-600 group-hover:text-slate-900" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-lg flex items-center justify-center transition-all group shadow-sm"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-5 h-5 text-slate-600 group-hover:text-slate-900" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-slate-50 hover:bg-white border border-slate-200 hover:border-slate-300 rounded-lg flex items-center justify-center transition-all group shadow-sm"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-5 h-5 text-slate-600 group-hover:text-slate-900" />
-              </a>
-            </div>
           </div>
 
           <div>
@@ -159,6 +163,26 @@ export function Footer() {
         </div>
 
         <div className="border-t border-slate-200 pt-8 pb-8">
+          <div className="mb-8 rounded-lg border border-blue-100 bg-blue-50/45 px-4 py-6">
+            <div className="mb-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
+              {fundingLogos.map((item) => (
+                <img key={item.alt} src={item.src} alt={item.alt} className={item.className} loading="lazy" />
+              ))}
+            </div>
+            <p className="mx-auto max-w-4xl text-center text-sm leading-relaxed text-slate-700">
+              Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
+              vă invităm să vizitați{' '}
+              <a
+                href="https://www.oportunitati-ue.gov.ro/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
+              >
+                www.oportunitati-ue.gov.ro
+              </a>
+              .
+            </p>
+          </div>
           <div className="text-center">
             <h4 className="text-slate-600 text-sm mb-4">Servicii complete:</h4>
             <div className="flex flex-wrap justify-center gap-3">
