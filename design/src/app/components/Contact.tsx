@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Clock, Send, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { siteContent } from '../content/siteContent';
 import { SectionBreak, SectionEyebrow } from './SectionBreak';
+import { saveContactMessage } from '../utils/contactMessages';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
+    saveContactMessage(formData);
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);

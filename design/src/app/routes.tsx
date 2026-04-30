@@ -6,6 +6,7 @@ import { ProjectsPage } from './pages/ProjectsPage';
 import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { CookiePolicyPage } from './pages/CookiePolicyPage';
 import { FundingPage } from './pages/FundingPage';
+import { AdminPage } from './pages/AdminPage';
 
 const routeTree = [
   {
@@ -35,6 +36,10 @@ const routeTree = [
       {
         path: 'politica-cookie-uri',
         Component: CookiePolicyPage,
+      },
+      {
+        path: 'admin',
+        Component: AdminPage,
       },
     ],
   },
