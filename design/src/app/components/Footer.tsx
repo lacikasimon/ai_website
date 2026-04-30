@@ -1,8 +1,12 @@
 import logo from '../../assets/genesys-logo.svg';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import anpcLogo from '../../assets/anpc/anpc-logo.svg';
+import anpcSalLogo from '../../assets/anpc/anpc-sal.svg';
+import anpcSolLogo from '../../assets/anpc/anpc-sol.svg';
+import { Facebook, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
 import { FundingLogos } from './FundingLogos';
+import { socialShareLinks } from '../config/siteLinks';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -29,9 +33,36 @@ export function Footer() {
   const legalLinks: ({ label: string; to: string } | { label: string; href: string })[] = [
     { label: 'Politică cookie', to: '/politica-cookie-uri' },
     { label: 'ANPC', href: 'https://anpc.ro/' },
-    { label: 'Soluționarea alternativă a litigiilor', href: 'https://anpc.ro/sal/' },
-    { label: 'Soluționarea online a litigiilor', href: 'https://ec.europa.eu/consumers/odr/' },
+    { label: 'Soluționarea alternativă a litigiilor', href: 'https://anpc.ro/ce-este-sal/' },
+    { label: 'Soluționarea online a litigiilor', href: 'https://ec.europa.eu/consumers/odr' },
   ];
+
+  const anpcBadges = [
+    {
+      label: 'ANPC - Autoritatea Națională pentru Protecția Consumatorilor',
+      href: 'https://anpc.ro/',
+      src: anpcLogo,
+      className: 'h-auto w-[15.625rem] max-w-full border-0',
+    },
+    {
+      label: 'Soluționarea alternativă a litigiilor',
+      href: 'https://anpc.ro/ce-este-sal/',
+      src: anpcSalLogo,
+      className: 'h-auto w-[15.625rem] max-w-full border-0',
+    },
+    {
+      label: 'Soluționarea online a litigiilor',
+      href: 'https://ec.europa.eu/consumers/odr',
+      src: anpcSolLogo,
+      className: 'h-auto w-[15.625rem] max-w-full border-0',
+    },
+  ];
+
+  const socialIcons = {
+    Facebook,
+    LinkedIn: Linkedin,
+    WhatsApp: Send,
+  };
 
   return (
     <footer className="bg-white border-t border-blue-200/80">
@@ -56,6 +87,26 @@ export function Footer() {
             <p className="text-slate-600 mb-6 text-sm">
               Lucrăm cu beneficiari privați, firme de construcții și administratori de patrimoniu — oferte clare, documentație conformă și suport după recepție.
             </p>
+            <div>
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">Social media</h3>
+              <div className="flex flex-wrap gap-2">
+                {socialShareLinks.map((link) => {
+                  const Icon = socialIcons[link.label];
+                  return (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-950"
+                    >
+                      <Icon className="h-4 w-4" aria-hidden />
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <div>
@@ -164,6 +215,26 @@ export function Footer() {
                 >
                   {tag}
                 </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 border-t border-slate-200 pt-8">
+            <h4 className="mb-5 text-center text-sm font-semibold uppercase tracking-wider text-slate-500">
+              ANPC
+            </h4>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              {anpcBadges.map((badge) => (
+                <a
+                  key={badge.label}
+                  href={badge.href}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  aria-label={badge.label}
+                  className="inline-flex items-center justify-center rounded-md bg-white p-[5px] leading-none no-underline transition-opacity hover:opacity-90"
+                >
+                  <img src={badge.src} alt={badge.label} className={badge.className} loading="lazy" />
+                </a>
               ))}
             </div>
           </div>

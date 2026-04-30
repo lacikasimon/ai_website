@@ -4,6 +4,7 @@ import { Footer } from './Footer';
 import { CookieBanner } from './CookieBanner';
 import { JsonLdOrg } from '../seo/JsonLdOrg';
 import { RouteScroll } from './RouteScroll';
+import { SupportWidget } from './SupportWidget';
 
 export function Layout() {
   return (
@@ -15,6 +16,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <SupportWidget />
       <CookieBanner />
     </div>
   );

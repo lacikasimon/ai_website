@@ -52,6 +52,8 @@ export default defineConfig(({ mode }) => {
             '/',
             '/contact',
             '/proiecte',
+            '/finantare-ue',
+            '/politica-cookie-uri',
             ...SERVICE_SLUGS_FOR_SITEMAP.map((s) => `/servicii/${s}`),
           ]
 

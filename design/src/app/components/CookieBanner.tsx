@@ -1,7 +1,6 @@
 import { Link } from 'react-router';
 import { useEffect, useState } from 'react';
-
-const STORAGE_KEY = 'genesys_cookie_consent_v1';
+import { COOKIE_CONSENT_CHANGED_EVENT, COOKIE_CONSENT_STORAGE_KEY } from '../utils/cookieConsent';
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
@@ -9,7 +8,7 @@ export function CookieBanner() {
   useEffect(() => {
     try {
       if (typeof window === 'undefined') return;
-      const stored = window.localStorage.getItem(STORAGE_KEY);
+      const stored = window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY);
       setVisible(!stored);
     } catch {
       setVisible(true);
@@ -18,7 +17,8 @@ export function CookieBanner() {
 
   const dismiss = (value: 'all' | 'essential') => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, value);
+      window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, value);
+      window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_CHANGED_EVENT));
     } catch {
       /* ignore */
     }

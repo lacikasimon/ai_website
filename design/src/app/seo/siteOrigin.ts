@@ -1,4 +1,4 @@
-/** Abszolút origin (canonical, OG URL). Állítsd: VITE_SITE_URL=https://pelda.ro a .env-ben */
+/** Abszolút origin (canonical, OG URL). Production: VITE_SITE_URL=https://syshub.ro */
 export function getSiteOrigin(): string {
   const fromEnv = import.meta.env.VITE_SITE_URL as string | undefined;
   if (fromEnv?.trim()) {

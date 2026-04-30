@@ -2,9 +2,11 @@ import logo from '../../assets/genesys-logo.svg';
 import { Link, useLocation } from 'react-router';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { SiteSearch } from './SiteSearch';
 
 const offerPath = '/contact#formular-contact';
 const contactPath = '/contact#contact';
+const shopUrl = 'https://shop.syshub.ro/';
 
 const ctaButtonBaseClass =
   'inline-flex min-h-10 w-[6.5rem] items-center justify-center whitespace-nowrap rounded-md px-2 py-2 text-sm font-semibold leading-none shadow-sm transition-colors sm:w-[6.75rem] sm:px-3';
@@ -46,6 +48,9 @@ export function Header() {
             >
               Contact
             </Link>
+            <div className="hidden sm:block">
+              <SiteSearch />
+            </div>
             <button
               type="button"
               className="ml-0.5 text-blue-950"
@@ -65,11 +70,15 @@ export function Header() {
             <Link to={contactPath} className={ctaContactClass}>
               Contact
             </Link>
+            <SiteSearch />
             <div className="hidden h-8 w-px shrink-0 bg-blue-200/80 lg:block" aria-hidden />
             <nav className="flex items-center gap-4 text-sm font-medium text-blue-950/75 lg:gap-6">
               <Link to="/" className="whitespace-nowrap transition-colors hover:text-blue-950">
                 Home
               </Link>
+              <a href={shopUrl} className="whitespace-nowrap transition-colors hover:text-blue-950">
+                Shop
+              </a>
               <Link to="/proiecte" className="whitespace-nowrap transition-colors hover:text-blue-950">
                 Proiecte
               </Link>
@@ -146,9 +155,17 @@ export function Header() {
                 Contact
               </Link>
             </div>
+            <SiteSearch variant="menu" />
             <Link to="/" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Home
             </Link>
+            <a
+              href={shopUrl}
+              className="block text-blue-950/80 hover:text-blue-950 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Shop
+            </a>
             <Link to="/proiecte" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Proiecte
             </Link>
