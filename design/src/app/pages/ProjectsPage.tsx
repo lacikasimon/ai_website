@@ -201,7 +201,7 @@ export function ProjectsPage() {
               Contactați-ne astăzi pentru o consultanță gratuită și transformăm viziunea dumneavoastră în realitate
             </p>
             <Link 
-              to="/contact"
+              to="/contact#formular-contact"
               className="inline-block bg-white text-blue-950 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg"
             >
               Discutați cu Noi

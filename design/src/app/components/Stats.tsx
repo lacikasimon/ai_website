@@ -137,7 +137,7 @@ export function Stats() {
             <h3 className="text-3xl md:text-4xl mb-4 text-white font-medium">{copy.ctaTitle}</h3>
             <p className="text-xl text-blue-100/90 mb-8 max-w-2xl mx-auto leading-relaxed">{copy.ctaBody}</p>
             <Link
-              to="/contact"
+              to="/contact#formular-contact"
               className="inline-block bg-white text-blue-950 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg"
             >
               {copy.ctaButton}

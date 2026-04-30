@@ -167,7 +167,7 @@ export function Header() {
                 Contact
               </Link>
             </div>
-            <SiteSearch variant="menu" />
+            <SiteSearch variant="menu" onNavigate={() => setMobileMenuOpen(false)} />
             {menuItems.map((item) => renderMenuItem(item, true))}
           </nav>
         )}

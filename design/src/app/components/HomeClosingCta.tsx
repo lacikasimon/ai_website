@@ -14,7 +14,7 @@ export function HomeClosingCta() {
         <p className="text-lg text-blue-100/95 mb-10 leading-relaxed">{closingCta.body}</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
-            to="/contact"
+            to="/contact#formular-contact"
             className="inline-flex items-center justify-center gap-2 bg-white text-blue-950 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg min-w-[200px]"
           >
             {closingCta.primary}

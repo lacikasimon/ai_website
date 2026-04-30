@@ -35,7 +35,7 @@ export function Hero() {
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
           <Link 
-            to="/contact"
+            to="/contact#formular-contact"
             className="bg-blue-700 hover:bg-blue-800 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors shadow-lg shadow-blue-900/25"
           >
             Cere o Ofertă

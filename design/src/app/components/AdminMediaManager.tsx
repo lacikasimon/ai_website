@@ -33,6 +33,10 @@ function getImageToken(imageId: string) {
   return `[[image:${imageId}]]`;
 }
 
+function confirmAction(message: string) {
+  return window.confirm(message);
+}
+
 function readFileAsDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -171,6 +175,10 @@ export function AdminMediaManager() {
   };
 
   const handleDeleteImage = async (imageId: string) => {
+    if (!confirmAction('Sigur ștergeți această imagine? Operațiunea nu poate fi anulată.')) {
+      return;
+    }
+
     setError('');
     setMessage('');
     setSaving(true);

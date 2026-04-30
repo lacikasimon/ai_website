@@ -342,7 +342,7 @@ export function ServiceDetailPage() {
               Contactați-ne astăzi pentru o consultanță gratuită și o ofertă personalizată
             </p>
             <Link 
-              to="/contact"
+              to="/contact#formular-contact"
               className="inline-block bg-white text-blue-950 hover:bg-blue-50 font-semibold px-8 py-4 rounded-lg text-lg transition-colors shadow-lg"
             >
               Solicită o Ofertă Gratuită

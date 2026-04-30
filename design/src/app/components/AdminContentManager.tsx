@@ -50,6 +50,10 @@ function getErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'Operațiunea nu a putut fi efectuată.';
 }
 
+function confirmAction(message: string) {
+  return window.confirm(message);
+}
+
 function pageToForm(page: CmsPage): CmsPageInput {
   return {
     id: page.id,
@@ -159,6 +163,10 @@ export function AdminContentManager() {
   };
 
   const handleDeletePage = async (pageId: string) => {
+    if (!confirmAction('Sigur ștergeți această pagină? Operațiunea nu poate fi anulată.')) {
+      return;
+    }
+
     setError('');
     setSaving(true);
     try {
@@ -173,6 +181,10 @@ export function AdminContentManager() {
   };
 
   const handleDeleteMenuItem = async (itemId: string) => {
+    if (!confirmAction('Sigur ștergeți acest link din meniu? Operațiunea nu poate fi anulată.')) {
+      return;
+    }
+
     setError('');
     setSaving(true);
     try {
@@ -195,6 +207,10 @@ export function AdminContentManager() {
   };
 
   const handleResetMenu = async () => {
+    if (!confirmAction('Sigur resetați meniul la valorile implicite? Ordinea și linkurile personalizate vor fi înlocuite.')) {
+      return;
+    }
+
     setError('');
     setSaving(true);
     try {

@@ -160,10 +160,15 @@ function normalizeMenuItem(value: unknown): CmsMenuItem | null {
     return null;
   }
 
+  const href = normalizeMenuHref(candidate.href);
+  if (!href) {
+    return null;
+  }
+
   return {
     id: candidate.id,
     label: candidate.label,
-    href: candidate.href,
+    href,
     kind: candidate.kind === 'external' || candidate.kind === 'page' ? candidate.kind : 'internal',
     visible: candidate.visible !== false,
     order: typeof candidate.order === 'number' ? candidate.order : 100,
@@ -244,6 +249,15 @@ function normalizeDefaultMenuLabels(items: CmsMenuItem[]) {
 
     return item;
   });
+}
+
+function normalizeMenuHref(value: string) {
+  const href = value.trim();
+  if (/[\u0000-\u001F\u007F]/.test(href)) {
+    return '';
+  }
+
+  return /^(https?:\/\/|\/|#)/i.test(href) ? href : '';
 }
 
 export function getCmsPages() {
@@ -379,17 +393,18 @@ export function deleteCmsImage(imageId: string) {
 export function saveCmsMenuItem(input: CmsMenuInput) {
   const items = getCmsMenuItems();
   const previous = items.find((item) => item.id === input.id);
+  const href = normalizeMenuHref(input.href);
   const nextItem: CmsMenuItem = {
     id: previous?.id || createId('menu'),
     label: input.label.trim(),
-    href: input.href.trim(),
+    href,
     kind: input.kind,
     visible: input.visible,
     order: input.order ?? previous?.order ?? (items.length + 1) * 10,
   };
 
   if (!nextItem.label || !nextItem.href) {
-    throw new Error('Eticheta și link-ul sunt obligatorii.');
+    throw new Error('Eticheta și un link valid sunt obligatorii. Folosiți /, #, http:// sau https://.');
   }
 
   const nextItems = previous

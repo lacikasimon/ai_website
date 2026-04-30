@@ -85,7 +85,7 @@ export function SupportWidget() {
 
       <button
         type="button"
-        aria-label="Deschide suport client"
+        aria-label={open ? 'Închide suport client' : 'Deschide suport client'}
         aria-expanded={open}
         className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-blue-900 text-white shadow-xl shadow-blue-950/25 ring-4 ring-white transition-colors hover:bg-blue-800"
         onClick={() => setOpen((value) => !value)}

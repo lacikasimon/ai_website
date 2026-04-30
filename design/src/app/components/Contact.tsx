@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Clock, Send, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { siteContent } from '../content/siteContent';
 import { SectionBreak, SectionEyebrow } from './SectionBreak';
-import { saveContactMessage } from '../utils/contactMessages';
+import { createContactMessage } from '../utils/contactMessages';
 import { sendContactLead } from '../utils/leadWebhook';
 import { RecaptchaBox } from './RecaptchaBox';
 
@@ -39,7 +39,7 @@ export function Contact() {
     setSubmitting(true);
     setSubmitError('');
 
-    const contactMessage = saveContactMessage(formData);
+    const contactMessage = createContactMessage(formData);
 
     try {
       const result = await sendContactLead(contactMessage, recaptchaToken);

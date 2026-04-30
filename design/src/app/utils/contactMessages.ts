@@ -89,8 +89,8 @@ export function getContactMessages(): ContactMessage[] {
   }
 }
 
-export function saveContactMessage(input: ContactMessageInput) {
-  const contactMessage: ContactMessage = {
+export function createContactMessage(input: ContactMessageInput) {
+  return {
     id: createMessageId(),
     name: input.name.trim(),
     email: input.email.trim(),
@@ -98,7 +98,11 @@ export function saveContactMessage(input: ContactMessageInput) {
     message: input.message.trim(),
     createdAt: new Date().toISOString(),
     status: 'new',
-  };
+  } satisfies ContactMessage;
+}
+
+export function saveContactMessage(input: ContactMessageInput) {
+  const contactMessage = createContactMessage(input);
 
   const nextMessages = [contactMessage, ...getContactMessages()].slice(0, 200);
   persistContactMessages(nextMessages);

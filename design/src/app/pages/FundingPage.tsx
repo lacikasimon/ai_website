@@ -73,7 +73,7 @@ export function FundingPage() {
                 Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
                 vă invităm să vizitați{' '}
                 <a
-                  href="https://www.oportunitati-ue.gov.ro/"
+                  href="https://oportunitati-ue.gov.ro/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"

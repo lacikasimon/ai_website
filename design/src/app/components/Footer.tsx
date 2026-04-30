@@ -34,7 +34,7 @@ export function Footer() {
     { label: 'Politică cookie', to: '/politica-cookie-uri' },
     { label: 'ANPC', href: 'https://anpc.ro/' },
     { label: 'Soluționarea alternativă a litigiilor', href: 'https://anpc.ro/ce-este-sal/' },
-    { label: 'Soluționarea online a litigiilor', href: 'https://ec.europa.eu/consumers/odr' },
+    { label: 'Soluționarea online a litigiilor', href: 'https://consumer-redress.ec.europa.eu/site-relocation_en' },
   ];
 
   const anpcBadges = [
@@ -52,7 +52,7 @@ export function Footer() {
     },
     {
       label: 'Soluționarea online a litigiilor',
-      href: 'https://ec.europa.eu/consumers/odr',
+      href: 'https://consumer-redress.ec.europa.eu/site-relocation_en',
       src: anpcSolLogo,
       className: 'h-auto w-[15.625rem] max-w-full border-0',
     },
@@ -195,7 +195,7 @@ export function Footer() {
               Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
               vă invităm să vizitați{' '}
               <a
-                href="https://www.oportunitati-ue.gov.ro/"
+                href="https://oportunitati-ue.gov.ro/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"

@@ -46,7 +46,7 @@ export function CookiePolicyPage() {
           </div>
           <p className="mt-12 text-sm text-slate-600">
             Pentru solicitări:{' '}
-            <Link to="/contact" className="font-medium text-blue-800 underline underline-offset-2 hover:text-blue-950">
+            <Link to="/contact#contact" className="font-medium text-blue-800 underline underline-offset-2 hover:text-blue-950">
               pagina Contact
             </Link>
             .

@@ -52,20 +52,24 @@ export async function sendContactLead(message: ContactMessage, recaptchaToken: s
     }),
   });
 
-  if (response.ok) {
-    return { ok: true };
+  let responseData: { ok?: boolean; message?: string } | null = null;
+  try {
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      responseData = (await response.json()) as { ok?: boolean; message?: string };
+    }
+  } catch {
+    responseData = null;
   }
 
-  let responseMessage = '';
-  try {
-    const data = (await response.json()) as { message?: string };
-    responseMessage = data.message || '';
-  } catch {
-    responseMessage = '';
+  if (response.ok && responseData !== null && responseData.ok !== false) {
+    return { ok: true };
   }
 
   return {
     ok: false,
-    message: responseMessage || 'Mesajul nu a putut fi trimis. Vă rugăm să încercați din nou.',
+    message:
+      responseData?.message ||
+      'Mesajul nu a putut fi trimis. Vă rugăm să încercați din nou.',
   };
 }

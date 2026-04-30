@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/bootstrap.php';
 
 header('Content-Type: application/json; charset=utf-8');
-session_start();
+start_secure_session();
 
 function admin_max_failed_attempts(): int
 {
@@ -134,6 +134,7 @@ function login_success(PDO $pdo, array $user): array
     $statement->execute([':id' => $user['id']]);
 
     $fresh = find_admin_user($pdo, (string) $user['username']) ?: $user;
+    session_regenerate_id(true);
     $_SESSION['admin_user_id'] = (string) $fresh['id'];
     $_SESSION['admin_role'] = (string) $fresh['role'];
 
@@ -437,7 +438,7 @@ if ($action !== 'login') {
     }
 
     if ($action === 'test-crm') {
-        $currentUser = session_user_row($pdo);
+        $currentUser = require_admin_role($pdo);
         $testResult = send_crm_test_lead($currentUser);
         json_response(200, [
             'ok' => true,

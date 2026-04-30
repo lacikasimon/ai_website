@@ -4,7 +4,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/bootstrap.php';
 
 header('Content-Type: application/json; charset=utf-8');
-session_start();
+start_secure_session();
 
 function create_cms_id(string $prefix): string
 {
@@ -44,6 +44,20 @@ function require_admin(PDO $pdo): void
 function bool_int($value): int
 {
     return filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+}
+
+function normalize_menu_kind(string $kind): string
+{
+    return in_array($kind, ['internal', 'external', 'page'], true) ? $kind : 'internal';
+}
+
+function is_valid_menu_href(string $href): bool
+{
+    if ($href === '' || preg_match('/[\x00-\x1F\x7F]/', $href)) {
+        return false;
+    }
+
+    return preg_match('/^(https?:\/\/|\/|#)/i', $href) === 1;
 }
 
 function page_row(array $row): array
@@ -204,22 +218,33 @@ if ($action === 'save-page') {
     }
 
     $table = table_name('cms_pages');
-    $statement = $pdo->prepare("INSERT INTO `{$table}` (`id`, `slug`, `title`, `summary`, `body`, `status`, `show_in_menu`, `menu_label`)
-      VALUES (:id, :slug, :title, :summary, :body, :status, :show_in_menu, :menu_label)
-      ON DUPLICATE KEY UPDATE
-        `slug` = VALUES(`slug`), `title` = VALUES(`title`), `summary` = VALUES(`summary`), `body` = VALUES(`body`),
-        `status` = VALUES(`status`), `show_in_menu` = VALUES(`show_in_menu`), `menu_label` = VALUES(`menu_label`),
-        `updated_at` = CURRENT_TIMESTAMP");
-    $statement->execute([
-        ':id' => $id,
-        ':slug' => $slug,
-        ':title' => $title,
-        ':summary' => string_field($page, 'summary'),
-        ':body' => $body,
-        ':status' => string_field($page, 'status') === 'draft' ? 'draft' : 'published',
-        ':show_in_menu' => bool_int($page['showInMenu'] ?? true),
-        ':menu_label' => string_field($page, 'menuLabel') ?: $title,
-    ]);
+    $duplicate = $pdo->prepare("SELECT `id` FROM `{$table}` WHERE `slug` = :slug AND `id` <> :id LIMIT 1");
+    $duplicate->execute([':slug' => $slug, ':id' => $id]);
+    if ($duplicate->fetch()) {
+        json_response(409, ['ok' => false, 'message' => 'Există deja o pagină cu acest slug.']);
+    }
+
+    try {
+        $statement = $pdo->prepare("INSERT INTO `{$table}` (`id`, `slug`, `title`, `summary`, `body`, `status`, `show_in_menu`, `menu_label`)
+          VALUES (:id, :slug, :title, :summary, :body, :status, :show_in_menu, :menu_label)
+          ON DUPLICATE KEY UPDATE
+            `slug` = VALUES(`slug`), `title` = VALUES(`title`), `summary` = VALUES(`summary`), `body` = VALUES(`body`),
+            `status` = VALUES(`status`), `show_in_menu` = VALUES(`show_in_menu`), `menu_label` = VALUES(`menu_label`),
+            `updated_at` = CURRENT_TIMESTAMP");
+        $statement->execute([
+            ':id' => $id,
+            ':slug' => $slug,
+            ':title' => $title,
+            ':summary' => string_field($page, 'summary'),
+            ':body' => $body,
+            ':status' => string_field($page, 'status') === 'draft' ? 'draft' : 'published',
+            ':show_in_menu' => bool_int($page['showInMenu'] ?? true),
+            ':menu_label' => string_field($page, 'menuLabel') ?: $title,
+        ]);
+    } catch (Throwable $error) {
+        error_log('Save CMS page failed: ' . $error->getMessage());
+        json_response(500, ['ok' => false, 'message' => 'Pagina nu a putut fi salvată.']);
+    }
 
     json_response(200, ['ok' => true, 'pages' => get_pages($pdo, true), 'menuItems' => get_menu_items($pdo, true)]);
 }
@@ -239,8 +264,8 @@ if ($action === 'save-menu-item') {
 
     $label = string_field($item, 'label');
     $href = string_field($item, 'href');
-    if ($label === '' || $href === '') {
-        json_response(422, ['ok' => false, 'message' => 'Eticheta și link-ul sunt obligatorii.']);
+    if ($label === '' || !is_valid_menu_href($href)) {
+        json_response(422, ['ok' => false, 'message' => 'Eticheta și un link valid sunt obligatorii. Folosiți /, #, http:// sau https://.']);
     }
 
     $id = string_field($item, 'id') ?: create_cms_id('menu');
@@ -254,7 +279,7 @@ if ($action === 'save-menu-item') {
         ':id' => $id,
         ':label' => $label,
         ':href' => $href,
-        ':kind' => in_array(string_field($item, 'kind'), ['internal', 'external', 'page'], true) ? string_field($item, 'kind') : 'internal',
+        ':kind' => normalize_menu_kind(string_field($item, 'kind')),
         ':visible' => bool_int($item['visible'] ?? true),
         ':sort_order' => (int) ($item['order'] ?? 100),
     ]);
@@ -271,24 +296,57 @@ if ($action === 'delete-menu-item') {
 
 if ($action === 'reset-menu') {
     $table = table_name('cms_menu_items');
-    $pdo->exec("DELETE FROM `{$table}`");
     $defaults = $data['items'] ?? [];
-    if (is_array($defaults)) {
-        foreach ($defaults as $item) {
-            if (!is_array($item)) {
-                continue;
-            }
-            $statement = $pdo->prepare("INSERT INTO `{$table}` (`id`, `label`, `href`, `kind`, `visible`, `sort_order`) VALUES (:id, :label, :href, :kind, :visible, :sort_order)");
+
+    if (!is_array($defaults) || count($defaults) === 0) {
+        json_response(422, ['ok' => false, 'message' => 'Lista de meniu nu este validă.']);
+    }
+
+    $normalizedItems = [];
+    foreach ($defaults as $item) {
+        if (!is_array($item)) {
+            json_response(422, ['ok' => false, 'message' => 'Un element de meniu nu este valid.']);
+        }
+
+        $label = string_field($item, 'label');
+        $href = string_field($item, 'href');
+        if ($label === '' || !is_valid_menu_href($href)) {
+            json_response(422, ['ok' => false, 'message' => 'Eticheta și un link valid sunt obligatorii pentru fiecare element de meniu.']);
+        }
+
+        $normalizedItems[] = [
+            'id' => string_field($item, 'id') ?: create_cms_id('menu'),
+            'label' => $label,
+            'href' => $href,
+            'kind' => normalize_menu_kind(string_field($item, 'kind')),
+            'visible' => bool_int($item['visible'] ?? true),
+            'sort_order' => (int) ($item['order'] ?? 100),
+        ];
+    }
+
+    try {
+        $pdo->beginTransaction();
+        $pdo->exec("DELETE FROM `{$table}`");
+        $statement = $pdo->prepare("INSERT INTO `{$table}` (`id`, `label`, `href`, `kind`, `visible`, `sort_order`) VALUES (:id, :label, :href, :kind, :visible, :sort_order)");
+        foreach ($normalizedItems as $item) {
             $statement->execute([
-                ':id' => string_field($item, 'id'),
-                ':label' => string_field($item, 'label'),
-                ':href' => string_field($item, 'href'),
-                ':kind' => string_field($item, 'kind') ?: 'internal',
-                ':visible' => bool_int($item['visible'] ?? true),
-                ':sort_order' => (int) ($item['order'] ?? 100),
+                ':id' => $item['id'],
+                ':label' => $item['label'],
+                ':href' => $item['href'],
+                ':kind' => $item['kind'],
+                ':visible' => $item['visible'],
+                ':sort_order' => $item['sort_order'],
             ]);
         }
+        $pdo->commit();
+    } catch (Throwable $error) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log('Reset CMS menu failed: ' . $error->getMessage());
+        json_response(500, ['ok' => false, 'message' => 'Meniul nu a putut fi resetat.']);
     }
+
     json_response(200, ['ok' => true, 'menuItems' => get_menu_items($pdo, true)]);
 }
 

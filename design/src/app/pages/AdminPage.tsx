@@ -62,7 +62,8 @@ const shopUrl = 'https://shop.syshub.ro/';
 const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
 
 type AdminSection = 'content' | 'media' | 'messages' | 'users' | 'security';
-type AdminStorageMode = 'checking' | 'server' | 'local';
+type AdminStorageMode = 'checking' | 'server' | 'local' | 'unavailable';
+const localAdminFallbackEnabled = import.meta.env.DEV || import.meta.env.VITE_ENABLE_LOCAL_ADMIN === 'true';
 
 const adminSections = [
   {
@@ -151,6 +152,10 @@ function getUserActionError(error: unknown) {
   return error instanceof Error ? error.message : 'Operațiunea nu a putut fi efectuată.';
 }
 
+function confirmAction(message: string) {
+  return window.confirm(message);
+}
+
 export function AdminPage() {
   useSeo({
     title: `Admin | ${siteContent.meta.ogTitle}`,
@@ -159,8 +164,8 @@ export function AdminPage() {
     noindex: true,
   });
 
-  const [session, setSession] = useState(() => getAdminSession());
-  const [users, setUsers] = useState<AdminUser[]>(() => getAdminUsers());
+  const [session, setSession] = useState(() => (localAdminFallbackEnabled ? getAdminSession() : null));
+  const [users, setUsers] = useState<AdminUser[]>(() => (localAdminFallbackEnabled ? getAdminUsers() : []));
   const [loginData, setLoginData] = useState({ username: 'admin', pin: '' });
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [recaptchaResetKey, setRecaptchaResetKey] = useState(0);
@@ -183,9 +188,17 @@ export function AdminPage() {
   const canManageUsers = currentUser?.role === 'admin';
   const recaptchaRequired = Boolean(recaptchaSiteKey);
   const serverBacked = adminStorageMode === 'server';
-  const loginIsBanned = !serverBacked && isBanActive(bannedUntil);
+  const adminUnavailable = adminStorageMode === 'unavailable';
+  const loginIsBanned = adminStorageMode === 'local' && isBanActive(bannedUntil);
   const unreadCount = messages.filter((message) => message.status === 'new').length;
-  const storageLabel = adminStorageMode === 'checking' ? 'verificare' : serverBacked ? 'MySQL' : 'locală';
+  const storageLabel =
+    adminStorageMode === 'checking'
+      ? 'verificare'
+      : serverBacked
+        ? 'MySQL'
+        : adminUnavailable
+          ? 'neconfigurat'
+          : 'locală';
   const filteredMessages = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) {
@@ -232,7 +245,17 @@ export function AdminPage() {
       }
 
       if (!result.available) {
-        setAdminStorageMode('local');
+        if (localAdminFallbackEnabled) {
+          setAdminStorageMode('local');
+          return;
+        }
+
+        clearAdminSession();
+        setSession(null);
+        setUsers([]);
+        setMessages([]);
+        setAdminStorageMode('unavailable');
+        setAuthError('Admin API nu este configurat. Configurați PHP/MySQL și fișierul .env.server pe server.');
         return;
       }
 
@@ -282,6 +305,11 @@ export function AdminPage() {
       return;
     }
 
+    if (adminUnavailable && !localAdminFallbackEnabled) {
+      setAuthError('Admin API nu este configurat. Configurați PHP/MySQL și fișierul .env.server pe server.');
+      return;
+    }
+
     setAuthLoading(true);
     try {
       const serverResult = await loginServerAdmin(loginData.username, loginData.pin, recaptchaToken);
@@ -305,6 +333,13 @@ export function AdminPage() {
             ? `${serverResult.message || 'Date de autentificare incorecte.'} Încercări rămase: ${serverResult.remainingAttempts}.`
             : serverResult.message || 'Date de autentificare incorecte.',
         );
+        resetRecaptcha();
+        return;
+      }
+
+      if (!localAdminFallbackEnabled) {
+        setAdminStorageMode('unavailable');
+        setAuthError('Admin API nu este configurat. Configurați PHP/MySQL și fișierul .env.server pe server.');
         resetRecaptcha();
         return;
       }
@@ -360,6 +395,10 @@ export function AdminPage() {
   };
 
   const removeMessage = async (messageId: string) => {
+    if (!confirmAction('Sigur ștergeți acest mesaj? Operațiunea nu poate fi anulată.')) {
+      return;
+    }
+
     if (serverBacked) {
       const result = await deleteServerContactMessage(messageId);
       if (result.available && result.ok && result.messages) {
@@ -372,6 +411,12 @@ export function AdminPage() {
   };
 
   const testCrmIntegration = async () => {
+    if (!canManageUsers) {
+      setCrmTestOk(false);
+      setCrmTestMessage('Doar administratorii pot rula testul CRM.');
+      return;
+    }
+
     setCrmTestLoading(true);
     setCrmTestMessage('');
     setCrmTestOk(null);
@@ -465,6 +510,10 @@ export function AdminPage() {
 
   const removeUser = async (userId: string) => {
     if (!session) {
+      return;
+    }
+
+    if (!confirmAction('Sigur ștergeți acest utilizator? Operațiunea nu poate fi anulată.')) {
       return;
     }
 
@@ -567,11 +616,11 @@ export function AdminPage() {
                 <span>Prea multe încercări eșuate. Autentificare blocată până la {formatDate(bannedUntil)}.</span>
               </div>
             )}
-            {authError && <p className="mt-3 text-sm text-red-600">{authError}</p>}
+              {authError && <p className="mt-3 text-sm text-red-600">{authError}</p>}
 
             <button
               type="submit"
-              disabled={loginIsBanned || authLoading || adminStorageMode === 'checking'}
+              disabled={loginIsBanned || authLoading || adminStorageMode === 'checking' || adminUnavailable}
               className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-4 py-3 font-semibold text-white shadow-lg shadow-blue-950/20 transition-colors hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Lock className="h-4 w-4" />
@@ -1100,7 +1149,7 @@ export function AdminPage() {
                   <button
                     type="button"
                     onClick={testCrmIntegration}
-                    disabled={!serverBacked || crmTestLoading}
+                    disabled={!serverBacked || !canManageUsers || crmTestLoading}
                     className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-blue-800 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     <Send className="h-4 w-4" />
@@ -1111,6 +1160,9 @@ export function AdminPage() {
                   <p className="mt-3 text-sm text-slate-500">
                     Testul CRM este disponibil după configurarea API-ului PHP/MySQL pe server.
                   </p>
+                )}
+                {serverBacked && !canManageUsers && (
+                  <p className="mt-3 text-sm text-slate-500">Doar administratorii pot rula testul CRM.</p>
                 )}
                 {crmTestMessage && (
                   <div

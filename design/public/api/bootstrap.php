@@ -81,6 +81,27 @@ function json_response(int $status, array $payload): void
     exit;
 }
 
+function start_secure_session(): void
+{
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        return;
+    }
+
+    $https = $_SERVER['HTTPS'] ?? '';
+    $serverPort = $_SERVER['SERVER_PORT'] ?? '';
+    $secure = (is_string($https) && strtolower($https) !== 'off' && $https !== '') || (string) $serverPort === '443';
+
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => $secure,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+
+    session_start();
+}
+
 function read_json_body(): array
 {
     $rawBody = file_get_contents('php://input');

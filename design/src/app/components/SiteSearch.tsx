@@ -6,9 +6,10 @@ import { searchEntries, searchSite } from '../content/searchIndex';
 type SiteSearchProps = {
   variant?: 'icon' | 'menu';
   className?: string;
+  onNavigate?: () => void;
 };
 
-export function SiteSearch({ variant = 'icon', className }: SiteSearchProps) {
+export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSearchProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +89,10 @@ export function SiteSearch({ variant = 'icon', className }: SiteSearchProps) {
                       key={`${result.href}-${result.title}`}
                       to={result.href}
                       className="group flex items-start justify-between gap-4 rounded-md border border-transparent px-3 py-3 transition-colors hover:border-blue-100 hover:bg-blue-50/70"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setOpen(false);
+                        onNavigate?.();
+                      }}
                     >
                       <span className="min-w-0">
                         <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-blue-700">
