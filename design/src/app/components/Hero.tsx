@@ -20,7 +20,7 @@ export function Hero() {
       </div>
 
       {/* Hero Content */}
-      <div id="home" className="relative z-10 container mx-auto px-4 text-center pt-24">
+      <div id="home" className="relative z-10 container mx-auto px-4 pb-32 pt-28 text-center sm:pb-28 sm:pt-24">
         <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 text-blue-950 tracking-tight max-w-5xl mx-auto leading-[1.1] font-semibold">
           {siteContent.home.hero.headline}
         </h1>
@@ -82,7 +82,7 @@ export function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex flex-col items-center gap-2 text-blue-700/70 animate-bounce">
           <span className="text-sm">Derulați în jos</span>
           <Shield className="w-6 h-6" />

@@ -6,10 +6,10 @@ import { useState } from 'react';
 const offerPath = '/contact#formular-contact';
 const contactPath = '/contact#contact';
 
-const ctaOfferClass =
-  'rounded-md bg-amber-400 px-3 py-2 text-sm font-bold text-blue-950 shadow-sm shadow-amber-300/30 transition-colors hover:bg-amber-300';
-const ctaContactClass =
-  'rounded-md border border-blue-100 bg-white px-3 py-2 text-sm font-semibold text-blue-950 shadow-sm shadow-blue-950/5 transition-colors hover:bg-blue-50';
+const ctaButtonBaseClass =
+  'inline-flex min-h-10 w-[6.5rem] items-center justify-center whitespace-nowrap rounded-md px-2 py-2 text-sm font-semibold leading-none shadow-sm transition-colors sm:w-[6.75rem] sm:px-3';
+const ctaOfferClass = `${ctaButtonBaseClass} bg-amber-400 font-bold text-blue-950 shadow-amber-300/30 hover:bg-amber-300`;
+const ctaContactClass = `${ctaButtonBaseClass} border border-blue-100 bg-white text-blue-950 shadow-blue-950/5 hover:bg-blue-50`;
 
 export function Header() {
   const location = useLocation();
@@ -35,13 +35,13 @@ export function Header() {
           </Link>
 
           {/* Mobile: CTA-uri vizibile înainte de meniu */}
-          <div className="flex items-center gap-1.5 sm:gap-2 md:hidden">
-            <Link to={offerPath} className={`${ctaOfferClass} px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm`}>
+          <div className="flex items-center gap-1.5 sm:gap-2 xl:hidden">
+            <Link to={offerPath} className={`${ctaOfferClass} min-h-9 w-[5.75rem] text-xs sm:min-h-10 sm:w-[6.75rem] sm:text-sm`}>
               Cere ofertă
             </Link>
             <Link
               to={contactPath}
-              className={`${ctaContactClass} px-2 py-1.5 text-xs sm:px-3 sm:py-2 sm:text-sm`}
+              className={`${ctaContactClass} min-h-9 w-[5.75rem] text-xs sm:min-h-10 sm:w-[6.75rem] sm:text-sm`}
               onClick={() => setMobileMenuOpen(false)}
             >
               Contact
@@ -58,7 +58,7 @@ export function Header() {
           </div>
 
           {/* Desktop: CTA-uri primele, apoi nav */}
-          <div className="hidden md:flex min-w-0 flex-1 items-center justify-end gap-3 lg:gap-4">
+          <div className="hidden min-w-0 flex-1 items-center justify-end gap-3 xl:flex xl:gap-4">
             <Link to={offerPath} className={ctaOfferClass}>
               Cere ofertă
             </Link>
@@ -129,7 +129,7 @@ export function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="md:hidden mt-4 space-y-3 border-t border-blue-100/90 pb-4 pt-4">
+          <nav className="mt-4 space-y-3 border-t border-blue-100/90 pb-4 pt-4 xl:hidden">
             <div className="flex flex-col gap-2 sm:flex-row">
               <Link
                 to={offerPath}
