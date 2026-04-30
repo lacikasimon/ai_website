@@ -29,7 +29,7 @@ export const searchEntries: SearchEntry[] = [
     title: 'GENE SYS SECURITY SRL',
     description: siteContent.meta.description,
     href: '/',
-    category: 'Home',
+    category: 'Acasă',
     keywords: siteContent.meta.keywords,
   },
   {

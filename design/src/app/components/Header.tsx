@@ -1,27 +1,97 @@
 import logo from '../../assets/genesys-logo.svg';
 import { Link, useLocation } from 'react-router';
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SiteSearch } from './SiteSearch';
+import {
+  CmsMenuItem,
+  cmsContentChangedEvent,
+  fetchVisibleCmsMenuItems,
+  getVisibleCmsMenuItems,
+} from '../utils/contentManagement';
 
 const offerPath = '/contact#formular-contact';
 const contactPath = '/contact#contact';
-const shopUrl = 'https://shop.syshub.ro/';
 
 const ctaButtonBaseClass =
   'inline-flex min-h-10 w-[6.5rem] items-center justify-center whitespace-nowrap rounded-md px-2 py-2 text-sm font-semibold leading-none shadow-sm transition-colors sm:w-[6.75rem] sm:px-3';
 const ctaOfferClass = `${ctaButtonBaseClass} bg-amber-400 font-bold text-blue-950 shadow-amber-300/30 hover:bg-amber-300`;
 const ctaContactClass = `${ctaButtonBaseClass} border border-blue-100 bg-white text-blue-950 shadow-blue-950/5 hover:bg-blue-50`;
 
+function isExternalHref(href: string) {
+  return /^https?:\/\//i.test(href);
+}
+
 export function Header() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuItems, setMenuItems] = useState<CmsMenuItem[]>(() => getVisibleCmsMenuItems());
   const isHomePage = location.pathname === '/';
+
+  useEffect(() => {
+    let active = true;
+
+    const syncMenu = () => {
+      void fetchVisibleCmsMenuItems()
+        .then((items) => {
+          if (active) {
+            setMenuItems(items);
+          }
+        })
+        .catch(() => {
+          if (active) {
+            setMenuItems(getVisibleCmsMenuItems());
+          }
+        });
+    };
+
+    syncMenu();
+    window.addEventListener(cmsContentChangedEvent, syncMenu);
+    window.addEventListener('storage', syncMenu);
+    return () => {
+      active = false;
+      window.removeEventListener(cmsContentChangedEvent, syncMenu);
+      window.removeEventListener('storage', syncMenu);
+    };
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
     setMobileMenuOpen(false);
+  };
+
+  const renderMenuItem = (item: CmsMenuItem, mobile = false) => {
+    const className = mobile
+      ? 'block text-blue-950/80 hover:text-blue-950 transition-colors'
+      : 'whitespace-nowrap transition-colors hover:text-blue-950';
+
+    if (isExternalHref(item.href)) {
+      return (
+        <a key={item.id} href={item.href} className={className} onClick={() => setMobileMenuOpen(false)}>
+          {item.label}
+        </a>
+      );
+    }
+
+    if (isHomePage && item.href.startsWith('/#')) {
+      return (
+        <button
+          key={item.id}
+          type="button"
+          onClick={() => scrollToSection(item.href.slice(2))}
+          className={mobile ? `w-full text-left ${className}` : className}
+        >
+          {item.label}
+        </button>
+      );
+    }
+
+    return (
+      <Link key={item.id} to={item.href} className={className} onClick={() => setMobileMenuOpen(false)}>
+        {item.label}
+      </Link>
+    );
   };
 
   return (
@@ -73,65 +143,7 @@ export function Header() {
             <SiteSearch />
             <div className="hidden h-8 w-px shrink-0 bg-blue-200/80 lg:block" aria-hidden />
             <nav className="flex items-center gap-4 text-sm font-medium text-blue-950/75 lg:gap-6">
-              <Link to="/" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                Home
-              </Link>
-              <a href={shopUrl} className="whitespace-nowrap transition-colors hover:text-blue-950">
-                Shop
-              </a>
-              <Link to="/proiecte" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                Proiecte
-              </Link>
-              <Link to="/finantare-ue" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                Finanțare UE
-              </Link>
-              {isHomePage ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection('despre-noi')}
-                    className="whitespace-nowrap transition-colors hover:text-blue-950"
-                  >
-                    Despre Noi
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection('servicii')}
-                    className="whitespace-nowrap transition-colors hover:text-blue-950"
-                  >
-                    Servicii
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection('proces')}
-                    className="whitespace-nowrap transition-colors hover:text-blue-950"
-                  >
-                    Proces
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection('certificari')}
-                    className="whitespace-nowrap transition-colors hover:text-blue-950"
-                  >
-                    Certificări
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link to="/#despre-noi" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                    Despre Noi
-                  </Link>
-                  <Link to="/#servicii" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                    Servicii
-                  </Link>
-                  <Link to="/#proces" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                    Proces
-                  </Link>
-                  <Link to="/#certificari" className="whitespace-nowrap transition-colors hover:text-blue-950">
-                    Certificări
-                  </Link>
-                </>
-              )}
+              {menuItems.map((item) => renderMenuItem(item))}
             </nav>
           </div>
         </div>
@@ -156,53 +168,7 @@ export function Header() {
               </Link>
             </div>
             <SiteSearch variant="menu" />
-            <Link to="/" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-              Home
-            </Link>
-            <a
-              href={shopUrl}
-              className="block text-blue-950/80 hover:text-blue-950 transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Shop
-            </a>
-            <Link to="/proiecte" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-              Proiecte
-            </Link>
-            <Link to="/finantare-ue" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-              Finanțare UE
-            </Link>
-            {isHomePage ? (
-              <>
-                <button onClick={() => scrollToSection('despre-noi')} className="block w-full text-left text-blue-950/80 hover:text-blue-950 transition-colors">
-                  Despre Noi
-                </button>
-                <button onClick={() => scrollToSection('servicii')} className="block w-full text-left text-blue-950/80 hover:text-blue-950 transition-colors">
-                  Servicii
-                </button>
-                <button onClick={() => scrollToSection('proces')} className="block w-full text-left text-blue-950/80 hover:text-blue-950 transition-colors">
-                  Proces
-                </button>
-                <button onClick={() => scrollToSection('certificari')} className="block w-full text-left text-blue-950/80 hover:text-blue-950 transition-colors">
-                  Certificări
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/#despre-noi" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Despre Noi
-                </Link>
-                <Link to="/#servicii" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Servicii
-                </Link>
-                <Link to="/#proces" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Proces
-                </Link>
-                <Link to="/#certificari" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-                  Certificări
-                </Link>
-              </>
-            )}
+            {menuItems.map((item) => renderMenuItem(item, true))}
           </nav>
         )}
       </div>

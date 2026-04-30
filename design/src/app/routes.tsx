@@ -7,6 +7,7 @@ import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { CookiePolicyPage } from './pages/CookiePolicyPage';
 import { FundingPage } from './pages/FundingPage';
 import { AdminPage } from './pages/AdminPage';
+import { CustomPage } from './pages/CustomPage';
 
 const routeTree = [
   {
@@ -36,6 +37,10 @@ const routeTree = [
       {
         path: 'politica-cookie-uri',
         Component: CookiePolicyPage,
+      },
+      {
+        path: 'pagini/:pageSlug',
+        Component: CustomPage,
       },
       {
         path: 'admin',

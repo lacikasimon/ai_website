@@ -88,7 +88,7 @@ export function Footer() {
               Lucrăm cu beneficiari privați, firme de construcții și administratori de patrimoniu — oferte clare, documentație conformă și suport după recepție.
             </p>
             <div>
-              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">Social media</h3>
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">Rețele sociale</h3>
               <div className="flex flex-wrap gap-2">
                 {socialShareLinks.map((link) => {
                   const Icon = socialIcons[link.label];

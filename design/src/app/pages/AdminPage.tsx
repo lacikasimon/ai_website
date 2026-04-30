@@ -1,16 +1,20 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import {
   Ban,
   CheckCircle2,
   Download,
   ExternalLink,
+  FileText,
+  Images,
   Inbox,
   Lock,
   LogOut,
   Mail,
+  MessageSquare,
   Phone,
   Search,
+  Shield,
   ShieldCheck,
   ShoppingBag,
   Trash2,
@@ -20,6 +24,8 @@ import {
 import { siteContent } from '../content/siteContent';
 import { useSeo } from '../seo/useSeo';
 import { RecaptchaBox } from '../components/RecaptchaBox';
+import { AdminContentManager } from '../components/AdminContentManager';
+import { AdminMediaManager } from '../components/AdminMediaManager';
 import {
   ContactMessage,
   deleteContactMessage,
@@ -38,9 +44,61 @@ import {
   updateAdminUser,
   validateAdminLogin,
 } from '../utils/adminSecurity';
+import {
+  createServerAdminUser,
+  deleteServerAdminUser,
+  deleteServerContactMessage,
+  getServerAdminSession,
+  loadServerAdminDashboard,
+  loginServerAdmin,
+  logoutServerAdmin,
+  updateServerAdminUser,
+  updateServerContactMessageStatus,
+} from '../utils/adminApi';
 
 const shopUrl = 'https://shop.syshub.ro/';
 const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
+
+type AdminSection = 'content' | 'media' | 'messages' | 'users' | 'security';
+type AdminStorageMode = 'checking' | 'server' | 'local';
+
+const adminSections = [
+  {
+    id: 'content' as const,
+    label: 'Pagini și meniu',
+    description: 'Editare pagini, linkuri și ordine meniu',
+    icon: FileText,
+  },
+  {
+    id: 'media' as const,
+    label: 'Imagini',
+    description: 'Încărcare, text alt și cod de inserare',
+    icon: Images,
+  },
+  {
+    id: 'messages' as const,
+    label: 'Mesaje',
+    description: 'Contact, căutare și export CSV',
+    icon: MessageSquare,
+  },
+  {
+    id: 'users' as const,
+    label: 'Utilizatori',
+    description: 'Conturi, roluri și acces admin',
+    icon: Users,
+  },
+  {
+    id: 'security' as const,
+    label: 'Securitate',
+    description: 'Fail-to-ban, reCAPTCHA și stare',
+    icon: Shield,
+  },
+] satisfies Array<{
+  id: AdminSection;
+  label: string;
+  description: string;
+  icon: typeof FileText;
+}>;
 
 const emptyUserForm = {
   username: '',
@@ -62,7 +120,7 @@ function csvCell(value: string) {
 
 function downloadMessagesCsv(messages: ContactMessage[]) {
   const rows = [
-    ['Data', 'Status', 'Nume', 'Email', 'Telefon', 'Mesaj'],
+    ['Data', 'Stare', 'Nume', 'Email', 'Telefon', 'Mesaj'],
     ...messages.map((message) => [
       formatDate(message.createdAt),
       message.status === 'new' ? 'Nou' : 'Citit',
@@ -110,13 +168,18 @@ export function AdminPage() {
   const [userForm, setUserForm] = useState(emptyUserForm);
   const [userError, setUserError] = useState('');
   const [userSuccess, setUserSuccess] = useState('');
+  const [activeAdminSection, setActiveAdminSection] = useState<AdminSection>('content');
+  const [adminStorageMode, setAdminStorageMode] = useState<AdminStorageMode>('checking');
+  const [authLoading, setAuthLoading] = useState(false);
 
   const currentUser = session ? users.find((user) => user.id === session.userId && user.active) : null;
   const authenticated = Boolean(session && currentUser);
   const canManageUsers = currentUser?.role === 'admin';
   const recaptchaRequired = Boolean(recaptchaSiteKey);
-  const loginIsBanned = isBanActive(bannedUntil);
+  const serverBacked = adminStorageMode === 'server';
+  const loginIsBanned = !serverBacked && isBanActive(bannedUntil);
   const unreadCount = messages.filter((message) => message.status === 'new').length;
+  const storageLabel = adminStorageMode === 'checking' ? 'verificare' : serverBacked ? 'MySQL' : 'locală';
   const filteredMessages = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) {
@@ -131,7 +194,71 @@ export function AdminPage() {
     );
   }, [messages, query]);
 
-  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+  const applyServerDashboard = async () => {
+    const dashboard = await loadServerAdminDashboard();
+    if (!dashboard.available || !dashboard.ok) {
+      return;
+    }
+
+    if (dashboard.user && dashboard.session) {
+      setSession(dashboard.session);
+    }
+    if (dashboard.users) {
+      setUsers(dashboard.users);
+    }
+    if (dashboard.messages) {
+      setMessages(dashboard.messages);
+    }
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function restoreServerSession() {
+      const result = await getServerAdminSession();
+      if (cancelled) {
+        return;
+      }
+
+      if (!result.available) {
+        setAdminStorageMode('local');
+        return;
+      }
+
+      setAdminStorageMode('server');
+      if (!result.ok || !result.user || !result.session) {
+        clearAdminSession();
+        setSession(null);
+        setUsers([]);
+        setMessages([]);
+        return;
+      }
+
+      clearAdminSession();
+      setSession(result.session);
+      setUsers([result.user]);
+
+      const dashboard = await loadServerAdminDashboard();
+      if (!cancelled && dashboard.available && dashboard.ok) {
+        if (dashboard.user && dashboard.session) {
+          setSession(dashboard.session);
+        }
+        if (dashboard.users) {
+          setUsers(dashboard.users);
+        }
+        if (dashboard.messages) {
+          setMessages(dashboard.messages);
+        }
+      }
+    }
+
+    void restoreServerSession();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (loginIsBanned) {
@@ -144,48 +271,112 @@ export function AdminPage() {
       return;
     }
 
-    const result = validateAdminLogin(loginData.username, loginData.pin);
-    setUsers(getAdminUsers());
+    setAuthLoading(true);
+    try {
+      const serverResult = await loginServerAdmin(loginData.username, loginData.pin, recaptchaToken);
+      if (serverResult.available) {
+        setAdminStorageMode('server');
+        if (serverResult.ok && serverResult.user && serverResult.session) {
+          clearAdminSession();
+          setSession(serverResult.session);
+          setUsers([serverResult.user]);
+          setAuthError('');
+          setLoginData((previous) => ({ ...previous, pin: '' }));
+          setRecaptchaToken('');
+          setBannedUntil(null);
+          await applyServerDashboard();
+          return;
+        }
 
-    if (result.ok) {
-      setSession(result.session);
-      setAuthError('');
-      setLoginData((previous) => ({ ...previous, pin: '' }));
-      setRecaptchaToken('');
-      setBannedUntil(null);
-      setMessages(getContactMessages());
-      return;
+        setBannedUntil(serverResult.bannedUntil || null);
+        setAuthError(
+          serverResult.remainingAttempts !== undefined && serverResult.remainingAttempts !== null && serverResult.remainingAttempts > 0
+            ? `${serverResult.message || 'Date de autentificare incorecte.'} Încercări rămase: ${serverResult.remainingAttempts}.`
+            : serverResult.message || 'Date de autentificare incorecte.',
+        );
+        return;
+      }
+
+      setAdminStorageMode('local');
+      const result = validateAdminLogin(loginData.username, loginData.pin);
+      setUsers(getAdminUsers());
+
+      if (result.ok) {
+        setSession(result.session);
+        setAuthError('');
+        setLoginData((previous) => ({ ...previous, pin: '' }));
+        setRecaptchaToken('');
+        setBannedUntil(null);
+        setMessages(getContactMessages());
+        return;
+      }
+
+      setBannedUntil(result.bannedUntil || getAdminBanStatus(loginData.username));
+      setAuthError(
+        result.remainingAttempts !== undefined && result.remainingAttempts > 0
+          ? `${result.error} Încercări rămase: ${result.remainingAttempts}.`
+          : result.error,
+      );
+    } finally {
+      setAuthLoading(false);
     }
-
-    setBannedUntil(result.bannedUntil || getAdminBanStatus(loginData.username));
-    setAuthError(
-      result.remainingAttempts !== undefined && result.remainingAttempts > 0
-        ? `${result.error} Încercări rămase: ${result.remainingAttempts}.`
-        : result.error,
-    );
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (serverBacked) {
+      await logoutServerAdmin();
+    }
     clearAdminSession();
     setSession(null);
+    setUsers(serverBacked ? [] : getAdminUsers());
+    setMessages(serverBacked ? [] : getContactMessages());
     setLoginData({ username: 'admin', pin: '' });
     setRecaptchaToken('');
   };
 
-  const markAsRead = (messageId: string) => {
+  const markAsRead = async (messageId: string) => {
+    if (serverBacked) {
+      const result = await updateServerContactMessageStatus(messageId, 'read');
+      if (result.available && result.ok && result.messages) {
+        setMessages(result.messages);
+      }
+      return;
+    }
+
     setMessages(updateContactMessageStatus(messageId, 'read'));
   };
 
-  const removeMessage = (messageId: string) => {
+  const removeMessage = async (messageId: string) => {
+    if (serverBacked) {
+      const result = await deleteServerContactMessage(messageId);
+      if (result.available && result.ok && result.messages) {
+        setMessages(result.messages);
+      }
+      return;
+    }
+
     setMessages(deleteContactMessage(messageId));
   };
 
-  const handleCreateUser = (event: FormEvent<HTMLFormElement>) => {
+  const handleCreateUser = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUserError('');
     setUserSuccess('');
 
     try {
+      if (serverBacked) {
+        const result = await createServerAdminUser(userForm);
+        if (!result.ok) {
+          throw new Error(result.message || 'Utilizatorul nu a putut fi creat.');
+        }
+        if (result.users) {
+          setUsers(result.users);
+        }
+        setUserForm(emptyUserForm);
+        setUserSuccess('Utilizatorul a fost creat.');
+        return;
+      }
+
       setUsers(createAdminUser(userForm));
       setUserForm(emptyUserForm);
       setUserSuccess('Utilizatorul a fost creat.');
@@ -194,29 +385,51 @@ export function AdminPage() {
     }
   };
 
-  const changeUserRole = (userId: string, role: AdminRole) => {
+  const changeUserRole = async (userId: string, role: AdminRole) => {
     setUserError('');
     setUserSuccess('');
 
     try {
+      if (serverBacked) {
+        const result = await updateServerAdminUser(userId, { role });
+        if (!result.ok) {
+          throw new Error(result.message || 'Rolul nu a putut fi actualizat.');
+        }
+        if (result.users) {
+          setUsers(result.users);
+        }
+        return;
+      }
+
       setUsers(updateAdminUser(userId, { role }));
     } catch (error) {
       setUserError(getUserActionError(error));
     }
   };
 
-  const toggleUserActive = (userId: string, active: boolean) => {
+  const toggleUserActive = async (userId: string, active: boolean) => {
     setUserError('');
     setUserSuccess('');
 
     try {
+      if (serverBacked) {
+        const result = await updateServerAdminUser(userId, { active });
+        if (!result.ok) {
+          throw new Error(result.message || 'Starea utilizatorului nu a putut fi actualizată.');
+        }
+        if (result.users) {
+          setUsers(result.users);
+        }
+        return;
+      }
+
       setUsers(updateAdminUser(userId, { active }));
     } catch (error) {
       setUserError(getUserActionError(error));
     }
   };
 
-  const removeUser = (userId: string) => {
+  const removeUser = async (userId: string) => {
     if (!session) {
       return;
     }
@@ -225,6 +438,17 @@ export function AdminPage() {
     setUserSuccess('');
 
     try {
+      if (serverBacked) {
+        const result = await deleteServerAdminUser(userId);
+        if (!result.ok) {
+          throw new Error(result.message || 'Utilizatorul nu a putut fi șters.');
+        }
+        if (result.users) {
+          setUsers(result.users);
+        }
+        return;
+      }
+
       setUsers(deleteAdminUser(userId, session.userId));
     } catch (error) {
       setUserError(getUserActionError(error));
@@ -238,7 +462,7 @@ export function AdminPage() {
           <div className="container mx-auto px-4">
             <nav className="mb-4 text-sm text-slate-500">
               <Link to="/" className="text-blue-700 transition-colors hover:text-blue-900">
-                Home
+                Acasă
               </Link>
               <span className="mx-2">/</span>
               <span className="text-slate-700">Admin</span>
@@ -260,12 +484,14 @@ export function AdminPage() {
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-blue-950">Autentificare admin</h2>
-                <p className="text-sm text-slate-500">User, PIN, reCAPTCHA și protecție fail-to-ban.</p>
+                <p className="text-sm text-slate-500">
+                  Utilizator, parolă/PIN, reCAPTCHA și protecție fail-to-ban.
+                </p>
               </div>
             </div>
 
             <label htmlFor="admin-username" className="mb-2 block text-sm font-medium text-slate-700">
-              Username
+              Utilizator
             </label>
             <input
               id="admin-username"
@@ -300,18 +526,18 @@ export function AdminPage() {
             {loginIsBanned && bannedUntil && (
               <div className="mt-4 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
                 <Ban className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>Prea multe încercări eșuate. Login blocat până la {formatDate(bannedUntil)}.</span>
+                <span>Prea multe încercări eșuate. Autentificare blocată până la {formatDate(bannedUntil)}.</span>
               </div>
             )}
             {authError && <p className="mt-3 text-sm text-red-600">{authError}</p>}
 
             <button
               type="submit"
-              disabled={loginIsBanned}
+              disabled={loginIsBanned || authLoading || adminStorageMode === 'checking'}
               className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-4 py-3 font-semibold text-white shadow-lg shadow-blue-950/20 transition-colors hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Lock className="h-4 w-4" />
-              Intră în admin
+              {authLoading || adminStorageMode === 'checking' ? 'Se verifică...' : 'Intră în admin'}
             </button>
           </form>
         </section>
@@ -327,7 +553,7 @@ export function AdminPage() {
             <div>
               <nav className="mb-4 text-sm text-slate-500">
                 <Link to="/" className="text-blue-700 transition-colors hover:text-blue-900">
-                  Home
+                  Acasă
                 </Link>
                 <span className="mx-2">/</span>
                 <span className="text-slate-700">Admin</span>
@@ -336,7 +562,7 @@ export function AdminPage() {
                 Admin
               </h1>
               <p className="mt-3 max-w-2xl text-slate-600">
-                Mesaje primite prin formularul de contact, user management și scurtături pentru administrarea site-ului.
+                Mesaje primite prin formularul de contact, management utilizatori și scurtături pentru administrarea site-ului.
               </p>
               {currentUser && (
                 <p className="mt-2 text-sm text-slate-500">
@@ -399,6 +625,44 @@ export function AdminPage() {
           </div>
         </div>
 
+        <nav className="mb-6 grid grid-cols-1 gap-3 lg:grid-cols-5" aria-label="Meniu admin">
+          {adminSections.map((section) => {
+            const Icon = section.icon;
+            const isActive = activeAdminSection === section.id;
+
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => setActiveAdminSection(section.id)}
+                className={`flex min-h-20 items-center gap-3 rounded-xl border p-4 text-left shadow-sm transition-colors ${
+                  isActive
+                    ? 'border-blue-300 bg-blue-800 text-white shadow-blue-950/15'
+                    : 'border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50'
+                }`}
+              >
+                <span
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                    isActive ? 'bg-white/15 text-white' : 'bg-blue-50 text-blue-800'
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-semibold">{section.label}</span>
+                  <span className={`mt-1 block text-xs ${isActive ? 'text-blue-50' : 'text-slate-500'}`}>
+                    {section.description}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+
+        {activeAdminSection === 'content' && <AdminContentManager />}
+        {activeAdminSection === 'media' && <AdminMediaManager />}
+
+        {activeAdminSection === 'messages' && (
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
           <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
             <div className="flex flex-col gap-4 border-b border-slate-200 p-5 lg:flex-row lg:items-center lg:justify-between">
@@ -426,7 +690,7 @@ export function AdminPage() {
                   className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-blue-100 bg-white px-4 text-sm font-semibold text-blue-950 shadow-sm transition-colors hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Download className="h-4 w-4" />
-                  Export CSV
+                  Exportă CSV
                 </button>
               </div>
             </div>
@@ -519,14 +783,14 @@ export function AdminPage() {
                   href={shopUrl}
                   className="flex min-h-10 items-center justify-between gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                 >
-                  Shop
+                  Magazin
                   <ShoppingBag className="h-4 w-4" />
                 </a>
               </div>
             </section>
 
             <section className="rounded-xl border border-blue-100 bg-blue-50/60 p-5">
-              <h2 className="text-lg font-semibold text-blue-950">Status</h2>
+              <h2 className="text-lg font-semibold text-blue-950">Stare</h2>
               <div className="mt-4 space-y-3 text-sm text-slate-700">
                 <div className="flex items-center justify-between gap-3">
                   <span>SEO admin</span>
@@ -534,7 +798,7 @@ export function AdminPage() {
                 </div>
                 <div className="flex items-center justify-between gap-3">
                   <span>Stocare mesaje</span>
-                  <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-blue-800">local</span>
+                  <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-blue-800">{storageLabel}</span>
                 </div>
                 <div className="flex items-center justify-between gap-3">
                   <span>Fail-to-ban</span>
@@ -550,14 +814,18 @@ export function AdminPage() {
             </section>
           </aside>
         </div>
+        )}
 
+        {activeAdminSection === 'users' && (
         <section className="mt-6 rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="border-b border-slate-200 p-5">
             <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
               <div>
-                <h2 className="text-2xl font-semibold text-blue-950">User management</h2>
+                <h2 className="text-2xl font-semibold text-blue-950">Management utilizatori</h2>
                 <p className="mt-1 text-sm text-slate-500">
-                  Utilizatori locali pentru interfața admin. Rolul `admin` poate gestiona conturile.
+                  {serverBacked
+                    ? 'Utilizatori salvați în MySQL pentru interfața admin. Rolul admin poate gestiona conturile.'
+                    : 'Utilizatori locali pentru interfața admin. Rolul admin poate gestiona conturile.'}
                 </p>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-800">
@@ -576,7 +844,7 @@ export function AdminPage() {
               <fieldset disabled={!canManageUsers} className="space-y-3 disabled:opacity-60">
                 <div>
                   <label htmlFor="new-username" className="mb-1.5 block text-sm font-medium text-slate-700">
-                    Username
+                    Utilizator
                   </label>
                   <input
                     id="new-username"
@@ -648,7 +916,7 @@ export function AdminPage() {
               <div className="grid grid-cols-[minmax(0,1fr)_7rem_7rem_8rem] gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-600 max-lg:hidden">
                 <span>Utilizator</span>
                 <span>Rol</span>
-                <span>Status</span>
+                <span>Stare</span>
                 <span className="text-right">Acțiuni</span>
               </div>
               <div className="divide-y divide-slate-200">
@@ -668,7 +936,7 @@ export function AdminPage() {
                       </div>
                       <p className="mt-1 text-sm text-slate-500">@{user.username}</p>
                       <p className="mt-1 text-xs text-slate-400">
-                        Ultimul login: {user.lastLoginAt ? formatDate(user.lastLoginAt) : 'niciodată'}
+                        Ultima autentificare: {user.lastLoginAt ? formatDate(user.lastLoginAt) : 'niciodată'}
                       </p>
                     </div>
 
@@ -712,6 +980,79 @@ export function AdminPage() {
             </div>
           </div>
         </section>
+        )}
+
+        {activeAdminSection === 'security' && (
+          <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div className="border-b border-slate-200 p-5">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <h2 className="text-2xl font-semibold text-blue-950">Securitate și scurtături</h2>
+                  <p className="mt-1 text-sm text-slate-500">
+                    Starea protecțiilor admin și linkuri rapide pentru administrare.
+                  </p>
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-800">
+                  <ShieldCheck className="h-4 w-4" />
+                  Admin noindex
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 p-5 lg:grid-cols-2">
+              <section className="rounded-lg border border-blue-100 bg-blue-50/60 p-5">
+                <h3 className="text-lg font-semibold text-blue-950">Stare protecții</h3>
+                <div className="mt-4 space-y-3 text-sm text-slate-700">
+                  <div className="flex items-center justify-between gap-3">
+                    <span>SEO admin</span>
+                    <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-blue-800">noindex</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span>Stocare mesaje</span>
+                    <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-blue-800">{storageLabel}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span>Fail-to-ban</span>
+                    <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-blue-800">5 / 15 min</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span>reCAPTCHA</span>
+                    <span className="rounded-full bg-white px-2.5 py-1 font-semibold text-blue-800">
+                      {recaptchaSiteKey ? 'activ' : 'neconfigurat'}
+                    </span>
+                  </div>
+                </div>
+              </section>
+
+              <section className="rounded-lg border border-slate-200 bg-white p-5">
+                <h3 className="text-lg font-semibold text-blue-950">Scurtături</h3>
+                <div className="mt-4 space-y-2">
+                  <Link
+                    to="/contact#formular-contact"
+                    className="flex min-h-10 items-center justify-between gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                  >
+                    Formular contact
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    to="/finantare-ue"
+                    className="flex min-h-10 items-center justify-between gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                  >
+                    Finanțare UE
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                  <a
+                    href={shopUrl}
+                    className="flex min-h-10 items-center justify-between gap-3 rounded-md border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                  >
+                    Magazin
+                    <ShoppingBag className="h-4 w-4" />
+                  </a>
+                </div>
+              </section>
+            </div>
+          </section>
+        )}
       </section>
     </div>
   );

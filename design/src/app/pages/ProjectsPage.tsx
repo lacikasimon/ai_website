@@ -86,7 +86,7 @@ export function ProjectsPage() {
           <div className="text-center max-w-3xl mx-auto">
             <nav className="text-sm text-blue-200/90 mb-6 text-left md:text-center">
               <Link to="/" className="hover:text-white transition-colors">
-                Home
+                Acasă
               </Link>
               <span className="mx-2">/</span>
               <span className="text-white/95">Proiecte</span>

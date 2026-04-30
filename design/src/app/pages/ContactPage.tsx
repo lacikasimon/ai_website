@@ -18,7 +18,7 @@ export function ContactPage() {
         <div className="container mx-auto px-4">
           <nav className="text-sm text-slate-500 mb-4">
             <Link to="/" className="text-blue-700 hover:text-blue-900 transition-colors">
-              Home
+              Acasă
             </Link>
             <span className="mx-2">/</span>
             <span className="text-slate-700">Contact</span>

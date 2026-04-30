@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { siteContent } from '../content/siteContent';
 import { SectionBreak, SectionEyebrow } from './SectionBreak';
 import { saveContactMessage } from '../utils/contactMessages';
+import { sendContactLead } from '../utils/leadWebhook';
+import { RecaptchaBox } from './RecaptchaBox';
+
+const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -13,15 +17,42 @@ export function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    saveContactMessage(formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 3000);
+    if (submitting) return;
+
+    if (recaptchaSiteKey && !recaptchaToken) {
+      setSubmitError('Confirmați reCAPTCHA înainte de trimitere.');
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError('');
+
+    const contactMessage = saveContactMessage(formData);
+
+    try {
+      const result = await sendContactLead(contactMessage, recaptchaToken);
+      if (!result.ok) {
+        setSubmitError(result.message || 'Mesajul nu a putut fi trimis. Vă rugăm să încercați din nou.');
+        return;
+      }
+
+      setSubmitted(true);
+      setRecaptchaToken('');
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      }, 3000);
+    } catch {
+      setSubmitError('Mesajul nu a putut fi trimis. Verificați conexiunea și încercați din nou.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -199,13 +230,24 @@ export function Contact() {
                     placeholder="Descrieți proiectul dumneavoastră sau întrebările pe care le aveți..."
                   />
                 </div>
+
+                {recaptchaSiteKey && (
+                  <RecaptchaBox siteKey={recaptchaSiteKey} onTokenChange={setRecaptchaToken} />
+                )}
+
+                {submitError && (
+                  <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {submitError}
+                  </div>
+                )}
                 
                 <button
                   type="submit"
-                  className="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-950/25"
+                  disabled={submitting}
+                  className="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-950/25 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   <Send className="w-5 h-5" />
-                  Trimite mesajul
+                  {submitting ? 'Se trimite...' : 'Trimite mesajul'}
                 </button>
               </form>
             )}

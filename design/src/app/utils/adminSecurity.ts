@@ -315,11 +315,11 @@ export function createAdminUser(input: AdminUserInput) {
   const username = normalizeUsername(input.username);
 
   if (!username || username.length < 3) {
-    throw new Error('Username-ul trebuie să aibă minimum 3 caractere.');
+    throw new Error('Numele de utilizator trebuie să aibă minimum 3 caractere.');
   }
 
   if (users.some((user) => user.username === username)) {
-    throw new Error('Există deja un utilizator cu acest username.');
+    throw new Error('Există deja un utilizator cu acest nume de utilizator.');
   }
 
   if (input.pin.trim().length < 4) {

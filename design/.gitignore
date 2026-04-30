@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+
+# Secrete locale. Păstrăm .env.example ca documentație.
+.env
+.env.local
+.env.*.local
+.env.server

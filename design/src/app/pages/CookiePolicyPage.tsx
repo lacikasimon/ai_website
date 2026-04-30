@@ -19,7 +19,7 @@ export function CookiePolicyPage() {
         <div className="container mx-auto max-w-3xl px-4">
           <nav className="mb-6 text-sm text-slate-500">
             <Link to="/" className="text-blue-700 transition-colors hover:text-blue-900">
-              Home
+              Acasă
             </Link>
             <span className="mx-2">/</span>
             <span className="text-slate-700">{cookiePolicy.title}</span>
