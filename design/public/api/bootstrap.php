@@ -54,6 +54,26 @@ function env_value(string $name, string $fallback = ''): string
     return trim($value);
 }
 
+function crm_webhook_key(): string
+{
+    $key = env_value('CRM_WEBHOOK_KEY');
+    $key = trim($key, " \t\n\r\0\x0B\"'");
+
+    if (stripos($key, 'Authorization:') === 0) {
+        $key = trim(substr($key, strlen('Authorization:')));
+    }
+
+    if (stripos($key, 'X-CRM-Webhook-Key:') === 0) {
+        $key = trim(substr($key, strlen('X-CRM-Webhook-Key:')));
+    }
+
+    if (stripos($key, 'Bearer ') === 0) {
+        $key = trim(substr($key, strlen('Bearer ')));
+    }
+
+    return trim($key, " \t\n\r\0\x0B\"'");
+}
+
 function json_response(int $status, array $payload): void
 {
     http_response_code($status);

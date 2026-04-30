@@ -242,7 +242,7 @@ function list_contact_messages(PDO $pdo): array
 function send_crm_test_lead(array $currentUser): array
 {
     $webhookUrl = env_value('CRM_LEAD_WEBHOOK_URL');
-    $webhookKey = env_value('CRM_WEBHOOK_KEY');
+    $webhookKey = crm_webhook_key();
     if ($webhookUrl === '' || $webhookKey === '') {
         json_response(500, ['ok' => false, 'message' => 'Integrarea CRM nu este configurată.']);
     }

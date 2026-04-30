@@ -35,6 +35,7 @@ ADMIN_BAN_MINUTES=15
 ```
 
 Nu puneți chei secrete în variabile `VITE_`, deoarece acelea ajung în JavaScript-ul public.
+La `CRM_WEBHOOK_KEY` se trece doar cheia, fără prefixul `Bearer` și fără `Authorization:`.
 
 ## CMS/admin
 

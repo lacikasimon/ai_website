@@ -135,7 +135,7 @@ $payload = [
 ];
 
 $webhookUrl = env_value('CRM_LEAD_WEBHOOK_URL');
-$webhookKey = env_value('CRM_WEBHOOK_KEY');
+$webhookKey = crm_webhook_key();
 if ($webhookUrl === '' || $webhookKey === '') {
     save_contact_message_to_database($payload, 'crm_config_missing', null, '', true);
     json_response(500, ['ok' => false, 'message' => 'Integrarea CRM nu este configurată.']);
