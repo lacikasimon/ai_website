@@ -1,34 +1,8 @@
 import logo from '../../assets/genesys-logo.svg';
-import adrLogo from '../../assets/funding/adr-nord-vest.svg';
-import regioLogo from '../../assets/funding/regio-nord-vest.png';
-import euLogo from '../../assets/funding/uniunea-europeana-cofinantat.png';
-import govLogo from '../../assets/funding/guvernul-romaniei.png';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
-
-const fundingLogos = [
-  {
-    src: euLogo,
-    alt: 'Cofinanțat de Uniunea Europeană',
-    className: 'h-16 w-auto max-w-[17rem]',
-  },
-  {
-    src: govLogo,
-    alt: 'Guvernul României',
-    className: 'h-16 w-auto',
-  },
-  {
-    src: regioLogo,
-    alt: 'REGIO Nord-Vest',
-    className: 'h-16 w-auto',
-  },
-  {
-    src: adrLogo,
-    alt: 'Agenția de Dezvoltare Regională Nord-Vest',
-    className: 'h-16 w-auto',
-  },
-];
+import { FundingLogos } from './FundingLogos';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -48,6 +22,7 @@ export function Footer() {
     { label: 'Experiență', to: '/#experienta' },
     { label: 'Întrebări', to: '/#intrebari' },
     { label: 'Proiecte', to: '/proiecte' },
+    { label: 'Finanțare UE', to: '/finantare-ue' },
     { label: 'Contact', to: '/contact' },
   ];
 
@@ -164,11 +139,7 @@ export function Footer() {
 
         <div className="border-t border-slate-200 pt-8 pb-8">
           <div className="mb-8 rounded-lg border border-blue-100 bg-blue-50/45 px-4 py-6">
-            <div className="mb-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
-              {fundingLogos.map((item) => (
-                <img key={item.alt} src={item.src} alt={item.alt} className={item.className} loading="lazy" />
-              ))}
-            </div>
+            <FundingLogos className="mb-5" />
             <p className="mx-auto max-w-4xl text-center text-sm leading-relaxed text-slate-700">
               Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
               vă invităm să vizitați{' '}

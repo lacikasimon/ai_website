@@ -5,6 +5,7 @@ import { ContactPage } from './pages/ContactPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 import { ServiceDetailPage } from './pages/ServiceDetailPage';
 import { CookiePolicyPage } from './pages/CookiePolicyPage';
+import { FundingPage } from './pages/FundingPage';
 
 const routeTree = [
   {
@@ -22,6 +23,10 @@ const routeTree = [
       {
         path: 'proiecte',
         Component: ProjectsPage,
+      },
+      {
+        path: 'finantare-ue',
+        Component: FundingPage,
       },
       {
         path: 'servicii/:serviceSlug',

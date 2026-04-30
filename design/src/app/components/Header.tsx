@@ -73,6 +73,9 @@ export function Header() {
               <Link to="/proiecte" className="whitespace-nowrap transition-colors hover:text-blue-950">
                 Proiecte
               </Link>
+              <Link to="/finantare-ue" className="whitespace-nowrap transition-colors hover:text-blue-950">
+                Finanțare UE
+              </Link>
               {isHomePage ? (
                 <>
                   <button
@@ -148,6 +151,9 @@ export function Header() {
             </Link>
             <Link to="/proiecte" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
               Proiecte
+            </Link>
+            <Link to="/finantare-ue" className="block text-blue-950/80 hover:text-blue-950 transition-colors" onClick={() => setMobileMenuOpen(false)}>
+              Finanțare UE
             </Link>
             {isHomePage ? (
               <>
