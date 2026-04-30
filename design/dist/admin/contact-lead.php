@@ -147,6 +147,7 @@ $crmResponse = http_json_post(
         'Content-Type: application/json',
         'Accept: application/json',
         'Authorization: Bearer ' . $webhookKey,
+        'X-CRM-Webhook-Key: ' . $webhookKey,
     ],
     $payload,
 );

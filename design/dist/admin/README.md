@@ -16,7 +16,7 @@ Puneți secretele ca variabile de mediu server-side sau într-un fișier `.env.s
 Exemplu `.env.server`:
 
 ```env
-CRM_LEAD_WEBHOOK_URL=http://app.m-sys.ro/crm/webhook/3/leads
+CRM_LEAD_WEBHOOK_URL=https://app.m-sys.ro/crm/webhook/3/leads
 CRM_WEBHOOK_KEY=cheia_webhook_crm
 RECAPTCHA_SECRET_KEY=secretul_recaptcha
 

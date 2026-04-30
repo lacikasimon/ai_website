@@ -86,6 +86,8 @@ function http_json_post(string $url, array $headers, array $payload): array
         curl_setopt_array($curl, [
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 3,
             CURLOPT_CONNECTTIMEOUT => 5,
             CURLOPT_TIMEOUT => 12,
             CURLOPT_HTTPHEADER => $headers,
@@ -111,6 +113,8 @@ function http_json_post(string $url, array $headers, array $payload): array
             'content' => $body,
             'timeout' => 12,
             'ignore_errors' => true,
+            'follow_location' => 1,
+            'max_redirects' => 3,
         ],
     ]);
 
@@ -139,6 +143,8 @@ function http_form_post(string $url, array $payload): array
         curl_setopt_array($curl, [
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 3,
             CURLOPT_CONNECTTIMEOUT => 5,
             CURLOPT_TIMEOUT => 12,
             CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
@@ -164,6 +170,8 @@ function http_form_post(string $url, array $payload): array
             'content' => $body,
             'timeout' => 12,
             'ignore_errors' => true,
+            'follow_location' => 1,
+            'max_redirects' => 3,
         ],
     ]);
 
