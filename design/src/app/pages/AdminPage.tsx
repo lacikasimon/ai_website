@@ -161,6 +161,7 @@ export function AdminPage() {
   const [users, setUsers] = useState<AdminUser[]>(() => getAdminUsers());
   const [loginData, setLoginData] = useState({ username: 'admin', pin: '' });
   const [recaptchaToken, setRecaptchaToken] = useState('');
+  const [recaptchaResetKey, setRecaptchaResetKey] = useState(0);
   const [bannedUntil, setBannedUntil] = useState<string | null>(() => getAdminBanStatus('admin'));
   const [authError, setAuthError] = useState('');
   const [messages, setMessages] = useState<ContactMessage[]>(() => getContactMessages());
@@ -193,6 +194,11 @@ export function AdminPage() {
         .includes(normalizedQuery),
     );
   }, [messages, query]);
+
+  const resetRecaptcha = () => {
+    setRecaptchaToken('');
+    setRecaptchaResetKey((current) => current + 1);
+  };
 
   const applyServerDashboard = async () => {
     const dashboard = await loadServerAdminDashboard();
@@ -282,7 +288,7 @@ export function AdminPage() {
           setUsers([serverResult.user]);
           setAuthError('');
           setLoginData((previous) => ({ ...previous, pin: '' }));
-          setRecaptchaToken('');
+          resetRecaptcha();
           setBannedUntil(null);
           await applyServerDashboard();
           return;
@@ -294,6 +300,7 @@ export function AdminPage() {
             ? `${serverResult.message || 'Date de autentificare incorecte.'} Încercări rămase: ${serverResult.remainingAttempts}.`
             : serverResult.message || 'Date de autentificare incorecte.',
         );
+        resetRecaptcha();
         return;
       }
 
@@ -305,7 +312,7 @@ export function AdminPage() {
         setSession(result.session);
         setAuthError('');
         setLoginData((previous) => ({ ...previous, pin: '' }));
-        setRecaptchaToken('');
+        resetRecaptcha();
         setBannedUntil(null);
         setMessages(getContactMessages());
         return;
@@ -317,6 +324,7 @@ export function AdminPage() {
           ? `${result.error} Încercări rămase: ${result.remainingAttempts}.`
           : result.error,
       );
+      resetRecaptcha();
     } finally {
       setAuthLoading(false);
     }
@@ -331,7 +339,7 @@ export function AdminPage() {
     setUsers(serverBacked ? [] : getAdminUsers());
     setMessages(serverBacked ? [] : getContactMessages());
     setLoginData({ username: 'admin', pin: '' });
-    setRecaptchaToken('');
+    resetRecaptcha();
   };
 
   const markAsRead = async (messageId: string) => {
@@ -521,7 +529,11 @@ export function AdminPage() {
               required
             />
             <div className="mt-4">
-              <RecaptchaBox siteKey={recaptchaSiteKey} onTokenChange={setRecaptchaToken} />
+              <RecaptchaBox
+                siteKey={recaptchaSiteKey}
+                resetKey={recaptchaResetKey}
+                onTokenChange={setRecaptchaToken}
+              />
             </div>
             {loginIsBanned && bannedUntil && (
               <div className="mt-4 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">

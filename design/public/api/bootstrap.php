@@ -130,6 +130,98 @@ function http_json_post(string $url, array $headers, array $payload): array
     ];
 }
 
+function http_form_post(string $url, array $payload): array
+{
+    $body = http_build_query($payload);
+
+    if (function_exists('curl_init')) {
+        $curl = curl_init($url);
+        curl_setopt_array($curl, [
+            CURLOPT_POST => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 5,
+            CURLOPT_TIMEOUT => 12,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded'],
+            CURLOPT_POSTFIELDS => $body,
+        ]);
+
+        $responseBody = curl_exec($curl);
+        $status = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $error = curl_error($curl);
+        curl_close($curl);
+
+        return [
+            'ok' => $responseBody !== false && $status >= 200 && $status < 300,
+            'status' => $status,
+            'body' => $responseBody === false ? $error : (string) $responseBody,
+        ];
+    }
+
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
+            'content' => $body,
+            'timeout' => 12,
+            'ignore_errors' => true,
+        ],
+    ]);
+
+    $responseBody = file_get_contents($url, false, $context);
+    $status = 0;
+    foreach ($http_response_header ?? [] as $header) {
+        if (preg_match('/^HTTP\/\S+\s+(\d+)/', $header, $matches)) {
+            $status = (int) $matches[1];
+            break;
+        }
+    }
+
+    return [
+        'ok' => $responseBody !== false && $status >= 200 && $status < 300,
+        'status' => $status,
+        'body' => $responseBody === false ? '' : (string) $responseBody,
+    ];
+}
+
+function verify_recaptcha_token(string $token): array
+{
+    $secret = env_value('RECAPTCHA_SECRET_KEY');
+    if ($secret === '') {
+        return ['ok' => true, 'skipped' => true, 'errors' => []];
+    }
+
+    if ($token === '') {
+        return ['ok' => false, 'skipped' => false, 'errors' => ['missing-input-response']];
+    }
+
+    $payload = [
+        'secret' => $secret,
+        'response' => $token,
+    ];
+
+    $remoteIp = $_SERVER['REMOTE_ADDR'] ?? '';
+    if (is_string($remoteIp) && $remoteIp !== '') {
+        $payload['remoteip'] = $remoteIp;
+    }
+
+    $response = http_form_post('https://www.google.com/recaptcha/api/siteverify', $payload);
+    if (!$response['ok']) {
+        return ['ok' => false, 'skipped' => false, 'errors' => ['verify-request-failed'], 'status' => $response['status']];
+    }
+
+    $decoded = json_decode($response['body'], true);
+    if (!is_array($decoded)) {
+        return ['ok' => false, 'skipped' => false, 'errors' => ['invalid-json-response']];
+    }
+
+    return [
+        'ok' => ($decoded['success'] ?? false) === true,
+        'skipped' => false,
+        'errors' => is_array($decoded['error-codes'] ?? null) ? $decoded['error-codes'] : [],
+        'hostname' => is_string($decoded['hostname'] ?? null) ? $decoded['hostname'] : '',
+    ];
+}
+
 function database()
 {
     static $pdo = null;

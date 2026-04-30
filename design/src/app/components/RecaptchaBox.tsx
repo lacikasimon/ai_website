@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type RecaptchaBoxProps = {
   siteKey?: string;
+  resetKey?: number;
   onTokenChange: (token: string) => void;
 };
 
@@ -26,7 +27,7 @@ declare global {
   }
 }
 
-export function RecaptchaBox({ siteKey, onTokenChange }: RecaptchaBoxProps) {
+export function RecaptchaBox({ siteKey, resetKey = 0, onTokenChange }: RecaptchaBoxProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const widgetIdRef = useRef<number | null>(null);
   const [status, setStatus] = useState<'missing' | 'loading' | 'ready' | 'error'>(
@@ -78,6 +79,16 @@ export function RecaptchaBox({ siteKey, onTokenChange }: RecaptchaBoxProps) {
       document.head.appendChild(script);
     }
   }, [onTokenChange, siteKey]);
+
+  useEffect(() => {
+    if (resetKey <= 0 || widgetIdRef.current === null || !window.grecaptcha) {
+      return;
+    }
+
+    window.grecaptcha.reset(widgetIdRef.current);
+    onTokenChange('');
+    setStatus('ready');
+  }, [onTokenChange, resetKey]);
 
   if (!siteKey) {
     return (

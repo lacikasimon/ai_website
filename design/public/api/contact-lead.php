@@ -7,38 +7,12 @@ header('Content-Type: application/json; charset=utf-8');
 
 function verify_recaptcha(string $token): bool
 {
-    $secret = env_value('RECAPTCHA_SECRET_KEY');
-    if ($secret === '') {
-        return true;
+    $result = verify_recaptcha_token($token);
+    if (!$result['ok']) {
+        error_log('Contact reCAPTCHA failed: ' . implode(',', $result['errors'] ?? []));
     }
 
-    if ($token === '') {
-        return false;
-    }
-
-    $body = http_build_query([
-        'secret' => $secret,
-        'response' => $token,
-        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
-    ]);
-
-    $context = stream_context_create([
-        'http' => [
-            'method' => 'POST',
-            'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
-            'content' => $body,
-            'timeout' => 8,
-            'ignore_errors' => true,
-        ],
-    ]);
-
-    $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
-    if ($response === false) {
-        return false;
-    }
-
-    $decoded = json_decode($response, true);
-    return is_array($decoded) && ($decoded['success'] ?? false) === true;
+    return $result['ok'];
 }
 
 function mysql_datetime(string $value): string

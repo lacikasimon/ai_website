@@ -20,6 +20,12 @@ export function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [recaptchaToken, setRecaptchaToken] = useState('');
+  const [recaptchaResetKey, setRecaptchaResetKey] = useState(0);
+
+  const resetRecaptcha = () => {
+    setRecaptchaToken('');
+    setRecaptchaResetKey((current) => current + 1);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,17 +45,19 @@ export function Contact() {
       const result = await sendContactLead(contactMessage, recaptchaToken);
       if (!result.ok) {
         setSubmitError(result.message || 'Mesajul nu a putut fi trimis. Vă rugăm să încercați din nou.');
+        resetRecaptcha();
         return;
       }
 
       setSubmitted(true);
-      setRecaptchaToken('');
+      resetRecaptcha();
       setTimeout(() => {
         setSubmitted(false);
         setFormData({ name: '', email: '', phone: '', message: '' });
       }, 3000);
     } catch {
       setSubmitError('Mesajul nu a putut fi trimis. Verificați conexiunea și încercați din nou.');
+      resetRecaptcha();
     } finally {
       setSubmitting(false);
     }
@@ -232,7 +240,11 @@ export function Contact() {
                 </div>
 
                 {recaptchaSiteKey && (
-                  <RecaptchaBox siteKey={recaptchaSiteKey} onTokenChange={setRecaptchaToken} />
+                  <RecaptchaBox
+                    siteKey={recaptchaSiteKey}
+                    resetKey={recaptchaResetKey}
+                    onTokenChange={setRecaptchaToken}
+                  />
                 )}
 
                 {submitError && (
