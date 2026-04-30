@@ -12,6 +12,9 @@
   # Böngészők alap favicon.ico kérése → SVG (elkerüli a 404-et)
   RewriteRule ^favicon\.ico$ favicon.svg [L,NC]
 
+  # Ne lehessen env / rejtett konfiguracios fajlokat bongeszobol letolteni.
+  RewriteRule (^|/)\.env - [F,L,NC]
+
   # A React /admin oldal akkor is működjön, ha van fizikai admin/ PHP mappa.
   RewriteRule ^admin/?$ index.html [L]
 
