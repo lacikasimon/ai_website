@@ -1,10 +1,15 @@
-# API Apache/cPanel
+# PHP admin/API Apache/cPanel
 
-Fișierele din acest folder sunt copiate automat în `dist/api` la `npm run build`.
+Fișierele sursă din `public/api` sunt mutate automat în `dist/admin` la `npm run build`.
+În producție endpointurile sunt:
+
+- `/admin/contact-lead.php`
+- `/admin/cms.php`
+- `/admin/admin.php`
 
 ## Configurare recomandată
 
-Pe cPanel, creați baza de date și utilizatorul MySQL, apoi importați `schema.sql` din phpMyAdmin.
+Pe cPanel, creați baza de date și utilizatorul MySQL, apoi importați `admin/schema.sql` din phpMyAdmin.
 
 Puneți secretele ca variabile de mediu server-side sau într-un fișier `.env.server`. Pentru securitate, `.env.server` trebuie pus ideal deasupra `public_html`; dacă nu se poate, PHP caută și în rădăcina site-ului.
 
@@ -35,7 +40,7 @@ Nu puneți chei secrete în variabile `VITE_`, deoarece acelea ajung în JavaScr
 
 După importul `schema.sql`, primul utilizator admin este creat automat la prima accesare a API-ului dacă `ADMIN_SEED_PASSWORD` este completat și tabela `gs_admin_users` este goală.
 
-Interfața `/admin` folosește MySQL pentru:
+Interfața React `/admin` folosește MySQL prin fișierele PHP din folderul fizic `/admin` pentru:
 
 - pagini CMS și meniu;
 - biblioteca de imagini;

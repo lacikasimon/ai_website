@@ -71,7 +71,7 @@ export const cmsContentChangedEvent = 'genesys-cms-content-changed';
 const pagesKey = 'genesys-cms-pages-v1';
 const menuKey = 'genesys-cms-menu-v1';
 const imagesKey = 'genesys-cms-images-v1';
-const cmsEndpoint = import.meta.env.VITE_CMS_ENDPOINT?.trim() || '/api/cms.php';
+const cmsEndpoint = import.meta.env.VITE_CMS_ENDPOINT?.trim() || '/admin/cms.php';
 
 export const defaultMenuItems: CmsMenuItem[] = [
   { id: 'home', label: 'Acasă', href: '/', kind: 'internal', visible: true, order: 10 },

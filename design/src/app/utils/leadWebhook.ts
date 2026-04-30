@@ -5,7 +5,7 @@ type LeadWebhookResult = {
   message?: string;
 };
 
-const contactLeadEndpoint = import.meta.env.VITE_CONTACT_LEAD_ENDPOINT?.trim() || '/api/contact-lead.php';
+const contactLeadEndpoint = import.meta.env.VITE_CONTACT_LEAD_ENDPOINT?.trim() || '/admin/contact-lead.php';
 const contactLeadCampaign = import.meta.env.VITE_CONTACT_LEAD_CAMPAIGN?.trim() || 'syshub_ro_contact';
 
 function splitName(fullName: string) {

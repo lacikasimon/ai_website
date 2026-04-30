@@ -1,7 +1,7 @@
 import { AdminRole, AdminSession, AdminUser, AdminUserInput } from './adminSecurity';
 import { ContactMessage } from './contactMessages';
 
-const adminEndpoint = import.meta.env.VITE_ADMIN_ENDPOINT?.trim() || '/api/admin.php';
+const adminEndpoint = import.meta.env.VITE_ADMIN_ENDPOINT?.trim() || '/admin/admin.php';
 
 type AdminApiPayload = {
   ok?: boolean;

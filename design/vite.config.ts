@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs'
+import { existsSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
@@ -32,6 +32,15 @@ export default defineConfig(({ mode }) => {
         name: 'seo-sitemap-robots',
         apply: 'build',
         closeBundle() {
+          const distDir = path.join(process.cwd(), 'dist')
+          const apiDir = path.join(distDir, 'api')
+          const adminDir = path.join(distDir, 'admin')
+
+          if (existsSync(apiDir)) {
+            rmSync(adminDir, { recursive: true, force: true })
+            renameSync(apiDir, adminDir)
+          }
+
           const siteUrl = env.VITE_SITE_URL?.replace(/\/$/, '')
           if (!siteUrl || /(^https?:\/\/)?(www\.)?(genesys-example\.ro|example\.[a-z]+|domeniu\.ro|pelda\.ro)/i.test(siteUrl)) {
             if (siteUrl) {
@@ -72,7 +81,6 @@ export default defineConfig(({ mode }) => {
 ${urlset}
 </urlset>
 `
-          const distDir = path.join(process.cwd(), 'dist')
           writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap, 'utf8')
 
           const sitemapUrl = loc('/sitemap.xml').replace(/\/$/, '')
