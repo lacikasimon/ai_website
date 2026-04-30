@@ -11,6 +11,7 @@ type AdminApiPayload = {
   messages?: unknown[];
   bannedUntil?: string | null;
   remainingAttempts?: number | null;
+  crmStatus?: number | null;
 };
 
 export type AdminServerResult = {
@@ -23,6 +24,7 @@ export type AdminServerResult = {
   messages?: ContactMessage[];
   bannedUntil?: string | null;
   remainingAttempts?: number | null;
+  crmStatus?: number | null;
 };
 
 function createSession(user: AdminUser): AdminSession {
@@ -114,6 +116,7 @@ function normalizeResult(data: AdminApiPayload, available = true): AdminServerRe
     messages: normalizeServerMessages(data.messages),
     bannedUntil: data.bannedUntil,
     remainingAttempts: data.remainingAttempts,
+    crmStatus: data.crmStatus,
   };
 }
 
@@ -195,4 +198,8 @@ export function updateServerContactMessageStatus(messageId: string, status: Cont
 
 export function deleteServerContactMessage(messageId: string) {
   return postAdminAction('delete-message', { id: messageId });
+}
+
+export function testServerCrm() {
+  return postAdminAction('test-crm');
 }

@@ -239,6 +239,55 @@ function list_contact_messages(PDO $pdo): array
     return array_map('contact_message_row', $statement->fetchAll());
 }
 
+function send_crm_test_lead(array $currentUser): array
+{
+    $webhookUrl = env_value('CRM_LEAD_WEBHOOK_URL');
+    $webhookKey = env_value('CRM_WEBHOOK_KEY');
+    if ($webhookUrl === '' || $webhookKey === '') {
+        json_response(500, ['ok' => false, 'message' => 'Integrarea CRM nu este configurată.']);
+    }
+
+    $timestamp = gmdate('YmdHis');
+    $payload = [
+        'channel' => 'website_contact_test',
+        'email' => 'crm.test@syshub.ro',
+        'phone' => '+40000000000',
+        'name' => 'Test CRM Website',
+        'first_name' => 'Test',
+        'last_name' => 'CRM',
+        'campaign' => 'syshub_ro_admin_test',
+        'message' => 'Mesaj automat de test din interfața admin syshub.ro. Acesta este un lead fictiv, generat pentru verificarea integrării CRM.',
+        'external_id' => 'crm-test-' . $timestamp . '-' . substr(hash('sha256', (string) $currentUser['id'] . microtime(true)), 0, 10),
+        'source_url' => 'https://syshub.ro/admin',
+        'submitted_at' => gmdate('c'),
+    ];
+
+    $crmResponse = http_json_post(
+        $webhookUrl,
+        [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Authorization: Bearer ' . $webhookKey,
+            'X-CRM-Webhook-Key: ' . $webhookKey,
+        ],
+        $payload,
+    );
+
+    if (!$crmResponse['ok']) {
+        $body = trim(substr((string) $crmResponse['body'], 0, 500));
+        json_response(502, [
+            'ok' => false,
+            'message' => 'Testul CRM a eșuat. Cod HTTP: ' . (string) $crmResponse['status'] . ($body !== '' ? '. Răspuns: ' . $body : '.'),
+            'crmStatus' => $crmResponse['status'],
+        ]);
+    }
+
+    return [
+        'status' => $crmResponse['status'],
+        'externalId' => $payload['external_id'],
+    ];
+}
+
 $pdo = database();
 if ($pdo === null) {
     json_response(503, ['ok' => false, 'message' => 'Admin server nu este configurat.']);
@@ -385,6 +434,16 @@ if ($action !== 'login') {
         $statement = $pdo->prepare("DELETE FROM `{$table}` WHERE `id` = :id");
         $statement->execute([':id' => string_field($data, 'id')]);
         json_response(200, ['ok' => true, 'messages' => list_contact_messages($pdo)]);
+    }
+
+    if ($action === 'test-crm') {
+        $currentUser = session_user_row($pdo);
+        $testResult = send_crm_test_lead($currentUser);
+        json_response(200, [
+            'ok' => true,
+            'message' => 'Test CRM trimis cu succes. Cod HTTP: ' . (string) $testResult['status'] . '. ID: ' . $testResult['externalId'],
+            'crmStatus' => $testResult['status'],
+        ]);
     }
 
     json_response(400, ['ok' => false, 'message' => 'Acțiunea nu este validă.']);

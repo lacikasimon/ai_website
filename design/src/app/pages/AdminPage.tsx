@@ -14,6 +14,7 @@ import {
   MessageSquare,
   Phone,
   Search,
+  Send,
   Shield,
   ShieldCheck,
   ShoppingBag,
@@ -52,6 +53,7 @@ import {
   loadServerAdminDashboard,
   loginServerAdmin,
   logoutServerAdmin,
+  testServerCrm,
   updateServerAdminUser,
   updateServerContactMessageStatus,
 } from '../utils/adminApi';
@@ -172,6 +174,9 @@ export function AdminPage() {
   const [activeAdminSection, setActiveAdminSection] = useState<AdminSection>('content');
   const [adminStorageMode, setAdminStorageMode] = useState<AdminStorageMode>('checking');
   const [authLoading, setAuthLoading] = useState(false);
+  const [crmTestLoading, setCrmTestLoading] = useState(false);
+  const [crmTestMessage, setCrmTestMessage] = useState('');
+  const [crmTestOk, setCrmTestOk] = useState<boolean | null>(null);
 
   const currentUser = session ? users.find((user) => user.id === session.userId && user.active) : null;
   const authenticated = Boolean(session && currentUser);
@@ -364,6 +369,27 @@ export function AdminPage() {
     }
 
     setMessages(deleteContactMessage(messageId));
+  };
+
+  const testCrmIntegration = async () => {
+    setCrmTestLoading(true);
+    setCrmTestMessage('');
+    setCrmTestOk(null);
+
+    try {
+      const result = await testServerCrm();
+      setCrmTestOk(result.available && result.ok);
+      setCrmTestMessage(
+        result.available
+          ? result.message || (result.ok ? 'Test CRM trimis cu succes.' : 'Testul CRM a eșuat.')
+          : 'Admin API indisponibil. Testul CRM se poate rula doar pe serverul Apache/PHP.',
+      );
+    } catch {
+      setCrmTestOk(false);
+      setCrmTestMessage('Testul CRM nu a putut fi rulat.');
+    } finally {
+      setCrmTestLoading(false);
+    }
   };
 
   const handleCreateUser = async (event: FormEvent<HTMLFormElement>) => {
@@ -1061,6 +1087,42 @@ export function AdminPage() {
                     <ShoppingBag className="h-4 w-4" />
                   </a>
                 </div>
+              </section>
+
+              <section className="rounded-lg border border-slate-200 bg-white p-5 lg:col-span-2">
+                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold text-blue-950">Test integrare CRM</h3>
+                    <p className="mt-1 max-w-2xl text-sm text-slate-500">
+                      Trimite un lead fictiv către CRM, marcat clar ca test, pentru verificarea webhook-ului.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={testCrmIntegration}
+                    disabled={!serverBacked || crmTestLoading}
+                    className="inline-flex min-h-10 items-center justify-center gap-2 rounded-md bg-blue-800 px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <Send className="h-4 w-4" />
+                    {crmTestLoading ? 'Se testează...' : 'Testează CRM'}
+                  </button>
+                </div>
+                {!serverBacked && (
+                  <p className="mt-3 text-sm text-slate-500">
+                    Testul CRM este disponibil după configurarea API-ului PHP/MySQL pe server.
+                  </p>
+                )}
+                {crmTestMessage && (
+                  <div
+                    className={`mt-4 rounded-lg border px-4 py-3 text-sm ${
+                      crmTestOk
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                        : 'border-red-200 bg-red-50 text-red-700'
+                    }`}
+                  >
+                    {crmTestMessage}
+                  </div>
+                )}
               </section>
             </div>
           </section>
