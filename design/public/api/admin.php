@@ -245,6 +245,34 @@ function crm_key_fingerprint(string $key): string
     return $key === '' ? '' : 'sha256:' . substr(hash('sha256', $key), 0, 12);
 }
 
+function crm_payload_has_contact_identifier(array $payload): bool
+{
+    foreach (['email', 'phone', 'name', 'first_name', 'last_name'] as $field) {
+        if (trim((string) ($payload[$field] ?? '')) !== '') {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function crm_integration_validation(array $payload, string $webhookUrl, string $webhookKey): array
+{
+    $authHeaders = crm_auth_header_names();
+
+    return [
+        'endpointMatchesGuide' => $webhookUrl === 'https://app.m-sys.ro/crm/webhook/3/leads',
+        'endpointUsesHttps' => str_starts_with(strtolower($webhookUrl), 'https://'),
+        'contentTypeJson' => true,
+        'sendsExactlyOneAuthHeader' => count($authHeaders) === 1,
+        'allowedAuthHeader' => count(array_diff($authHeaders, ['Authorization', 'X-CRM-Webhook-Key'])) === 0,
+        'keyLoaded' => $webhookKey !== '',
+        'channelPresent' => trim((string) ($payload['channel'] ?? '')) !== '',
+        'contactIdentifierPresent' => crm_payload_has_contact_identifier($payload),
+        'usesRequiredPayloadShape' => trim((string) ($payload['channel'] ?? '')) !== '' && crm_payload_has_contact_identifier($payload),
+    ];
+}
+
 function crm_test_debug(array $payload, string $webhookUrl, string $webhookKey, ?array $crmResponse = null): array
 {
     $debug = [
@@ -256,6 +284,7 @@ function crm_test_debug(array $payload, string $webhookUrl, string $webhookKey, 
         'keyLoaded' => $webhookKey !== '',
         'keyLength' => strlen($webhookKey),
         'keyFingerprint' => crm_key_fingerprint($webhookKey),
+        'guideValidation' => crm_integration_validation($payload, $webhookUrl, $webhookKey),
         'payload' => [
             'channel' => $payload['channel'] ?? '',
             'email' => $payload['email'] ?? '',
