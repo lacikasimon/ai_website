@@ -240,12 +240,51 @@ function list_contact_messages(PDO $pdo): array
     return array_map('contact_message_row', $statement->fetchAll());
 }
 
+function crm_key_fingerprint(string $key): string
+{
+    return $key === '' ? '' : 'sha256:' . substr(hash('sha256', $key), 0, 12);
+}
+
+function crm_test_debug(array $payload, string $webhookUrl, string $webhookKey, ?array $crmResponse = null): array
+{
+    $debug = [
+        'webhookUrl' => $webhookUrl,
+        'webhookUrlSource' => env_source('CRM_LEAD_WEBHOOK_URL'),
+        'authMode' => crm_auth_mode(),
+        'sentAuthHeaders' => crm_auth_header_names(),
+        'keySource' => env_source('CRM_WEBHOOK_KEY'),
+        'keyLoaded' => $webhookKey !== '',
+        'keyLength' => strlen($webhookKey),
+        'keyFingerprint' => crm_key_fingerprint($webhookKey),
+        'payload' => [
+            'channel' => $payload['channel'] ?? '',
+            'email' => $payload['email'] ?? '',
+            'phone' => $payload['phone'] ?? '',
+            'name' => $payload['name'] ?? '',
+            'campaign' => $payload['campaign'] ?? '',
+            'external_id' => $payload['external_id'] ?? '',
+        ],
+    ];
+
+    if ($crmResponse !== null) {
+        $body = trim(substr((string) ($crmResponse['body'] ?? ''), 0, 1000));
+        $debug['httpStatus'] = (int) ($crmResponse['status'] ?? 0);
+        $debug['responseBody'] = $body;
+    }
+
+    return $debug;
+}
+
 function send_crm_test_lead(array $currentUser): array
 {
     $webhookUrl = env_value('CRM_LEAD_WEBHOOK_URL');
     $webhookKey = crm_webhook_key();
     if ($webhookUrl === '' || $webhookKey === '') {
-        json_response(500, ['ok' => false, 'message' => 'Integrarea CRM nu este configurată.']);
+        json_response(500, [
+            'ok' => false,
+            'message' => 'Integrarea CRM nu este configurată.',
+            'crmDebug' => crm_test_debug([], $webhookUrl, $webhookKey),
+        ]);
     }
 
     $timestamp = gmdate('YmdHis');
@@ -265,14 +304,10 @@ function send_crm_test_lead(array $currentUser): array
 
     $crmResponse = http_json_post(
         $webhookUrl,
-        [
-            'Content-Type: application/json',
-            'Accept: application/json',
-            'Authorization: Bearer ' . $webhookKey,
-            'X-CRM-Webhook-Key: ' . $webhookKey,
-        ],
+        crm_webhook_headers($webhookKey),
         $payload,
     );
+    $debug = crm_test_debug($payload, $webhookUrl, $webhookKey, $crmResponse);
 
     if (!$crmResponse['ok']) {
         $body = trim(substr((string) $crmResponse['body'], 0, 500));
@@ -280,12 +315,14 @@ function send_crm_test_lead(array $currentUser): array
             'ok' => false,
             'message' => 'Testul CRM a eșuat. Cod HTTP: ' . (string) $crmResponse['status'] . ($body !== '' ? '. Răspuns: ' . $body : '.'),
             'crmStatus' => $crmResponse['status'],
+            'crmDebug' => $debug,
         ]);
     }
 
     return [
         'status' => $crmResponse['status'],
         'externalId' => $payload['external_id'],
+        'debug' => $debug,
     ];
 }
 
@@ -444,6 +481,7 @@ if ($action !== 'login') {
             'ok' => true,
             'message' => 'Test CRM trimis cu succes. Cod HTTP: ' . (string) $testResult['status'] . '. ID: ' . $testResult['externalId'],
             'crmStatus' => $testResult['status'],
+            'crmDebug' => $testResult['debug'],
         ]);
     }
 

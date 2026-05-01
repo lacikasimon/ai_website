@@ -12,6 +12,7 @@ type AdminApiPayload = {
   bannedUntil?: string | null;
   remainingAttempts?: number | null;
   crmStatus?: number | null;
+  crmDebug?: unknown;
 };
 
 export type AdminServerResult = {
@@ -25,6 +26,7 @@ export type AdminServerResult = {
   bannedUntil?: string | null;
   remainingAttempts?: number | null;
   crmStatus?: number | null;
+  crmDebug?: unknown;
 };
 
 function createSession(user: AdminUser): AdminSession {
@@ -117,6 +119,7 @@ function normalizeResult(data: AdminApiPayload, available = true): AdminServerRe
     bannedUntil: data.bannedUntil,
     remainingAttempts: data.remainingAttempts,
     crmStatus: data.crmStatus,
+    crmDebug: data.crmDebug,
   };
 }
 

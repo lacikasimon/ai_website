@@ -54,6 +54,21 @@ function env_value(string $name, string $fallback = ''): string
     return trim($value);
 }
 
+function env_source(string $name): string
+{
+    $value = getenv($name);
+    if ($value !== false && trim($value) !== '') {
+        return 'server-env';
+    }
+
+    $serverEnv = server_env_values();
+    if (isset($serverEnv[$name]) && trim((string) $serverEnv[$name]) !== '') {
+        return '.env.server';
+    }
+
+    return 'missing';
+}
+
 function crm_webhook_key(): string
 {
     $key = env_value('CRM_WEBHOOK_KEY');
@@ -72,6 +87,45 @@ function crm_webhook_key(): string
     }
 
     return trim($key, " \t\n\r\0\x0B\"'");
+}
+
+function crm_auth_mode(): string
+{
+    $mode = strtolower(env_value('CRM_AUTH_MODE', 'authorization'));
+    return in_array($mode, ['authorization', 'x-key', 'both'], true) ? $mode : 'authorization';
+}
+
+function crm_auth_header_names(): array
+{
+    $mode = crm_auth_mode();
+    if ($mode === 'x-key') {
+        return ['X-CRM-Webhook-Key'];
+    }
+
+    if ($mode === 'both') {
+        return ['Authorization', 'X-CRM-Webhook-Key'];
+    }
+
+    return ['Authorization'];
+}
+
+function crm_webhook_headers(string $webhookKey): array
+{
+    $headers = [
+        'Content-Type: application/json',
+        'Accept: application/json',
+    ];
+
+    foreach (crm_auth_header_names() as $name) {
+        if ($name === 'X-CRM-Webhook-Key') {
+            $headers[] = 'X-CRM-Webhook-Key: ' . $webhookKey;
+            continue;
+        }
+
+        $headers[] = 'Authorization: Bearer ' . $webhookKey;
+    }
+
+    return $headers;
 }
 
 function json_response(int $status, array $payload): void

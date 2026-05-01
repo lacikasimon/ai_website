@@ -17,6 +17,7 @@ Exemplu `.env.server`:
 
 ```env
 CRM_LEAD_WEBHOOK_URL=https://app.m-sys.ro/crm/webhook/3/leads
+CRM_AUTH_MODE=authorization
 CRM_WEBHOOK_KEY=cheia_webhook_crm
 RECAPTCHA_SECRET_KEY=secretul_recaptcha
 
@@ -36,6 +37,7 @@ ADMIN_BAN_MINUTES=15
 
 Nu puneți chei secrete în variabile `VITE_`, deoarece acelea ajung în JavaScript-ul public.
 La `CRM_WEBHOOK_KEY` se trece doar cheia, fără prefixul `Bearer` și fără `Authorization:`.
+`CRM_AUTH_MODE` poate fi `authorization`, `x-key` sau `both`; implicit trimite headerul `Authorization: Bearer`.
 
 ## CMS/admin
 

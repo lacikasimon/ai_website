@@ -143,12 +143,7 @@ if ($webhookUrl === '' || $webhookKey === '') {
 
 $crmResponse = http_json_post(
     $webhookUrl,
-    [
-        'Content-Type: application/json',
-        'Accept: application/json',
-        'Authorization: Bearer ' . $webhookKey,
-        'X-CRM-Webhook-Key: ' . $webhookKey,
-    ],
+    crm_webhook_headers($webhookKey),
     $payload,
 );
 

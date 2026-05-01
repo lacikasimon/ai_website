@@ -156,6 +156,18 @@ function confirmAction(message: string) {
   return window.confirm(message);
 }
 
+function formatDebugInfo(value: unknown) {
+  if (!value) {
+    return '';
+  }
+
+  try {
+    return JSON.stringify(value, null, 2);
+  } catch {
+    return String(value);
+  }
+}
+
 export function AdminPage() {
   useSeo({
     title: `Admin | ${siteContent.meta.ogTitle}`,
@@ -181,6 +193,7 @@ export function AdminPage() {
   const [authLoading, setAuthLoading] = useState(false);
   const [crmTestLoading, setCrmTestLoading] = useState(false);
   const [crmTestMessage, setCrmTestMessage] = useState('');
+  const [crmTestDebug, setCrmTestDebug] = useState('');
   const [crmTestOk, setCrmTestOk] = useState<boolean | null>(null);
 
   const currentUser = session ? users.find((user) => user.id === session.userId && user.active) : null;
@@ -419,6 +432,7 @@ export function AdminPage() {
 
     setCrmTestLoading(true);
     setCrmTestMessage('');
+    setCrmTestDebug('');
     setCrmTestOk(null);
 
     try {
@@ -429,9 +443,11 @@ export function AdminPage() {
           ? result.message || (result.ok ? 'Test CRM trimis cu succes.' : 'Testul CRM a eșuat.')
           : 'Admin API indisponibil. Testul CRM se poate rula doar pe serverul Apache/PHP.',
       );
+      setCrmTestDebug(formatDebugInfo(result.crmDebug));
     } catch {
       setCrmTestOk(false);
       setCrmTestMessage('Testul CRM nu a putut fi rulat.');
+      setCrmTestDebug('');
     } finally {
       setCrmTestLoading(false);
     }
@@ -1173,6 +1189,11 @@ export function AdminPage() {
                     }`}
                   >
                     {crmTestMessage}
+                    {crmTestDebug && (
+                      <pre className="mt-3 max-h-80 overflow-auto rounded-md bg-white/70 p-3 text-xs leading-relaxed text-slate-800">
+                        {crmTestDebug}
+                      </pre>
+                    )}
                   </div>
                 )}
               </section>
