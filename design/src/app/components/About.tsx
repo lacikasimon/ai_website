@@ -1,5 +1,6 @@
 import { Target, Lightbulb, Award } from 'lucide-react';
 import { siteContent } from '../content/siteContent';
+import { siteImages } from '../content/siteImages';
 import { formatInlineBold } from '../utils/formatInline';
 import { SectionBreak, SectionEyebrow } from './SectionBreak';
 
@@ -24,9 +25,11 @@ export function About() {
             <div className="absolute inset-0 bg-slate-200/30 blur-3xl rounded-full" />
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img 
-                src="https://images.unsplash.com/photo-1748171159071-d27f80d6774b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwZW5naW5lZXIlMjB3b3JraW5nfGVufDF8fHx8MTc3NDA5NTM2M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                src={siteImages.about.electricalEngineer}
                 alt="GENE SYS SECURITY profesionist"
                 className="w-full h-auto"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/25 to-transparent"></div>
             </div>

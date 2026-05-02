@@ -1,6 +1,7 @@
 import { Shield, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
+import { siteImages } from '../content/siteImages';
 
 export function Hero() {
   const scrollToServices = () => {
@@ -14,7 +15,7 @@ export function Hero() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1770838773181-e1b17ec22fee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwaW5zdGFsbGF0aW9uJTIwaW5kdXN0cmlhbHxlbnwxfHx8fDE3NzQwOTUzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral')`
+          backgroundImage: `url('${siteImages.hero.electricalInstallation}')`
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-blue-950/25 via-white/93 to-blue-50/70" />

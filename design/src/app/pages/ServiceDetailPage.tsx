@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router';
 import { SectionBreak, SectionEyebrow } from '../components/SectionBreak';
 import { Zap, Sun, Camera, ShieldAlert, Wrench, Network, CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { siteContent } from '../content/siteContent';
+import { siteImages } from '../content/siteImages';
 import { useSeo } from '../seo/useSeo';
 
 export function ServiceDetailPage() {
@@ -12,7 +13,7 @@ export function ServiceDetailPage() {
       icon: Zap,
       title: 'Instalații Electrice & Proiectare',
       tagline: 'Soluții complete pentru construcții civile și industriale',
-      image: 'https://images.unsplash.com/photo-1770838773181-e1b17ec22fee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwaW5zdGFsbGF0aW9uJTIwaW5kdXN0cmlhbHxlbnwxfHx8fDE3NzQwOTUzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.services.electricalInstallation,
       description: 'Oferim servicii complete de proiectare și execuție pentru instalații electrice, atât pentru construcții civile cât și industriale. Echipa noastră de specialiști asigură respectarea strictă a normelor de siguranță și a standardelor de calitate.',
       features: [
         'Proiectare instalații electrice pentru construcții noi',
@@ -41,7 +42,7 @@ export function ServiceDetailPage() {
       icon: Sun,
       title: 'Sisteme Fotovoltaice (On-grid / Off-grid)',
       tagline: 'Energie regenerabilă pentru un viitor sustenabil',
-      image: 'https://images.unsplash.com/photo-1724041875334-0a6397111c7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2xhciUyMHBhbmVscyUyMHBob3Rvdm9sdGFpYyUyMHN5c3RlbXxlbnwxfHx8fDE3NzM5OTUzMTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.services.photovoltaicPanels,
       description: 'Implementăm sisteme fotovoltaice personalizate pentru reducerea costurilor energetice și promovarea energiei verzi. Oferim atât sisteme conectate la rețea (on-grid) cât și sisteme independente (off-grid) cu baterii de stocare.',
       features: [
         'Sisteme fotovoltaice on-grid (conectate la rețea)',
@@ -70,7 +71,7 @@ export function ServiceDetailPage() {
       icon: Camera,
       title: 'Sisteme de Securitate & Supraveghere (CCTV)',
       tagline: 'Protecție completă 24/7 pentru bunurile dumneavoastră',
-      image: 'https://images.unsplash.com/photo-1765121689322-6befc57dc8db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMGNhbWVyYSUyMHN1cnZlaWxsYW5jZSUyMHN5c3RlbXxlbnwxfHx8fDE3NzQwNTc1MjR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.services.securityCctv,
       description: 'Proiectăm și instalăm sisteme complete de supraveghere video CCTV de ultimă generație. Oferim soluții personalizate pentru securizarea locuințelor, clădirilor comerciale și obiectivelor industriale.',
       features: [
         'Camere de supraveghere HD/4K',
@@ -99,7 +100,7 @@ export function ServiceDetailPage() {
       icon: ShieldAlert,
       title: 'Sisteme de Detecție la Efracție',
       tagline: 'Protecție activă împotriva intruziunilor',
-      image: 'https://images.unsplash.com/photo-1697382608786-bcf4c113b86e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbGFybSUyMHNlY3VyaXR5JTIwc3lzdGVtJTIwaW5zdGFsbGF0aW9ufGVufDF8fHx8MTc3NDA5NzMwMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.services.alarmInstallation,
       description: 'Instalăm sisteme avansate de detecție la efracție pentru identificarea rapidă a tentativelor de pătrundere neautorizată. Soluțiile noastre asigură protecție completă și gestionare eficientă a riscurilor de securitate.',
       features: [
         'Senzori de mișcare cu infraroșu',
@@ -128,7 +129,7 @@ export function ServiceDetailPage() {
       icon: Wrench,
       title: 'Mentenanță Tehnică',
       tagline: 'Service preventiv și corectiv pentru funcționare optimă',
-      image: 'https://images.unsplash.com/photo-1744302448183-b401c7bcaac6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobmljaWFuJTIwbWFpbnRlbmFuY2UlMjBlcXVpcG1lbnR8ZW58MXx8fHwxNzc0MDk3MzAwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.services.technicalMaintenance,
       description: 'Oferim servicii complete de mentenanță pentru asigurarea funcționării optime și în siguranță a instalațiilor și echipamentelor. Contracte personalizate de service preventiv și intervenții rapide în caz de defecțiuni.',
       features: [
         'Mentenanță preventivă programată',
@@ -157,7 +158,7 @@ export function ServiceDetailPage() {
       icon: Network,
       title: 'Consultanță și Infrastructură',
       tagline: 'Expertiză tehnică pentru proiecte de succes',
-      image: 'https://images.unsplash.com/photo-1748171159071-d27f80d6774b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwZW5naW5lZXIlMjB3b3JraW5nfGVufDF8fHx8MTc3NDA5NTM2M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.services.electricalEngineer,
       description: 'Oferim consultanță specializată în domeniul instalațiilor electrice și al infrastructurii energetice. Echipa noastră de ingineri vă ghidează în realizarea branșamentelor, extinderi de rețea și optimizări energetice.',
       features: [
         'Consultanță tehnică specializată',

@@ -1,6 +1,7 @@
 import { Building2, Factory, Home, ShoppingBag, Zap, Sun, Camera, Award } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
+import { siteImages } from '../content/siteImages';
 import { useSeo } from '../seo/useSeo';
 import { SectionBreak, SectionEyebrow } from '../components/SectionBreak';
 
@@ -19,7 +20,7 @@ export function ProjectsPage() {
       title: 'Complex Rezidențial Green Valley',
       category: 'Instalații Electrice',
       icon: Home,
-      image: 'https://images.unsplash.com/photo-1765378025264-ca795700291f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25zdHJ1Y3Rpb24lMjBwcm9qZWN0JTIwZW5naW5lZXJpbmd8ZW58MXx8fHwxNzc0MDk3MzAxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.projects.constructionProject,
       description: 'Instalații electrice complete pentru 150 de apartamente, sistem de iluminat inteligent și infrastructură modernă.',
       stats: { surface: '12,000 m²', duration: '8 luni', year: '2024' }
     },
@@ -28,7 +29,7 @@ export function ProjectsPage() {
       title: 'Parc Solar Fotovoltaic',
       category: 'Sisteme Fotovoltaice',
       icon: Sun,
-      image: 'https://images.unsplash.com/photo-1724041875334-0a6397111c7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2xhciUyMHBhbmVscyUyMHBob3Rvdm9sdGFpYyUyMHN5c3RlbXxlbnwxfHx8fDE3NzM5OTUzMTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.projects.photovoltaicPanels,
       description: 'Implementare sistem fotovoltaic on-grid de 500 kW pentru clădire de birouri, reducere de 70% a costurilor energetice.',
       stats: { power: '500 kW', panels: '1,250', year: '2023' }
     },
@@ -37,7 +38,7 @@ export function ProjectsPage() {
       title: 'Centru Comercial Security Plus',
       category: 'Securitate CCTV',
       icon: Camera,
-      image: 'https://images.unsplash.com/photo-1765121689322-6befc57dc8db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZWN1cml0eSUyMGNhbWVyYSUyMHN1cnZlaWxsYW5jZSUyMHN5c3RlbXxlbnwxfHx8fDE3NzQwNTc1MjR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.projects.securityCctv,
       description: 'Sistem complet de supraveghere video cu 120 camere 4K, analiză video AI și stocare cloud pentru 90 de zile.',
       stats: { cameras: '120', resolution: '4K', year: '2024' }
     },
@@ -46,7 +47,7 @@ export function ProjectsPage() {
       title: 'Fabrică Producție Industrială',
       category: 'Instalații Electrice',
       icon: Factory,
-      image: 'https://images.unsplash.com/photo-1770838773181-e1b17ec22fee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVjdHJpY2FsJTIwaW5zdGFsbGF0aW9uJTIwaW5kdXN0cmlhbHxlbnwxfHx8fDE3NzQwOTUzNjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.projects.electricalInstallation,
       description: 'Proiectare și execuție instalații electrice industriale, tablouri electrice de medie și joasă tensiune.',
       stats: { power: '2 MW', area: '25,000 m²', year: '2023' }
     },
@@ -55,7 +56,7 @@ export function ProjectsPage() {
       title: 'Sistem de Alarmare Bancă',
       category: 'Detecție Efracție',
       icon: Building2,
-      image: 'https://images.unsplash.com/photo-1697382608786-bcf4c113b86e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbGFybSUyMHNlY3VyaXR5JTIwc3lzdGVtJTIwaW5zdGFsbGF0aW9ufGVufDF8fHx8MTc3NDA5NzMwMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.projects.alarmInstallation,
       description: 'Sistem integrat de detecție la efracție cu senzori perimetrali, detectori de mișcare și alarmare centralizată.',
       stats: { sensors: '45', locations: '3', year: '2024' }
     },
@@ -64,7 +65,7 @@ export function ProjectsPage() {
       title: 'Contract Mentenanță Multisite',
       category: 'Mentenanță',
       icon: ShoppingBag,
-      image: 'https://images.unsplash.com/photo-1744302448183-b401c7bcaac6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWNobmljaWFuJTIwbWFpbnRlbmFuY2UlMjBlcXVpcG1lbnR8ZW58MXx8fHwxNzc0MDk3MzAwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+      image: siteImages.projects.technicalMaintenance,
       description: 'Servicii de mentenanță preventivă și corectivă pentru rețea de 15 magazine retail, disponibilitate 24/7.',
       stats: { locations: '15', uptime: '99.8%', year: '2023-2024' }
     }
