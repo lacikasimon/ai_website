@@ -28,6 +28,17 @@ export function Header() {
   const [menuItems, setMenuItems] = useState<CmsMenuItem[]>(() => getVisibleCmsMenuItems());
   const isHomePage = location.pathname === '/';
 
+  const getAriaCurrent = (href: string): 'page' | 'location' | undefined => {
+    if (isExternalHref(href)) return undefined;
+
+    const [pathname, hash] = href.split('#');
+    const targetPath = pathname || '/';
+
+    if (targetPath !== location.pathname) return undefined;
+    if (hash) return location.hash === `#${hash}` ? 'location' : undefined;
+    return 'page';
+  };
+
   useEffect(() => {
     let active = true;
 
@@ -57,7 +68,8 @@ export function Header() {
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    element?.scrollIntoView({ behavior });
     setMobileMenuOpen(false);
   };
 
@@ -81,6 +93,7 @@ export function Header() {
           type="button"
           onClick={() => scrollToSection(item.href.slice(2))}
           className={mobile ? `w-full text-left ${className}` : className}
+          aria-current={getAriaCurrent(item.href)}
         >
           {item.label}
         </button>
@@ -88,7 +101,13 @@ export function Header() {
     }
 
     return (
-      <Link key={item.id} to={item.href} className={className} onClick={() => setMobileMenuOpen(false)}>
+      <Link
+        key={item.id}
+        to={item.href}
+        className={className}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-current={getAriaCurrent(item.href)}
+      >
         {item.label}
       </Link>
     );
@@ -98,7 +117,11 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-blue-100/80 bg-gradient-to-r from-white via-blue-50/80 to-white shadow-sm shadow-blue-950/5 backdrop-blur-md">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex min-w-0 shrink items-center gap-3 hover:opacity-90 transition-opacity">
+          <Link
+            to="/"
+            className="flex min-w-0 shrink items-center gap-3 hover:opacity-90 transition-opacity"
+            aria-label="GENE SYS SECURITY SRL — pagina principală"
+          >
             <img src={logo} alt="GENE SYS SECURITY" className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
             <div className="min-w-0">
               <div className="text-base font-bold tracking-wide text-blue-950 sm:text-xl">GENE SYS SECURITY</div>
@@ -108,13 +131,18 @@ export function Header() {
 
           {/* Mobile: CTA-uri vizibile înainte de meniu */}
           <div className="flex items-center gap-1.5 sm:gap-2 xl:hidden">
-            <Link to={offerPath} className={`${ctaOfferClass} min-h-9 w-[5.75rem] text-xs sm:min-h-10 sm:w-[6.75rem] sm:text-sm`}>
+            <Link
+              to={offerPath}
+              className={`${ctaOfferClass} min-h-9 w-[5.75rem] text-xs sm:min-h-10 sm:w-[6.75rem] sm:text-sm`}
+              aria-current={getAriaCurrent(offerPath)}
+            >
               Cere ofertă
             </Link>
             <Link
               to={contactPath}
               className={`${ctaContactClass} min-h-9 w-[5.75rem] text-xs sm:min-h-10 sm:w-[6.75rem] sm:text-sm`}
               onClick={() => setMobileMenuOpen(false)}
+              aria-current={getAriaCurrent(contactPath)}
             >
               Contact
             </Link>
@@ -126,23 +154,24 @@ export function Header() {
               className="ml-0.5 text-blue-950"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
-              aria-label="Meniu"
+              aria-controls="mobile-navigation"
+              aria-label={mobileMenuOpen ? 'Închide meniul' : 'Deschide meniul'}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" aria-hidden /> : <Menu className="w-6 h-6" aria-hidden />}
             </button>
           </div>
 
           {/* Desktop: CTA-uri primele, apoi nav */}
           <div className="hidden min-w-0 flex-1 items-center justify-end gap-3 xl:flex xl:gap-4">
-            <Link to={offerPath} className={ctaOfferClass}>
+            <Link to={offerPath} className={ctaOfferClass} aria-current={getAriaCurrent(offerPath)}>
               Cere ofertă
             </Link>
-            <Link to={contactPath} className={ctaContactClass}>
+            <Link to={contactPath} className={ctaContactClass} aria-current={getAriaCurrent(contactPath)}>
               Contact
             </Link>
             <SiteSearch />
             <div className="hidden h-8 w-px shrink-0 bg-blue-200/80 lg:block" aria-hidden />
-            <nav className="flex items-center gap-4 text-sm font-medium text-blue-950/75 lg:gap-6">
+            <nav className="flex items-center gap-4 text-sm font-medium text-blue-950/75 lg:gap-6" aria-label="Navigare principală">
               {menuItems.map((item) => renderMenuItem(item))}
             </nav>
           </div>
@@ -150,12 +179,17 @@ export function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="mt-4 space-y-3 border-t border-blue-100/90 pb-4 pt-4 xl:hidden">
+          <nav
+            id="mobile-navigation"
+            className="mt-4 space-y-3 border-t border-blue-100/90 pb-4 pt-4 xl:hidden"
+            aria-label="Navigare mobilă"
+          >
             <div className="flex flex-col gap-2 sm:flex-row">
               <Link
                 to={offerPath}
                 className={`${ctaOfferClass} text-center`}
                 onClick={() => setMobileMenuOpen(false)}
+                aria-current={getAriaCurrent(offerPath)}
               >
                 Cere ofertă
               </Link>
@@ -163,6 +197,7 @@ export function Header() {
                 to={contactPath}
                 className={`${ctaContactClass} text-center`}
                 onClick={() => setMobileMenuOpen(false)}
+                aria-current={getAriaCurrent(contactPath)}
               >
                 Contact
               </Link>

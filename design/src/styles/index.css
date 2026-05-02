@@ -6,7 +6,118 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+main:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.a11y-high-contrast {
+  color-scheme: light;
+}
+
+.a11y-high-contrast *,
+.a11y-high-contrast *::before,
+.a11y-high-contrast *::after {
+  text-shadow: none !important;
+}
+
+.a11y-high-contrast body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.a11y-high-contrast :is(header, footer, main, section, article, aside, nav, form, div, details, summary, [role='dialog']) {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-color: #111111 !important;
+  box-shadow: none !important;
+}
+
+.a11y-high-contrast :is(h1, h2, h3, h4, h5, h6, p, span, li, label, small, strong, em, dd, dt) {
+  color: #000000 !important;
+}
+
+.a11y-high-contrast a {
+  color: #003b8e !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.a11y-high-contrast :is(button, [role='button'], input, textarea, select) {
+  background-color: #ffffff !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+}
+
+.a11y-high-contrast :is(button[aria-pressed='true'], .skip-link:focus-visible) {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.a11y-high-contrast button[aria-pressed='true'] * {
+  color: #ffffff !important;
+}
+
+.a11y-high-contrast svg {
+  color: currentColor !important;
+  stroke-width: 2.5;
+}
+
+.a11y-high-contrast img,
+.a11y-high-contrast iframe {
+  border: 2px solid #111111 !important;
+}
+
+.a11y-high-contrast :focus-visible {
+  outline: 4px solid #ffbf00 !important;
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #172554;
+  box-shadow: 0 12px 30px rgb(15 23 42 / 0.22);
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 section[id],
 [id='formular-contact'] {
   scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

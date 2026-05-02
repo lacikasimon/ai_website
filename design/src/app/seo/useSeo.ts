@@ -24,6 +24,10 @@ function setMetaAttr(selector: string, attr: string, key: string, content: strin
   el.setAttribute('content', content);
 }
 
+function removeMetaAttr(selector: string, attr: string, key: string) {
+  document.head.querySelector<HTMLMetaElement>(`${selector}[${attr}="${key}"]`)?.remove();
+}
+
 function setLinkRel(rel: string, href: string) {
   let el = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
   if (!el) {
@@ -63,15 +67,21 @@ export function useSeo(opts: SeoOptions) {
     setMetaAttr('meta', 'property', 'og:type', 'website');
     setMetaAttr('meta', 'property', 'og:url', url);
     setMetaAttr('meta', 'property', 'og:locale', 'ro_RO');
+    setMetaAttr('meta', 'property', 'og:site_name', 'GENE SYS SECURITY SRL');
     if (ogImage) {
       setMetaAttr('meta', 'property', 'og:image', ogImage);
+    } else {
+      removeMetaAttr('meta', 'property', 'og:image');
     }
 
     setMetaAttr('meta', 'name', 'twitter:card', ogImage ? 'summary_large_image' : 'summary');
     setMetaAttr('meta', 'name', 'twitter:title', title);
     setMetaAttr('meta', 'name', 'twitter:description', description);
+    setMetaAttr('meta', 'name', 'twitter:url', url);
     if (ogImage) {
       setMetaAttr('meta', 'name', 'twitter:image', ogImage);
+    } else {
+      removeMetaAttr('meta', 'name', 'twitter:image');
     }
 
     const origin = getSiteOrigin();

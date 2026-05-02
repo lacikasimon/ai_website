@@ -7,6 +7,7 @@ import { sendContactLead } from '../utils/leadWebhook';
 import { RecaptchaBox } from './RecaptchaBox';
 
 const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY?.trim();
+const contactErrorId = 'contact-submit-error';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ export function Contact() {
   const [submitError, setSubmitError] = useState('');
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [recaptchaResetKey, setRecaptchaResetKey] = useState(0);
+  const hasSubmitError = Boolean(submitError);
 
   const resetRecaptcha = () => {
     setRecaptchaToken('');
@@ -135,7 +137,7 @@ export function Contact() {
               >
                 <div className="flex flex-col items-center text-center gap-4">
                   <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
-                    <Icon className="w-6 h-6 text-blue-800" />
+                    <Icon className="w-6 h-6 text-blue-800" aria-hidden />
                   </div>
                   <div>
                     <h3 className="text-lg mb-2 text-slate-900">{info.title}</h3>
@@ -169,13 +171,18 @@ export function Contact() {
             {submitted ? (
               <div className="bg-white border border-slate-200 rounded-lg p-6 text-center shadow-sm">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-slate-100 rounded-full mb-4 border border-slate-200">
-                  <Send className="w-8 h-8 text-slate-700" />
+                  <Send className="w-8 h-8 text-slate-700" aria-hidden />
                 </div>
                 <h4 className="text-xl text-slate-900 mb-2">Mulțumim pentru mesaj!</h4>
-                <p className="text-slate-600">Vă vom contacta în cel mai scurt timp posibil.</p>
+                <p className="text-slate-600" role="status">Vă vom contacta în cel mai scurt timp posibil.</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-4"
+                aria-describedby={hasSubmitError ? contactErrorId : undefined}
+                aria-busy={submitting}
+              >
                 <div>
                   <label htmlFor="name" className="block text-sm mb-2 text-slate-700">
                     Nume complet *
@@ -187,6 +194,7 @@ export function Contact() {
                     value={formData.name}
                     onChange={handleChange}
                     required
+                    aria-describedby={hasSubmitError ? contactErrorId : undefined}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors"
                     placeholder="Numele dumneavoastră"
                   />
@@ -203,6 +211,7 @@ export function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    aria-describedby={hasSubmitError ? contactErrorId : undefined}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors"
                     placeholder="exemplu@email.ro"
                   />
@@ -218,6 +227,7 @@ export function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    aria-describedby={hasSubmitError ? contactErrorId : undefined}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors"
                     placeholder={siteContent.contact.phones[0].display}
                   />
@@ -234,6 +244,7 @@ export function Contact() {
                     onChange={handleChange}
                     required
                     rows={5}
+                    aria-describedby={hasSubmitError ? contactErrorId : undefined}
                     className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300 transition-colors resize-none"
                     placeholder="Descrieți proiectul dumneavoastră sau întrebările pe care le aveți..."
                   />
@@ -248,7 +259,11 @@ export function Contact() {
                 )}
 
                 {submitError && (
-                  <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  <div
+                    id={contactErrorId}
+                    role="alert"
+                    className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                  >
                     {submitError}
                   </div>
                 )}
@@ -258,7 +273,7 @@ export function Contact() {
                   disabled={submitting}
                   className="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold px-6 py-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-950/25 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-5 h-5" aria-hidden />
                   {submitting ? 'Se trimite...' : 'Trimite mesajul'}
                 </button>
               </form>
@@ -280,7 +295,7 @@ export function Contact() {
                 className="inline-flex items-center gap-1.5 text-sm text-slate-600 hover:text-slate-900 transition-colors"
               >
                 Deschide în Google Maps
-                <ExternalLink className="w-4 h-4" />
+                <ExternalLink className="w-4 h-4" aria-hidden />
               </a>
             </div>
             <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-white shadow-lg min-h-[320px] md:min-h-[420px] flex-1">

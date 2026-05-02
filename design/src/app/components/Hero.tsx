@@ -4,7 +4,8 @@ import { siteContent } from '../content/siteContent';
 
 export function Hero() {
   const scrollToServices = () => {
-    document.getElementById('servicii')?.scrollIntoView({ behavior: 'smooth' });
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    document.getElementById('servicii')?.scrollIntoView({ behavior });
   };
 
   return (
@@ -41,6 +42,7 @@ export function Hero() {
             Cere o Ofertă
           </Link>
           <button 
+            type="button"
             onClick={scrollToServices}
             className="bg-white/95 hover:bg-white text-blue-950 px-8 py-4 rounded-lg text-lg border-2 border-blue-200 hover:border-blue-400 transition-colors shadow-sm"
           >
@@ -52,7 +54,7 @@ export function Hero() {
         <div className="flex flex-col gap-4 justify-center items-center text-slate-600">
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
             <div className="flex items-center gap-2">
-              <Phone className="w-5 h-5 text-blue-600" />
+              <Phone className="w-5 h-5 text-blue-600" aria-hidden />
               <a
                 href={`tel:${siteContent.contact.phones[0].tel}`}
                 className="hover:text-blue-800 transition-colors font-medium"
@@ -64,7 +66,7 @@ export function Hero() {
               <>
                 <div className="hidden sm:block w-px h-6 bg-blue-200" />
                 <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-blue-600" />
+                  <Mail className="w-5 h-5 text-blue-600" aria-hidden />
                   <a
                     href={`mailto:${siteContent.contact.emails[0]}`}
                     className="hover:text-blue-800 transition-colors font-medium"
@@ -85,7 +87,7 @@ export function Hero() {
       <div className="pointer-events-none absolute bottom-5 left-1/2 z-10 -translate-x-1/2">
         <div className="flex flex-col items-center gap-2 text-blue-700/70 animate-bounce">
           <span className="text-sm">Derulați în jos</span>
-          <Shield className="w-6 h-6" />
+          <Shield className="w-6 h-6" aria-hidden />
         </div>
       </div>
     </div>

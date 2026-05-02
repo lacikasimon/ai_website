@@ -17,12 +17,12 @@ export function CookiePolicyPage() {
     <div className="pt-24">
       <section className="border-b border-blue-100 bg-white py-10">
         <div className="container mx-auto max-w-3xl px-4">
-          <nav className="mb-6 text-sm text-slate-500">
+          <nav className="mb-6 text-sm text-slate-500" aria-label="Breadcrumb">
             <Link to="/" className="text-blue-700 transition-colors hover:text-blue-900">
               Acasă
             </Link>
-            <span className="mx-2">/</span>
-            <span className="text-slate-700">{cookiePolicy.title}</span>
+            <span className="mx-2" aria-hidden>/</span>
+            <span className="text-slate-700" aria-current="page">{cookiePolicy.title}</span>
           </nav>
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">{cookiePolicy.title}</h1>
           <p className="mt-2 text-sm text-slate-500">Ultima actualizare: {cookiePolicy.lastUpdated}</p>

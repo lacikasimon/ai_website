@@ -84,12 +84,12 @@ export function ProjectsPage() {
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <nav className="text-sm text-blue-200/90 mb-6 text-left md:text-center">
+            <nav className="text-sm text-blue-200/90 mb-6 text-left md:text-center" aria-label="Breadcrumb">
               <Link to="/" className="hover:text-white transition-colors">
                 Acasă
               </Link>
-              <span className="mx-2">/</span>
-              <span className="text-white/95">Proiecte</span>
+              <span className="mx-2" aria-hidden>/</span>
+              <span className="text-white/95" aria-current="page">Proiecte</span>
             </nav>
             <div className="mb-6 w-full sm:mb-8">
               <SectionBreak variant="onDark" />
@@ -142,7 +142,7 @@ export function ProjectsPage() {
             {projects.map((project) => {
               const Icon = project.icon;
               return (
-                <div 
+                <article
                   key={project.id}
                   className="group bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all hover:shadow-lg hover:shadow-slate-900/5 shadow-sm"
                 >
@@ -151,6 +151,8 @@ export function ProjectsPage() {
                       src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent"></div>
                     <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm border border-slate-200 px-3 py-1 rounded-full shadow-sm">
@@ -158,7 +160,7 @@ export function ProjectsPage() {
                     </div>
                     <div className="absolute bottom-4 left-4">
                       <div className="bg-white/95 p-2 rounded-lg border border-slate-200 shadow-sm">
-                        <Icon className="w-6 h-6 text-slate-700" />
+                        <Icon className="w-6 h-6 text-slate-700" aria-hidden />
                       </div>
                     </div>
                   </div>
@@ -180,7 +182,7 @@ export function ProjectsPage() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
@@ -192,7 +194,7 @@ export function ProjectsPage() {
         <div className="container mx-auto px-4">
           <div className="overflow-hidden rounded-2xl border border-blue-200/80 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 p-8 md:p-12 text-center shadow-xl shadow-blue-950/25">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-6 border border-white/20">
-              <Award className="w-8 h-8 text-amber-100" />
+              <Award className="w-8 h-8 text-amber-100" aria-hidden />
             </div>
             <h2 className="text-4xl md:text-5xl mb-4 font-semibold tracking-tight text-white">
               Aveți un proiect în minte?

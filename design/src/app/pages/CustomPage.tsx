@@ -134,12 +134,12 @@ export function CustomPage() {
       <div className="min-h-screen bg-slate-50 pt-24">
         <section className="border-b border-blue-100 bg-white py-12">
           <div className="container mx-auto px-4">
-            <nav className="mb-4 text-sm text-slate-500">
+            <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
               <Link to="/" className="text-blue-700 transition-colors hover:text-blue-900">
                 Acasă
               </Link>
-              <span className="mx-2">/</span>
-              <span className="text-slate-700">Pagină</span>
+              <span className="mx-2" aria-hidden>/</span>
+              <span className="text-slate-700" aria-current="page">Pagină</span>
             </nav>
             <h1 className="text-4xl font-semibold tracking-tight text-blue-950 md:text-5xl">
               {loading ? 'Se încarcă pagina' : 'Pagina nu este publicată'}
@@ -159,12 +159,12 @@ export function CustomPage() {
     <div className="min-h-screen bg-slate-50 pt-24">
       <section className="border-b border-blue-100 bg-white py-10">
         <div className="container mx-auto px-4">
-          <nav className="mb-4 text-sm text-slate-500">
+          <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
             <Link to="/" className="text-blue-700 transition-colors hover:text-blue-900">
               Acasă
             </Link>
-            <span className="mx-2">/</span>
-            <span className="text-slate-700">{page.title}</span>
+            <span className="mx-2" aria-hidden>/</span>
+            <span className="text-slate-700" aria-current="page">{page.title}</span>
           </nav>
           <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-blue-950 md:text-5xl">
             {page.title}

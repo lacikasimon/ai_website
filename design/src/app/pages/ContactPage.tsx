@@ -16,12 +16,12 @@ export function ContactPage() {
     <div className="pt-24">
       <section className="py-8 bg-white border-b border-blue-100">
         <div className="container mx-auto px-4">
-          <nav className="text-sm text-slate-500 mb-4">
+          <nav className="text-sm text-slate-500 mb-4" aria-label="Breadcrumb">
             <Link to="/" className="text-blue-700 hover:text-blue-900 transition-colors">
               Acasă
             </Link>
-            <span className="mx-2">/</span>
-            <span className="text-slate-700">Contact</span>
+            <span className="mx-2" aria-hidden>/</span>
+            <span className="text-slate-700" aria-current="page">Contact</span>
           </nav>
           <h1 className="text-4xl md:text-5xl text-blue-950 font-semibold tracking-tight mb-3">
             Solicită o ofertă sau o consultanță

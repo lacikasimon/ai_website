@@ -1,5 +1,5 @@
 import { ArrowRight, Search, X } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { searchEntries, searchSite } from '../content/searchIndex';
 
@@ -13,6 +13,10 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogTitleId = useId();
+  const inputId = useId();
+  const resultsId = useId();
 
   const results = useMemo(() => {
     if (!query.trim()) return searchEntries.slice(0, 6);
@@ -23,7 +27,7 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
     if (!open) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') closeSearch();
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -31,6 +35,11 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
 
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [open]);
+
+  const closeSearch = () => {
+    setOpen(false);
+    window.setTimeout(() => triggerRef.current?.focus(), 0);
+  };
 
   const defaultButtonClass =
     variant === 'menu'
@@ -40,6 +49,7 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         aria-label="Caută în site"
         title="Caută în site"
@@ -54,20 +64,28 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Căutare internă"
+          aria-labelledby={dialogTitleId}
           className="fixed inset-0 z-[80] bg-blue-950/45 px-4 py-6 backdrop-blur-sm sm:py-16"
           onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setOpen(false);
+            if (event.target === event.currentTarget) closeSearch();
           }}
         >
           <div className="mx-auto max-w-2xl overflow-hidden rounded-lg border border-blue-100 bg-white shadow-2xl shadow-blue-950/25">
             <div className="flex items-center gap-3 border-b border-slate-200 px-4 py-3">
+              <h2 id={dialogTitleId} className="sr-only">
+                Căutare internă
+              </h2>
               <Search className="h-5 w-5 shrink-0 text-blue-800" aria-hidden />
+              <label htmlFor={inputId} className="sr-only">
+                Termen de căutare
+              </label>
               <input
+                id={inputId}
                 ref={inputRef}
                 type="search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
+                aria-controls={resultsId}
                 className="min-w-0 flex-1 bg-transparent py-2 text-base text-slate-900 outline-none placeholder:text-slate-400"
                 placeholder="Caută servicii, proiecte, contact..."
               />
@@ -75,13 +93,13 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
                 type="button"
                 aria-label="Închide căutarea"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
-                onClick={() => setOpen(false)}
+                onClick={closeSearch}
               >
                 <X className="h-5 w-5" aria-hidden />
               </button>
             </div>
 
-            <div className="max-h-[65vh] overflow-y-auto p-3">
+            <div id={resultsId} className="max-h-[65vh] overflow-y-auto p-3" aria-live="polite">
               {results.length > 0 ? (
                 <div className="space-y-2">
                   {results.map((result) => (

@@ -224,14 +224,14 @@ export function ServiceDetailPage() {
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden border-b border-blue-900/30 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900">
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none">
-          <img src={service.image} alt="" className="w-full h-full object-cover" aria-hidden />
+          <img src={service.image} alt="" className="w-full h-full object-cover" aria-hidden decoding="async" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950/97 via-blue-900/95 to-slate-900/98 pointer-events-none" />
         <div className="absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-sky-500/10 blur-3xl" />
         
         <div className="container mx-auto px-4 relative z-10">
           <Link to="/" className="inline-flex items-center gap-2 text-blue-200 hover:text-white mb-6 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4" aria-hidden />
             Înapoi la pagina principală
           </Link>
 
@@ -271,7 +271,7 @@ export function ServiceDetailPage() {
                 className="bg-slate-50 border border-slate-200 border-l-4 border-l-blue-600 rounded-xl p-6 hover:border-blue-200 transition-all shadow-sm"
               >
                 <div className="flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-blue-700 flex-shrink-0 mt-1" />
+                  <CheckCircle2 className="w-5 h-5 text-blue-700 flex-shrink-0 mt-1" aria-hidden />
                   <span className="text-slate-700">{feature}</span>
                 </div>
               </div>
@@ -322,7 +322,7 @@ export function ServiceDetailPage() {
                 </div>
                 {index < service.process.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                    <ArrowRight className="w-8 h-8 text-blue-200" />
+                    <ArrowRight className="w-8 h-8 text-blue-200" aria-hidden />
                   </div>
                 )}
               </div>

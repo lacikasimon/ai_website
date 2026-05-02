@@ -65,11 +65,13 @@ export default defineConfig(({ mode }) => {
             '/politica-cookie-uri',
             ...SERVICE_SLUGS_FOR_SITEMAP.map((s) => `/servicii/${s}`),
           ]
+          const lastmod = new Date().toISOString().slice(0, 10)
 
           const urlset = paths
             .map(
               (p) => `  <url>
     <loc>${loc(p)}</loc>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>${p === '/' ? '1.0' : '0.8'}</priority>
   </url>`,
