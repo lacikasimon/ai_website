@@ -75,8 +75,8 @@ export function Header() {
 
   const renderMenuItem = (item: CmsMenuItem, mobile = false) => {
     const className = mobile
-      ? 'block text-blue-950/80 hover:text-blue-950 transition-colors'
-      : 'whitespace-nowrap transition-colors hover:text-blue-950';
+      ? 'block text-sm font-medium leading-5 text-blue-950/80 transition-colors hover:text-blue-950'
+      : 'whitespace-nowrap text-sm font-medium leading-5 transition-colors hover:text-blue-950';
 
     if (isExternalHref(item.href)) {
       return (
