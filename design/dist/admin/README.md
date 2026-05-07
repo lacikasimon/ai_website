@@ -46,6 +46,7 @@ După importul `schema.sql`, primul utilizator admin este creat automat la prima
 Interfața React `/admin` folosește MySQL prin fișierele PHP din folderul fizic `/admin` pentru:
 
 - pagini CMS și meniu;
+- blog cu articole publicate/ciorne, categorii, etichete și imagine de copertă;
 - biblioteca de imagini;
 - utilizatori admin;
 - mesaje din formularul de contact.

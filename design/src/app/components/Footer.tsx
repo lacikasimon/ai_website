@@ -32,6 +32,7 @@ export function Footer() {
 
   const legalLinks: ({ label: string; to: string } | { label: string; href: string })[] = [
     { label: 'Politică cookie', to: '/politica-cookie-uri' },
+    { label: 'GDPR', to: '/gdpr' },
     { label: 'ANPC', href: 'https://anpc.ro/' },
     { label: 'Soluționarea alternativă a litigiilor', href: 'https://anpc.ro/ce-este-sal/' },
     { label: 'Soluționarea online a litigiilor', href: 'https://consumer-redress.ec.europa.eu/site-relocation_en' },

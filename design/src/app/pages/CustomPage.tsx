@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
+import { CmsRichText, getBodyImageIds } from '../components/CmsRichText';
 import { siteContent } from '../content/siteContent';
 import { useSeo } from '../seo/useSeo';
 import {
@@ -9,66 +10,6 @@ import {
   getCmsImage,
   getPublishedCmsPage,
 } from '../utils/contentManagement';
-
-function getBodyImageIds(body: string) {
-  return Array.from(body.matchAll(/\[\[image:([^\]]+)\]\]/g), (match) => match[1]);
-}
-
-function renderBody(body: string, imagesById: Record<string, CmsImage | null>) {
-  return body
-    .split(/\n{2,}/)
-    .map((block) => block.trim())
-    .filter(Boolean)
-    .map((block, index) => {
-      const imageMatch = block.match(/^\[\[image:([^\]]+)\]\]$/);
-      if (imageMatch) {
-        const imageId = imageMatch[1];
-        const image = imagesById[imageId];
-
-        if (image === undefined) {
-          return (
-            <div key={index} className="my-6 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-              Se încarcă imaginea...
-            </div>
-          );
-        }
-
-        if (!image) {
-          return (
-            <div key={index} className="my-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-              Imaginea nu mai există în biblioteca media.
-            </div>
-          );
-        }
-
-        return (
-          <figure key={index} className="my-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-            <img src={image.dataUrl} alt={image.alt} className="max-h-[520px] w-full object-cover" loading="lazy" />
-            {image.title && <figcaption className="px-4 py-3 text-sm text-slate-500">{image.title}</figcaption>}
-          </figure>
-        );
-      }
-
-      const lines = block.split('\n').map((line) => line.trim()).filter(Boolean);
-      const isList = lines.every((line) => line.startsWith('- '));
-
-      if (isList) {
-        return (
-          <ul key={index} className="my-6 list-disc space-y-2 pl-6 text-slate-700">
-            {lines.map((line) => (
-              <li key={line}>{line.replace(/^- /, '')}</li>
-            ))}
-          </ul>
-        );
-      }
-
-      return (
-        <p key={index} className="my-5 text-lg leading-8 text-slate-700">
-          {block}
-        </p>
-      );
-    });
-}
 
 export function CustomPage() {
   const { pageSlug = '' } = useParams();
@@ -175,7 +116,7 @@ export function CustomPage() {
 
       <article className="container mx-auto max-w-4xl px-4 py-12">
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
-          {renderBody(page.body, imagesById)}
+          <CmsRichText body={page.body} imagesById={imagesById} />
         </div>
       </article>
     </div>

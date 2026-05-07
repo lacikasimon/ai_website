@@ -8,6 +8,9 @@ import { CookiePolicyPage } from './pages/CookiePolicyPage';
 import { FundingPage } from './pages/FundingPage';
 import { AdminPage } from './pages/AdminPage';
 import { CustomPage } from './pages/CustomPage';
+import { BlogPage } from './pages/BlogPage';
+import { BlogPostPage } from './pages/BlogPostPage';
+import { GdprPage } from './pages/GdprPage';
 
 const routeTree = [
   {
@@ -31,12 +34,24 @@ const routeTree = [
         Component: FundingPage,
       },
       {
+        path: 'blog',
+        Component: BlogPage,
+      },
+      {
+        path: 'blog/:blogSlug',
+        Component: BlogPostPage,
+      },
+      {
         path: 'servicii/:serviceSlug',
         Component: ServiceDetailPage,
       },
       {
         path: 'politica-cookie-uri',
         Component: CookiePolicyPage,
+      },
+      {
+        path: 'gdpr',
+        Component: GdprPage,
       },
       {
         path: 'pagini/:pageSlug',

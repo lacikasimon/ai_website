@@ -61,8 +61,10 @@ export default defineConfig(({ mode }) => {
             '/',
             '/contact',
             '/proiecte',
+            '/blog',
             '/finantare-ue',
             '/politica-cookie-uri',
+            '/gdpr',
             ...SERVICE_SLUGS_FOR_SITEMAP.map((s) => `/servicii/${s}`),
           ]
           const lastmod = new Date().toISOString().slice(0, 10)

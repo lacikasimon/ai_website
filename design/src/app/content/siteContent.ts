@@ -414,4 +414,120 @@ export const siteContent = {
       },
     ],
   },
+
+  /** GDPR — informare privind prelucrarea datelor personale */
+  gdprPolicy: {
+    title: 'Protecția datelor personale (GDPR)',
+    lastUpdated: '7 mai 2026',
+    intro:
+      'Această informare explică modul în care GENE SYS SECURITY SRL prelucrează datele cu caracter personal primite prin site, prin solicitări de ofertă, prin comunicări comerciale și în relația contractuală cu clienții sau partenerii. Informațiile sunt redactate pentru transparență și pot fi actualizate atunci când se modifică serviciile, fluxurile tehnice sau cerințele legale.',
+    quickFacts: [
+      {
+        label: 'Operator de date',
+        value: 'GENE SYS SECURITY SRL',
+      },
+      {
+        label: 'Identificare',
+        value: 'CUI RO 38322763 · Reg. Com. J2017001105304',
+      },
+      {
+        label: 'Sediu',
+        value: 'Str. Gheorghe Barițiu 88, Satu Mare, cod poștal 440135',
+      },
+      {
+        label: 'Contact',
+        value: 'Prin pagina Contact, telefonic sau la sediul social',
+      },
+    ],
+    sections: [
+      {
+        heading: 'Cine este operatorul datelor?',
+        paragraphs: [
+          'GENE SYS SECURITY SRL stabilește scopurile și mijloacele prelucrării datelor personale colectate în legătură cu site-ul și cu serviciile sale. În acest context, compania acționează ca operator de date, în sensul Regulamentului (UE) 2016/679.',
+          'Pentru solicitări privind protecția datelor, ne puteți contacta prin datele afișate pe pagina Contact sau prin corespondență la sediul social.',
+        ],
+      },
+      {
+        heading: 'Ce date putem prelucra?',
+        paragraphs: [
+          'Prelucrăm doar datele necesare pentru scopurile descrise mai jos. Categoriile concrete depind de modul în care interacționați cu noi: vizitarea site-ului, trimiterea unei solicitări, negocierea unei oferte sau derularea unui contract.',
+        ],
+        bullets: [
+          'date de identificare și contact: nume, prenume, telefon, companie, funcție, adresă de lucru sau adresă de livrare / intervenție;',
+          'date transmise voluntar în formularul de contact sau în comunicări: descrierea proiectului, localitate, fotografii sau documente tehnice, dacă ni le trimiteți;',
+          'date contractuale și de facturare: informații necesare pentru ofertare, contractare, facturare, garanții și evidențe contabile;',
+          'date tehnice de utilizare a site-ului: adresa IP, identificatori cookie, preferințe cookie, jurnal tehnic de securitate și informații despre browser, în limitele politicii cookie.',
+        ],
+      },
+      {
+        heading: 'Scopurile și temeiurile prelucrării',
+        paragraphs: [
+          'Folosim datele personale pentru a răspunde solicitărilor, pentru a pregăti oferte, pentru a executa contracte, pentru a respecta obligații legale și pentru a menține securitatea site-ului. Atunci când legea cere consimțământ, de exemplu pentru anumite cookie-uri opționale, prelucrarea se face numai după exprimarea acordului.',
+        ],
+        bullets: [
+          'măsuri precontractuale și executarea contractului: analizarea cererilor, ofertare, programarea vizitelor, livrarea serviciilor și suportul post-execuție;',
+          'obligații legale: facturare, contabilitate, arhivare, răspuns la cereri ale autorităților competente și îndeplinirea obligațiilor fiscale;',
+          'interes legitim: securitatea site-ului, prevenirea abuzului, gestionarea relației cu clienții, apărarea drepturilor și îmbunătățirea proceselor interne;',
+          'consimțământ: cookie-uri neesențiale, comunicări sau prelucrări opționale, acolo unde sunt activate și solicitate.',
+        ],
+      },
+      {
+        heading: 'Cui putem transmite datele?',
+        paragraphs: [
+          'Datele pot fi accesate de persoane autorizate din cadrul companiei și, atunci când este necesar, de furnizori sau parteneri care ne ajută să furnizăm serviciile. Solicităm acestor destinatari să păstreze confidențialitatea și să prelucreze datele doar în scopurile permise.',
+        ],
+        bullets: [
+          'furnizori IT, găzduire, mentenanță website, securitate, backup și servicii tehnice;',
+          'contabili, consultanți, avocați, auditori sau alți profesioniști implicați în obligații legale ori contractuale;',
+          'furnizori de echipamente, subcontractori sau colaboratori tehnici, strict când informațiile sunt necesare pentru proiect;',
+          'autorități publice sau instanțe, atunci când transmiterea este cerută de lege.',
+        ],
+      },
+      {
+        heading: 'Transferuri în afara Spațiului Economic European',
+        paragraphs: [
+          'Nu urmărim transferul datelor personale în afara Spațiului Economic European ca scop distinct. Dacă un furnizor tehnic folosit pentru site sau comunicare implică un astfel de transfer, acesta se realizează numai cu garanțiile prevăzute de legislația aplicabilă, cum ar fi clauze contractuale standard sau alte mecanisme recunoscute.',
+        ],
+      },
+      {
+        heading: 'Cât timp păstrăm datele?',
+        paragraphs: [
+          'Păstrăm datele atât timp cât este necesar pentru scopul pentru care au fost colectate și pentru perioadele cerute de lege. Datele din solicitări necontractate pot fi păstrate pentru o perioadă rezonabilă necesară urmăririi cererii, iar documentele fiscale și contractuale se păstrează conform termenelor legale aplicabile.',
+          'La expirarea perioadelor relevante, datele sunt șterse, anonimizate sau arhivate în condiții de securitate, în funcție de obligațiile legale și de interesele legitime rămase.',
+        ],
+      },
+      {
+        heading: 'Drepturile dumneavoastră',
+        paragraphs: [
+          'În condițiile GDPR, puteți solicita informații despre prelucrare, acces la date, rectificarea datelor inexacte, ștergerea datelor, restricționarea prelucrării, portabilitatea datelor, opoziția față de anumite prelucrări și retragerea consimțământului, atunci când prelucrarea se bazează pe consimțământ.',
+          'Site-ul nu folosește procese decizionale automate care să producă efecte juridice asupra dumneavoastră sau să vă afecteze în mod similar semnificativ.',
+        ],
+      },
+      {
+        heading: 'Cum exercitați drepturile',
+        paragraphs: [
+          'Puteți trimite o cerere prin pagina Contact sau la sediul social, indicând dreptul exercitat și informațiile necesare pentru identificarea solicitării. Este posibil să vă cerem detalii suplimentare pentru a confirma identitatea solicitantului și pentru a proteja datele împotriva accesului neautorizat.',
+          'Vom răspunde în termenele prevăzute de GDPR. Dacă cererea este complexă sau implică un volum mare de informații, termenul poate fi prelungit conform legii, cu informarea dumneavoastră.',
+        ],
+      },
+      {
+        heading: 'Securitatea datelor',
+        paragraphs: [
+          'Aplicăm măsuri tehnice și organizatorice rezonabile pentru protejarea datelor împotriva accesului neautorizat, pierderii, modificării sau divulgării nepermise. Măsurile sunt adaptate naturii datelor, riscurilor și sistemelor utilizate.',
+        ],
+      },
+      {
+        heading: 'Cookie-uri și tehnologii similare',
+        paragraphs: [
+          'Informațiile despre cookie-urile utilizate pe site, preferințe și opțiuni de gestionare sunt disponibile în Politica privind fișierele cookie. Cookie-urile neesențiale se folosesc numai în condițiile descrise acolo.',
+        ],
+      },
+      {
+        heading: 'Plângeri către autoritatea de supraveghere',
+        paragraphs: [
+          'Dacă apreciați că prelucrarea datelor personale încalcă legislația aplicabilă, aveți dreptul să depuneți o plângere la Autoritatea Națională de Supraveghere a Prelucrării Datelor cu Caracter Personal (ANSPDCP). Datele publice de contact ale autorității sunt disponibile pe www.dataprotection.ro.',
+        ],
+      },
+    ],
+  },
 };

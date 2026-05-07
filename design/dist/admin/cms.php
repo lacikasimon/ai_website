@@ -103,6 +103,61 @@ function image_row(array $row): array
     ];
 }
 
+function normalize_blog_tags($value): array
+{
+    if (is_array($value)) {
+        $tags = $value;
+    } elseif (is_string($value)) {
+        $decoded = json_decode($value, true);
+        $tags = is_array($decoded) ? $decoded : explode(',', $value);
+    } else {
+        $tags = [];
+    }
+
+    $normalized = [];
+    foreach ($tags as $tag) {
+        if (!is_string($tag)) {
+            continue;
+        }
+        $tag = trim($tag);
+        if ($tag !== '') {
+            $normalized[] = $tag;
+        }
+    }
+
+    return array_slice(array_values(array_unique($normalized)), 0, 12);
+}
+
+function mysql_datetime_from_input(string $value): string
+{
+    $timestamp = $value !== '' ? strtotime($value) : false;
+    if ($timestamp === false) {
+        $timestamp = time();
+    }
+
+    return date('Y-m-d H:i:s', $timestamp);
+}
+
+function blog_post_row(array $row): array
+{
+    return [
+        'id' => (string) $row['id'],
+        'slug' => (string) $row['slug'],
+        'title' => (string) $row['title'],
+        'excerpt' => (string) ($row['excerpt'] ?? ''),
+        'body' => (string) $row['body'],
+        'status' => (string) $row['status'],
+        'category' => (string) ($row['category'] ?: 'Noutăți'),
+        'tags' => normalize_blog_tags($row['tags'] ?? ''),
+        'author' => (string) ($row['author'] ?: 'GENE SYS SECURITY SRL'),
+        'coverImageId' => (string) ($row['cover_image_id'] ?? ''),
+        'featured' => (bool) $row['featured'],
+        'publishedAt' => (string) $row['published_at'],
+        'createdAt' => (string) $row['created_at'],
+        'updatedAt' => (string) $row['updated_at'],
+    ];
+}
+
 function get_pages(PDO $pdo, bool $admin = false): array
 {
     $table = table_name('cms_pages');
@@ -111,12 +166,44 @@ function get_pages(PDO $pdo, bool $admin = false): array
     return array_map('page_row', $statement->fetchAll());
 }
 
+function get_blog_posts(PDO $pdo, bool $admin = false): array
+{
+    $table = table_name('cms_blog_posts');
+    $where = $admin ? '' : "WHERE `status` = 'published'";
+    $statement = $pdo->query("SELECT * FROM `{$table}` {$where} ORDER BY `published_at` DESC, `updated_at` DESC");
+    return array_map('blog_post_row', $statement->fetchAll());
+}
+
 function get_menu_items(PDO $pdo, bool $admin = false): array
 {
     $table = table_name('cms_menu_items');
-    $where = $admin ? '' : 'WHERE `visible` = 1';
-    $statement = $pdo->query("SELECT * FROM `{$table}` {$where} ORDER BY `sort_order` ASC, `label` ASC");
-    return array_map('menu_row', $statement->fetchAll());
+    $statement = $pdo->query("SELECT * FROM `{$table}` ORDER BY `sort_order` ASC, `label` ASC");
+    $allRows = $statement->fetchAll();
+    $existingIds = array_map(static fn ($row) => (string) $row['id'], $allRows);
+    $defaultRows = [
+        ['id' => 'home', 'label' => 'Acasă', 'href' => '/', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 10],
+        ['id' => 'shop', 'label' => 'Magazin', 'href' => 'https://shop.syshub.ro/', 'kind' => 'external', 'visible' => 1, 'sort_order' => 20],
+        ['id' => 'projects', 'label' => 'Proiecte', 'href' => '/proiecte', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 30],
+        ['id' => 'blog', 'label' => 'Blog', 'href' => '/blog', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 35],
+        ['id' => 'funding', 'label' => 'Finanțare UE', 'href' => '/finantare-ue', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 40],
+        ['id' => 'about', 'label' => 'Despre Noi', 'href' => '/#despre-noi', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 50],
+        ['id' => 'services', 'label' => 'Servicii', 'href' => '/#servicii', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 60],
+        ['id' => 'process', 'label' => 'Proces', 'href' => '/#proces', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 70],
+        ['id' => 'certifications', 'label' => 'Certificări', 'href' => '/#certificari', 'kind' => 'internal', 'visible' => 1, 'sort_order' => 80],
+    ];
+
+    foreach ($defaultRows as $defaultRow) {
+        if (!in_array($defaultRow['id'], $existingIds, true)) {
+            $allRows[] = $defaultRow;
+        }
+    }
+
+    $rows = $admin ? $allRows : array_filter($allRows, static fn ($row) => (int) $row['visible'] === 1);
+    $items = array_map('menu_row', $rows);
+    usort($items, function ($a, $b) {
+        return ($a['order'] <=> $b['order']) ?: strcmp($a['label'], $b['label']);
+    });
+    return $items;
 }
 
 function get_visible_menu(PDO $pdo): array
@@ -171,6 +258,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         json_response(200, ['ok' => true, 'page' => is_array($row) ? page_row($row) : null]);
     }
 
+    if ($resource === 'blog-posts') {
+        json_response(200, ['ok' => true, 'blogPosts' => get_blog_posts($pdo, false)]);
+    }
+
+    if ($resource === 'blog-post') {
+        $slug = slugify_php((string) ($_GET['slug'] ?? ''));
+        $table = table_name('cms_blog_posts');
+        $statement = $pdo->prepare("SELECT * FROM `{$table}` WHERE `slug` = :slug AND `status` = 'published' LIMIT 1");
+        $statement->execute([':slug' => $slug]);
+        $row = $statement->fetch();
+        json_response(200, ['ok' => true, 'blogPost' => is_array($row) ? blog_post_row($row) : null]);
+    }
+
     if ($resource === 'image') {
         $id = (string) ($_GET['id'] ?? '');
         $table = table_name('cms_images');
@@ -185,6 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         json_response(200, [
             'ok' => true,
             'pages' => get_pages($pdo, true),
+            'blogPosts' => get_blog_posts($pdo, true),
             'menuItems' => get_menu_items($pdo, true),
             'images' => get_images($pdo),
         ]);
@@ -254,6 +355,65 @@ if ($action === 'delete-page') {
     $statement = $pdo->prepare("DELETE FROM `{$table}` WHERE `id` = :id");
     $statement->execute([':id' => string_field($data, 'id')]);
     json_response(200, ['ok' => true, 'pages' => get_pages($pdo, true)]);
+}
+
+if ($action === 'save-blog-post') {
+    $post = $data['blogPost'] ?? [];
+    if (!is_array($post)) {
+        json_response(422, ['ok' => false, 'message' => 'Articolul nu este valid.']);
+    }
+
+    $id = string_field($post, 'id') ?: create_cms_id('blog');
+    $title = string_field($post, 'title');
+    $slug = slugify_php(string_field($post, 'slug') ?: $title);
+    $body = string_field($post, 'body');
+    if ($title === '' || $slug === '' || $body === '') {
+        json_response(422, ['ok' => false, 'message' => 'Titlul, slug-ul și conținutul articolului sunt obligatorii.']);
+    }
+
+    $table = table_name('cms_blog_posts');
+    $duplicate = $pdo->prepare("SELECT `id` FROM `{$table}` WHERE `slug` = :slug AND `id` <> :id LIMIT 1");
+    $duplicate->execute([':slug' => $slug, ':id' => $id]);
+    if ($duplicate->fetch()) {
+        json_response(409, ['ok' => false, 'message' => 'Există deja un articol cu acest slug.']);
+    }
+
+    try {
+        $statement = $pdo->prepare("INSERT INTO `{$table}`
+          (`id`, `slug`, `title`, `excerpt`, `body`, `status`, `category`, `tags`, `author`, `cover_image_id`, `featured`, `published_at`)
+          VALUES (:id, :slug, :title, :excerpt, :body, :status, :category, :tags, :author, :cover_image_id, :featured, :published_at)
+          ON DUPLICATE KEY UPDATE
+            `slug` = VALUES(`slug`), `title` = VALUES(`title`), `excerpt` = VALUES(`excerpt`), `body` = VALUES(`body`),
+            `status` = VALUES(`status`), `category` = VALUES(`category`), `tags` = VALUES(`tags`), `author` = VALUES(`author`),
+            `cover_image_id` = VALUES(`cover_image_id`), `featured` = VALUES(`featured`), `published_at` = VALUES(`published_at`),
+            `updated_at` = CURRENT_TIMESTAMP");
+        $statement->execute([
+            ':id' => $id,
+            ':slug' => $slug,
+            ':title' => $title,
+            ':excerpt' => string_field($post, 'excerpt'),
+            ':body' => $body,
+            ':status' => string_field($post, 'status') === 'draft' ? 'draft' : 'published',
+            ':category' => string_field($post, 'category') ?: 'Noutăți',
+            ':tags' => json_encode(normalize_blog_tags($post['tags'] ?? ''), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '[]',
+            ':author' => string_field($post, 'author') ?: 'GENE SYS SECURITY SRL',
+            ':cover_image_id' => string_field($post, 'coverImageId') ?: null,
+            ':featured' => bool_int($post['featured'] ?? false),
+            ':published_at' => mysql_datetime_from_input(string_field($post, 'publishedAt')),
+        ]);
+    } catch (Throwable $error) {
+        error_log('Save CMS blog post failed: ' . $error->getMessage());
+        json_response(500, ['ok' => false, 'message' => 'Articolul nu a putut fi salvat.']);
+    }
+
+    json_response(200, ['ok' => true, 'blogPosts' => get_blog_posts($pdo, true)]);
+}
+
+if ($action === 'delete-blog-post') {
+    $table = table_name('cms_blog_posts');
+    $statement = $pdo->prepare("DELETE FROM `{$table}` WHERE `id` = :id");
+    $statement->execute([':id' => string_field($data, 'id')]);
+    json_response(200, ['ok' => true, 'blogPosts' => get_blog_posts($pdo, true)]);
 }
 
 if ($action === 'save-menu-item') {

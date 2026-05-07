@@ -1,4 +1,5 @@
 export type CmsPageStatus = 'published' | 'draft';
+export type CmsBlogStatus = 'published' | 'draft';
 
 export type CmsPage = {
   id: string;
@@ -9,6 +10,23 @@ export type CmsPage = {
   status: CmsPageStatus;
   showInMenu: boolean;
   menuLabel: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CmsBlogPost = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  status: CmsBlogStatus;
+  category: string;
+  tags: string[];
+  author: string;
+  coverImageId: string;
+  featured: boolean;
+  publishedAt: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -33,6 +51,21 @@ export type CmsPageInput = {
   status: CmsPageStatus;
   showInMenu: boolean;
   menuLabel: string;
+};
+
+export type CmsBlogPostInput = {
+  id?: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  status: CmsBlogStatus;
+  category: string;
+  tags: string;
+  author: string;
+  coverImageId: string;
+  featured: boolean;
+  publishedAt: string;
 };
 
 export type CmsMenuInput = {
@@ -71,12 +104,14 @@ export const cmsContentChangedEvent = 'genesys-cms-content-changed';
 const pagesKey = 'genesys-cms-pages-v1';
 const menuKey = 'genesys-cms-menu-v1';
 const imagesKey = 'genesys-cms-images-v1';
+const blogPostsKey = 'genesys-cms-blog-posts-v1';
 const cmsEndpoint = import.meta.env.VITE_CMS_ENDPOINT?.trim() || '/admin/cms.php';
 
 export const defaultMenuItems: CmsMenuItem[] = [
   { id: 'home', label: 'Acasă', href: '/', kind: 'internal', visible: true, order: 10 },
   { id: 'shop', label: 'Magazin', href: 'https://shop.syshub.ro/', kind: 'external', visible: true, order: 20 },
   { id: 'projects', label: 'Proiecte', href: '/proiecte', kind: 'internal', visible: true, order: 30 },
+  { id: 'blog', label: 'Blog', href: '/blog', kind: 'internal', visible: true, order: 35 },
   { id: 'funding', label: 'Finanțare UE', href: '/finantare-ue', kind: 'internal', visible: true, order: 40 },
   { id: 'about', label: 'Despre Noi', href: '/#despre-noi', kind: 'internal', visible: true, order: 50 },
   { id: 'services', label: 'Servicii', href: '/#servicii', kind: 'internal', visible: true, order: 60 },
@@ -141,6 +176,68 @@ function normalizePage(value: unknown): CmsPage | null {
     status: candidate.status === 'draft' ? 'draft' : 'published',
     showInMenu: Boolean(candidate.showInMenu),
     menuLabel: typeof candidate.menuLabel === 'string' ? candidate.menuLabel : candidate.title,
+    createdAt: typeof candidate.createdAt === 'string' ? candidate.createdAt : new Date().toISOString(),
+    updatedAt: typeof candidate.updatedAt === 'string' ? candidate.updatedAt : new Date().toISOString(),
+  };
+}
+
+function normalizeTags(value: unknown) {
+  if (Array.isArray(value)) {
+    return value
+      .filter((tag): tag is string => typeof tag === 'string')
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .slice(0, 12);
+  }
+
+  if (typeof value !== 'string') {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    if (Array.isArray(parsed)) {
+      return normalizeTags(parsed);
+    }
+  } catch {
+    // Etichetele vechi pot fi salvate ca listă separată prin virgulă.
+  }
+
+  return value
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean)
+    .slice(0, 12);
+}
+
+function normalizeBlogPost(value: unknown): CmsBlogPost | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+
+  const candidate = value as Partial<CmsBlogPost>;
+  if (
+    typeof candidate.id !== 'string' ||
+    typeof candidate.slug !== 'string' ||
+    typeof candidate.title !== 'string' ||
+    typeof candidate.body !== 'string'
+  ) {
+    return null;
+  }
+
+  return {
+    id: candidate.id,
+    slug: slugify(candidate.slug),
+    title: candidate.title,
+    excerpt: typeof candidate.excerpt === 'string' ? candidate.excerpt : '',
+    body: candidate.body,
+    status: candidate.status === 'draft' ? 'draft' : 'published',
+    category: typeof candidate.category === 'string' && candidate.category.trim() ? candidate.category : 'Noutăți',
+    tags: normalizeTags(candidate.tags),
+    author: typeof candidate.author === 'string' && candidate.author.trim() ? candidate.author : 'GENE SYS SECURITY SRL',
+    coverImageId: typeof candidate.coverImageId === 'string' ? candidate.coverImageId : '',
+    featured: Boolean(candidate.featured),
+    publishedAt: typeof candidate.publishedAt === 'string' ? candidate.publishedAt : new Date().toISOString(),
     createdAt: typeof candidate.createdAt === 'string' ? candidate.createdAt : new Date().toISOString(),
     updatedAt: typeof candidate.updatedAt === 'string' ? candidate.updatedAt : new Date().toISOString(),
   };
@@ -240,7 +337,7 @@ function sortMenu(items: CmsMenuItem[]) {
 }
 
 function normalizeDefaultMenuLabels(items: CmsMenuItem[]) {
-  return items.map((item) => {
+  const normalizedItems = items.map((item) => {
     const defaultItem = defaultMenuItems.find((candidate) => candidate.id === item.id);
     const legacyLabels = legacyDefaultMenuLabels[item.id] || [];
     if (defaultItem && legacyLabels.includes(item.label)) {
@@ -249,6 +346,12 @@ function normalizeDefaultMenuLabels(items: CmsMenuItem[]) {
 
     return item;
   });
+
+  const missingDefaults = defaultMenuItems.filter(
+    (defaultItem) => !normalizedItems.some((item) => item.id === defaultItem.id),
+  );
+
+  return [...normalizedItems, ...missingDefaults];
 }
 
 function normalizeMenuHref(value: string) {
@@ -268,12 +371,28 @@ export function getCmsImages() {
   return readJsonArray(imagesKey, normalizeImage).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }
 
+export function getCmsBlogPosts() {
+  return readJsonArray(blogPostsKey, normalizeBlogPost).sort((a, b) => {
+    const aDate = a.publishedAt || a.updatedAt;
+    const bDate = b.publishedAt || b.updatedAt;
+    return bDate.localeCompare(aDate);
+  });
+}
+
 export function getCmsImage(imageId: string) {
   return getCmsImages().find((image) => image.id === imageId) || null;
 }
 
 export function getPublishedCmsPage(slug: string) {
   return getCmsPages().find((page) => page.slug === slug && page.status === 'published') || null;
+}
+
+export function getPublishedCmsBlogPosts() {
+  return getCmsBlogPosts().filter((post) => post.status === 'published');
+}
+
+export function getPublishedCmsBlogPost(slug: string) {
+  return getPublishedCmsBlogPosts().find((post) => post.slug === slug) || null;
 }
 
 export function getCmsMenuItems() {
@@ -338,6 +457,56 @@ export function deleteCmsPage(pageId: string) {
   const nextPages = getCmsPages().filter((page) => page.id !== pageId);
   persistJsonArray(pagesKey, nextPages);
   return nextPages;
+}
+
+export function saveCmsBlogPost(input: CmsBlogPostInput) {
+  const posts = getCmsBlogPosts();
+  const slug = slugify(input.slug || input.title);
+  if (!slug) {
+    throw new Error('Slug-ul articolului este obligatoriu.');
+  }
+
+  if (posts.some((post) => post.slug === slug && post.id !== input.id)) {
+    throw new Error('Există deja un articol cu acest slug.');
+  }
+
+  const now = new Date().toISOString();
+  const previous = posts.find((post) => post.id === input.id);
+  const parsedPublishedAt = input.publishedAt ? new Date(input.publishedAt) : new Date();
+  const publishedAt = Number.isNaN(parsedPublishedAt.getTime()) ? now : parsedPublishedAt.toISOString();
+  const nextPost: CmsBlogPost = {
+    id: previous?.id || createId('blog'),
+    slug,
+    title: input.title.trim(),
+    excerpt: input.excerpt.trim(),
+    body: input.body.trim(),
+    status: input.status,
+    category: input.category.trim() || 'Noutăți',
+    tags: normalizeTags(input.tags),
+    author: input.author.trim() || 'GENE SYS SECURITY SRL',
+    coverImageId: input.coverImageId.trim(),
+    featured: input.featured,
+    publishedAt,
+    createdAt: previous?.createdAt || now,
+    updatedAt: now,
+  };
+
+  if (!nextPost.title || !nextPost.body) {
+    throw new Error('Titlul și conținutul articolului sunt obligatorii.');
+  }
+
+  const nextPosts = previous
+    ? posts.map((post) => (post.id === previous.id ? nextPost : post))
+    : [nextPost, ...posts];
+
+  persistJsonArray(blogPostsKey, nextPosts);
+  return nextPosts;
+}
+
+export function deleteCmsBlogPost(postId: string) {
+  const nextPosts = getCmsBlogPosts().filter((post) => post.id !== postId);
+  persistJsonArray(blogPostsKey, nextPosts);
+  return nextPosts;
 }
 
 export function saveCmsImage(input: CmsImageInput) {
@@ -445,14 +614,17 @@ type CmsApiResponse = {
   ok?: boolean;
   message?: string;
   pages?: unknown[];
+  blogPosts?: unknown[];
   menuItems?: unknown[];
   images?: unknown[];
   page?: unknown;
+  blogPost?: unknown;
   image?: unknown;
 };
 
 export type CmsAdminContent = {
   pages: CmsPage[];
+  blogPosts: CmsBlogPost[];
   menuItems: CmsMenuItem[];
   images: CmsImage[];
   usingServer: boolean;
@@ -486,6 +658,13 @@ function normalizePages(values: unknown[] | undefined) {
   return (values || []).map(normalizePage).filter((page): page is CmsPage => Boolean(page));
 }
 
+function normalizeBlogPosts(values: unknown[] | undefined) {
+  return (values || [])
+    .map(normalizeBlogPost)
+    .filter((post): post is CmsBlogPost => Boolean(post))
+    .sort((a, b) => (b.publishedAt || b.updatedAt).localeCompare(a.publishedAt || a.updatedAt));
+}
+
 function normalizeMenuItems(values: unknown[] | undefined) {
   return sortMenu((values || []).map(normalizeMenuItem).filter((item): item is CmsMenuItem => Boolean(item)));
 }
@@ -506,6 +685,7 @@ export async function loadCmsAdminContent(): Promise<CmsAdminContent> {
     const data = await cmsRequest(new URLSearchParams({ resource: 'admin-content' }));
     return {
       pages: normalizePages(data.pages),
+      blogPosts: normalizeBlogPosts(data.blogPosts),
       menuItems: normalizeMenuItems(data.menuItems),
       images: normalizeImages(data.images),
       usingServer: true,
@@ -513,6 +693,7 @@ export async function loadCmsAdminContent(): Promise<CmsAdminContent> {
   } catch {
     return {
       pages: getCmsPages(),
+      blogPosts: getCmsBlogPosts(),
       menuItems: getCmsMenuItems(),
       images: getCmsImages(),
       usingServer: false,
@@ -535,6 +716,24 @@ export async function fetchPublishedCmsPage(slug: string) {
     return data.page ? normalizePage(data.page) : null;
   } catch {
     return getPublishedCmsPage(slug);
+  }
+}
+
+export async function fetchPublishedCmsBlogPosts() {
+  try {
+    const data = await cmsRequest(new URLSearchParams({ resource: 'blog-posts' }));
+    return normalizeBlogPosts(data.blogPosts);
+  } catch {
+    return getPublishedCmsBlogPosts();
+  }
+}
+
+export async function fetchPublishedCmsBlogPost(slug: string) {
+  try {
+    const data = await cmsRequest(new URLSearchParams({ resource: 'blog-post', slug }));
+    return data.blogPost ? normalizeBlogPost(data.blogPost) : null;
+  } catch {
+    return getPublishedCmsBlogPost(slug);
   }
 }
 
@@ -565,6 +764,26 @@ export async function deleteCmsPageManaged(pageId: string, useServer: boolean) {
   const data = await postCmsAction('delete-page', { id: pageId });
   dispatchCmsChange();
   return normalizePages(data.pages);
+}
+
+export async function saveCmsBlogPostManaged(input: CmsBlogPostInput, useServer: boolean) {
+  if (!useServer) {
+    return saveCmsBlogPost(input);
+  }
+
+  const data = await postCmsAction('save-blog-post', { blogPost: input });
+  dispatchCmsChange();
+  return normalizeBlogPosts(data.blogPosts);
+}
+
+export async function deleteCmsBlogPostManaged(postId: string, useServer: boolean) {
+  if (!useServer) {
+    return deleteCmsBlogPost(postId);
+  }
+
+  const data = await postCmsAction('delete-blog-post', { id: postId });
+  dispatchCmsChange();
+  return normalizeBlogPosts(data.blogPosts);
 }
 
 export async function saveCmsMenuItemManaged(input: CmsMenuInput, useServer: boolean) {

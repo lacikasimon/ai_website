@@ -15,7 +15,9 @@ function getBreadcrumbName(path: string, segment: string) {
     '/contact': 'Contact',
     '/proiecte': 'Proiecte',
     '/finantare-ue': 'Finanțare UE',
+    '/blog': 'Blog',
     '/politica-cookie-uri': siteContent.cookiePolicy.title,
+    '/gdpr': siteContent.gdprPolicy.title,
     '/admin': 'Admin',
   };
 
@@ -26,6 +28,10 @@ function getBreadcrumbName(path: string, segment: string) {
   }
 
   if (path.startsWith('/pagini/')) {
+    return humanizeSlug(segment);
+  }
+
+  if (path.startsWith('/blog/')) {
     return humanizeSlug(segment);
   }
 
@@ -56,6 +62,15 @@ export function BreadcrumbJsonLd() {
               path: location.pathname,
             },
           ]
+        : segments[0] === 'blog' && segments[1]
+          ? [
+              { name: 'Acasă', path: '/' },
+              { name: 'Blog', path: '/blog' },
+              {
+                name: getBreadcrumbName(location.pathname, segments[1]),
+                path: location.pathname,
+              },
+            ]
         : [
             { name: 'Acasă', path: '/' },
             ...segments.map((segment, index) => {

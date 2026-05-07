@@ -56,6 +56,27 @@ CREATE TABLE IF NOT EXISTS `gs_cms_pages` (
   KEY `idx_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `gs_cms_blog_posts` (
+  `id` varchar(64) NOT NULL,
+  `slug` varchar(140) NOT NULL,
+  `title` varchar(240) NOT NULL,
+  `excerpt` text,
+  `body` mediumtext NOT NULL,
+  `status` enum('published','draft') NOT NULL DEFAULT 'draft',
+  `category` varchar(120) NOT NULL DEFAULT 'Noutăți',
+  `tags` text,
+  `author` varchar(160) NOT NULL DEFAULT 'GENE SYS SECURITY SRL',
+  `cover_image_id` varchar(64) DEFAULT NULL,
+  `featured` tinyint(1) NOT NULL DEFAULT 0,
+  `published_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_blog_slug` (`slug`),
+  KEY `idx_blog_status_date` (`status`, `published_at`),
+  KEY `idx_blog_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `gs_cms_menu_items` (
   `id` varchar(64) NOT NULL,
   `label` varchar(160) NOT NULL,
@@ -87,6 +108,7 @@ INSERT INTO `gs_cms_menu_items` (`id`, `label`, `href`, `kind`, `visible`, `sort
 ('home', 'Acasă', '/', 'internal', 1, 10),
 ('shop', 'Magazin', 'https://shop.syshub.ro/', 'external', 1, 20),
 ('projects', 'Proiecte', '/proiecte', 'internal', 1, 30),
+('blog', 'Blog', '/blog', 'internal', 1, 35),
 ('funding', 'Finanțare UE', '/finantare-ue', 'internal', 1, 40),
 ('about', 'Despre Noi', '/#despre-noi', 'internal', 1, 50),
 ('services', 'Servicii', '/#servicii', 'internal', 1, 60),

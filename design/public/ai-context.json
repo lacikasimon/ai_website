@@ -1,5 +1,5 @@
 {
-  "version": "2026-04-30",
+  "version": "2026-05-07",
   "language": "ro-RO",
   "site": {
     "name": "GENE SYS SECURITY SRL",
@@ -80,6 +80,10 @@
     {
       "name": "Politica cookie",
       "url": "https://syshub.ro/politica-cookie-uri"
+    },
+    {
+      "name": "GDPR",
+      "url": "https://syshub.ro/gdpr"
     }
   ],
   "answerGuidance": [

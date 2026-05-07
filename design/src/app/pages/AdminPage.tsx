@@ -68,8 +68,8 @@ const localAdminFallbackEnabled = import.meta.env.DEV || import.meta.env.VITE_EN
 const adminSections = [
   {
     id: 'content' as const,
-    label: 'Pagini și meniu',
-    description: 'Editare pagini, linkuri și ordine meniu',
+    label: 'Conținut',
+    description: 'Blog, pagini, linkuri și ordine meniu',
     icon: FileText,
   },
   {
