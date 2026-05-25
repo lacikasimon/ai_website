@@ -28,7 +28,6 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [menuItems, setMenuItems] = useState<CmsMenuItem[]>(() => getVisibleCmsMenuItems());
   const isHomePage = location.pathname === '/';
-  const showFundingLogoBar = location.pathname === '/finantare-ue';
 
   const getAriaCurrent = (href: string): 'page' | 'location' | undefined => {
     if (isExternalHref(href)) return undefined;
@@ -117,13 +116,11 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-blue-100/80 bg-gradient-to-r from-white via-blue-50/80 to-white shadow-sm shadow-blue-950/5 backdrop-blur-md">
-      {showFundingLogoBar && (
-        <div className="border-b border-blue-100/80 bg-white/95 py-2">
-          <div className="container mx-auto px-4">
-            <FundingLogos />
-          </div>
+      <div className="border-b border-blue-100/80 bg-white/95 py-2">
+        <div className="container mx-auto px-4">
+          <FundingLogos />
         </div>
-      )}
+      </div>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link

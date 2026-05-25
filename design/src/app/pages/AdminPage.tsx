@@ -556,7 +556,7 @@ export function AdminPage() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-slate-50 pt-24">
+      <div className="min-h-screen bg-slate-50 pt-44 md:pt-40">
         <section className="border-b border-blue-100 bg-white py-10">
           <div className="container mx-auto px-4">
             <nav className="mb-4 text-sm text-slate-500">
@@ -649,7 +649,7 @@ export function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24">
+    <div className="min-h-screen bg-slate-50 pt-44 md:pt-40">
       <section className="border-b border-blue-100 bg-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">

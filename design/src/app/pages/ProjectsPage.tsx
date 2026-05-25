@@ -72,7 +72,7 @@ export function ProjectsPage() {
   ];
 
   return (
-    <div className="pt-24 pb-20">
+    <div className="pt-44 pb-20 md:pt-40">
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden border-b border-blue-900/40 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900">
         <div className="absolute inset-0 opacity-20">

@@ -207,7 +207,7 @@ export function ServiceDetailPage() {
 
   if (!service) {
     return (
-      <div className="pt-24 pb-20 min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="pt-44 pb-20 min-h-screen flex items-center justify-center bg-slate-50 md:pt-40">
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight mb-4 text-slate-900">Serviciu negăsit</h1>
           <Link to="/" className="text-blue-700 hover:text-blue-900 font-medium">
@@ -221,7 +221,7 @@ export function ServiceDetailPage() {
   const Icon = service.icon;
 
   return (
-    <div className="pt-24 pb-20">
+    <div className="pt-44 pb-20 md:pt-40">
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden border-b border-blue-900/30 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900">
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none">

@@ -72,7 +72,7 @@ export function CustomPage() {
 
   if (!page) {
     return (
-      <div className="min-h-screen bg-slate-50 pt-24">
+      <div className="min-h-screen bg-slate-50 pt-44 md:pt-40">
         <section className="border-b border-blue-100 bg-white py-12">
           <div className="container mx-auto px-4">
             <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">
@@ -97,7 +97,7 @@ export function CustomPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24">
+    <div className="min-h-screen bg-slate-50 pt-44 md:pt-40">
       <section className="border-b border-blue-100 bg-white py-10">
         <div className="container mx-auto px-4">
           <nav className="mb-4 text-sm text-slate-500" aria-label="Breadcrumb">

@@ -149,7 +149,7 @@ export function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-24">
+    <div className="min-h-screen bg-slate-50 pt-44 md:pt-40">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="border-b border-slate-200 bg-white py-12">
         <div className="container mx-auto px-4">

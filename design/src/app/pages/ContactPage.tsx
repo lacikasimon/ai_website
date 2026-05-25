@@ -13,7 +13,7 @@ export function ContactPage() {
   });
 
   return (
-    <div className="pt-24">
+    <div className="pt-44 md:pt-40">
       <section className="py-8 bg-white border-b border-blue-100">
         <div className="container mx-auto px-4">
           <nav className="text-sm text-slate-500 mb-4" aria-label="Breadcrumb">

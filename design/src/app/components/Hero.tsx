@@ -22,7 +22,7 @@ export function Hero() {
       </div>
 
       {/* Hero Content */}
-      <div id="home" className="relative z-10 container mx-auto px-4 pb-32 pt-28 text-center sm:pb-28 sm:pt-24">
+      <div id="home" className="relative z-10 container mx-auto px-4 pb-32 pt-48 text-center sm:pb-28 sm:pt-44 md:pt-40">
         <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6 text-blue-950 tracking-tight max-w-5xl mx-auto leading-[1.1] font-semibold">
           {siteContent.home.hero.headline}
         </h1>

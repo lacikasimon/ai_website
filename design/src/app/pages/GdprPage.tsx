@@ -38,7 +38,7 @@ export function GdprPage() {
   });
 
   return (
-    <div className="pt-24">
+    <div className="pt-44 md:pt-40">
       <section className="border-b border-blue-100 bg-white py-10">
         <div className="container mx-auto max-w-4xl px-4">
           <nav className="mb-6 text-sm text-slate-500" aria-label="Breadcrumb">
