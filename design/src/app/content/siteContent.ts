@@ -23,7 +23,7 @@ export const siteContent = {
     founded: '2017-10-06',
     county: 'Satu Mare',
     locality: 'Satu Mare',
-    street: 'Str. Gheorghe Barițiu 88',
+    street: 'Str. Gheorghe Barițiu 86',
     postalCode: '440135',
   },
 
@@ -34,17 +34,17 @@ export const siteContent = {
     emails: [] as string[],
     addressLines: [
       'Județ Satu Mare, loc. Satu Mare',
-      'Str. Gheorghe Barițiu 88, cod poștal 440135',
+      'Str. Gheorghe Barițiu 86, cod poștal 440135',
     ],
     hours: ['Luni–Vineri: 08:00–18:00', 'Urgențe: la cerere'],
     coverage:
       'Intervenții în Satu Mare și regiune; proiecte civile și industriale la nivel național, în funcție de cerințe.',
     /** Google Maps embed (iframe src) */
     mapEmbedUrl:
-      'https://www.google.com/maps?q=Str.%20Gheorghe%20Bari%C8%9Biu%2088%2C%20440135%20Satu%20Mare%2C%20Romania&output=embed',
+      'https://www.google.com/maps?q=Str.%20Gheorghe%20Bari%C8%9Biu%2086%2C%20440135%20Satu%20Mare%2C%20Romania&output=embed',
     /** Link „Deschide în Google Maps” — același punct ca în embed */
     mapOpenUrl:
-      'https://www.google.com/maps/search/?api=1&query=Str.%20Gheorghe%20Bari%C8%9Biu%2088%2C%20440135%20Satu%20Mare%2C%20Romania',
+      'https://www.google.com/maps/search/?api=1&query=Str.%20Gheorghe%20Bari%C8%9Biu%2086%2C%20440135%20Satu%20Mare%2C%20Romania',
   },
 
   /** KPI — experiența: ani de la înființare (2017) */
@@ -432,7 +432,7 @@ export const siteContent = {
       },
       {
         label: 'Sediu',
-        value: 'Str. Gheorghe Barițiu 88, Satu Mare, cod poștal 440135',
+        value: 'Str. Gheorghe Barițiu 86, Satu Mare, cod poștal 440135',
       },
       {
         label: 'Contact',

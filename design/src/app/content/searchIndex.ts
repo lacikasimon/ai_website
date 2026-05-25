@@ -55,10 +55,11 @@ export const searchEntries: SearchEntry[] = [
   },
   {
     title: 'Finanțare UE',
-    description: 'Pagină dedicată proiectului finanțat prin Programul Regional Nord-Vest 2021-2027.',
+    description:
+      'Investiții pentru digitalizarea societății GENE SYS SECURITY SRL, cod SMIS 334780, proiect finanțat prin Programul Regional Nord-Vest 2021-2027.',
     href: '/finantare-ue',
     category: 'Informare',
-    keywords: 'finanțare UE REGIO Nord-Vest ADR proiect cofinanțat',
+    keywords: 'finanțare UE REGIO Nord-Vest ADR proiect finanțat SMIS 334780 digitalizare',
   },
   {
     title: 'Blog',

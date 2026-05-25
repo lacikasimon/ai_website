@@ -1,47 +1,71 @@
-import { CalendarDays, FileText, Info, RefreshCw } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
-import { FundingLogos } from '../components/FundingLogos';
 import { useSeo } from '../seo/useSeo';
 import { siteContent } from '../content/siteContent';
 
-const updates = [
+const projectTitle = 'Investiții pentru digitalizarea societății GENE SYS SECURITY SRL, cod SMIS 334780';
+const launchPressPdfUrl = '/docs/smis-334780-comunicat-demarare.pdf';
+const launchPressUrl = 'https://portalsm.ro/2026/12/comunicat-de-presa-gene-sys-security-srl/';
+const regionalLinks = [
+  { label: 'www.regionordvest.ro', href: 'https://regionordvest.ro/' },
+  { label: 'www.nord-vest.ro', href: 'https://www.nord-vest.ro/' },
+];
+
+const projectObjectives = {
+  general:
+    'Obiectivul general al proiectului este creșterea competitivității GENE SYS SECURITY SRL prin digitalizarea activității și prin integrarea unor soluții moderne care susțin eficientizarea proceselor interne.',
+  specific: [
+    'achiziția și implementarea de active corporale și necorporale necesare digitalizării societății;',
+    'modernizarea fluxurilor de lucru prin utilizarea tehnologiilor digitale în activitatea curentă;',
+    'creșterea capacității companiei de a furniza servicii mai eficiente, trasabile și adaptate cerințelor pieței.',
+  ],
+};
+
+const projectDescription = [
+  'Proiectul urmărește dezvoltarea capacității digitale a societății GENE SYS SECURITY SRL prin investiții în soluții și instrumente moderne, utile pentru administrarea activităților curente și pentru creșterea eficienței operaționale.',
+  'Prin implementarea proiectului, compania își propune să îmbunătățească procesele interne, trasabilitatea activităților și calitatea interacțiunii cu beneficiarii serviciilor sale.',
+];
+
+const implementationStages = [
   {
-    title: 'Comunicat de lansare',
-    body: 'Anunțul de lansare al proiectului va fi publicat pe această pagină după aprobarea conținutului.',
-    icon: FileText,
+    date: '28.11.2025',
+    title: 'Semnare Contract de finanțare',
   },
   {
-    title: 'Stadiul proiectului',
-    body: 'Descrierile privind progresul proiectului vor fi actualizate cel puțin o dată la 6 luni, cu fotografii, ilustrații sau alte materiale vizuale relevante.',
-    icon: RefreshCw,
+    date: '29.12.2025',
+    title: 'Publicare comunicat de presă demarare proiect',
+    href: launchPressPdfUrl,
+    label: 'Descarcă comunicatul PDF',
+    secondaryHref: launchPressUrl,
+    secondaryLabel: 'Vezi comunicatul pe PresaSM',
+  },
+];
+
+const communications = [
+  {
+    title: 'Comunicat de presă lansare proiect',
+    href: launchPressPdfUrl,
+    label: 'Descarcă comunicatul PDF',
+    secondaryHref: launchPressUrl,
+    secondaryLabel: 'Vezi comunicatul pe PresaSM',
   },
   {
-    title: 'Comunicat de finalizare',
-    body: 'La finalizarea proiectului va fi publicat comunicatul final, împreună cu informațiile despre rezultatele obținute.',
-    icon: CalendarDays,
+    title: 'Comunicat de presă finalizare proiect',
+    body: 'Va fi publicat la finalizarea proiectului.',
   },
 ];
 
 export function FundingPage() {
   useSeo({
-    title: `Finanțare UE | ${siteContent.meta.ogTitle}`,
-    description:
-      'Pagină dedicată proiectului cofinanțat de Uniunea Europeană prin Programul Regional Nord-Vest 2021-2027.',
+    title: `${projectTitle} | ${siteContent.meta.ogTitle}`,
+    description: `${projectTitle}. Proiect finanțat prin Programul Regional Nord-Vest 2021-2027.`,
     path: '/finantare-ue',
-    keywords: `${siteContent.meta.keywords}, finanțare UE, REGIO Nord-Vest, proiect cofinanțat`,
+    keywords: `${siteContent.meta.keywords}, finanțare UE, REGIO Nord-Vest, Programul Regional Nord-Vest 2021-2027, proiect finanțat, SMIS 334780`,
   });
 
   return (
-    <div className="pt-24">
-      <section className="border-b border-blue-100 bg-gradient-to-b from-white via-blue-50/60 to-white py-8 sm:py-10">
-        <div className="container mx-auto px-4">
-          <div className="rounded-xl border border-blue-100 bg-white/90 px-4 py-5 shadow-sm shadow-blue-950/5 sm:px-6">
-            <FundingLogos />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-12 sm:py-16">
+    <div className="bg-white pt-48 sm:pt-44 md:pt-40">
+      <main className="bg-white py-10 sm:py-12">
         <div className="container mx-auto max-w-5xl px-4">
           <nav className="mb-6 text-sm text-slate-500" aria-label="Breadcrumb">
             <Link to="/" className="text-blue-700 transition-colors hover:text-blue-950">
@@ -51,27 +75,118 @@ export function FundingPage() {
             <span className="text-slate-700" aria-current="page">Finanțare UE</span>
           </nav>
 
-          <div className="max-w-3xl">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-blue-800">
-              Proiect cofinanțat
-            </p>
-            <h1 className="text-4xl font-semibold tracking-tight text-blue-950 sm:text-5xl">
-              Pagină dedicată proiectului finanțat prin Programul Regional Nord-Vest 2021-2027
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-slate-700">
-              Această pagină prezintă informațiile publice privind proiectul pentru care GENE SYS SECURITY
-              SRL beneficiază de sprijin financiar acordat prin Programul Regional Nord-Vest 2021-2027.
-            </p>
-          </div>
+          <article className="space-y-10">
+            <header className="max-w-4xl">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-blue-800">
+                Proiect finanțat prin Programul Regional Nord-Vest 2021-2027
+              </p>
+              <h1 className="text-3xl font-semibold tracking-tight text-blue-950 sm:text-4xl">
+                {projectTitle}
+              </h1>
+            </header>
 
-          <div className="mt-10 rounded-xl border border-blue-100 bg-blue-50/45 p-5 sm:p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-white">
-                <Info className="h-5 w-5 text-blue-800" aria-hidden />
+            <section className="border-t border-slate-200 pt-8">
+              <h2 className="text-2xl font-semibold text-slate-950">Descrierea proiectului</h2>
+              <div className="mt-4 space-y-4 text-base leading-relaxed text-slate-700">
+                {projectDescription.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
               </div>
+
+              <div className="mt-7 grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+                <div className="border-l-4 border-blue-700 pl-4">
+                  <h3 className="text-lg font-semibold text-slate-950">Obiectivul general</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-700">{projectObjectives.general}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-950">Obiective specifice</h3>
+                  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-700">
+                    {projectObjectives.specific.map((objective) => (
+                      <li key={objective} className="flex gap-2">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-700" aria-hidden />
+                        <span>{objective}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section className="border-t border-slate-200 pt-8">
+              <h2 className="text-2xl font-semibold text-slate-950">Stadiile implementării proiectului</h2>
+              <div className="mt-5 divide-y divide-slate-200 border-y border-slate-200">
+                {implementationStages.map((stage) => (
+                  <div key={`${stage.date}-${stage.title}`} className="grid gap-2 py-4 sm:grid-cols-[8rem_minmax(0,1fr)]">
+                    <time className="text-sm font-semibold text-blue-800">{stage.date}</time>
+                    <div>
+                      <p className="font-medium text-slate-950">{stage.title}</p>
+                      {stage.href ? (
+                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+                          <a
+                            href={stage.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
+                          >
+                            {stage.label}
+                            <ExternalLink className="h-4 w-4" aria-hidden />
+                          </a>
+                          {stage.secondaryHref ? (
+                            <a
+                              href={stage.secondaryHref}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 underline underline-offset-2 hover:text-blue-950"
+                            >
+                              {stage.secondaryLabel}
+                              <ExternalLink className="h-4 w-4" aria-hidden />
+                            </a>
+                          ) : null}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="grid gap-6 border-t border-slate-200 pt-8 md:grid-cols-2">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <h2 className="text-xl font-semibold text-slate-950">Galerie foto</h2>
+                <p className="mt-3 text-sm leading-relaxed text-slate-700">
+                  Materialele foto relevante pentru evoluția proiectului vor fi publicate pe această pagină pe
+                  parcursul implementării.
+                </p>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+                <h2 className="text-xl font-semibold text-slate-950">Galerie video</h2>
+                <p className="mt-3 text-sm leading-relaxed text-slate-700">
+                  Materialele video sau alte materiale grafice elocvente vor fi adăugate atunci când vor fi
+                  disponibile.
+                </p>
+              </div>
+            </section>
+
+            <section className="border-t border-slate-200 pt-8">
+              <div className="rounded-lg bg-blue-950 px-5 py-6 text-white sm:px-6">
+                <p className="text-2xl font-semibold">Investim în viitorul regiunii!</p>
+                <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-blue-100">
+                  {regionalLinks.map((link, index) => (
+                    <span key={link.href} className="inline-flex items-center gap-3">
+                      <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                        {link.label}
+                      </a>
+                      {index < regionalLinks.length - 1 ? <span aria-hidden>I</span> : null}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="rounded-lg border border-blue-100 bg-blue-50 p-5 sm:p-6">
               <p className="text-sm leading-relaxed text-slate-700">
-                Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
-                vă invităm să vizitați{' '}
+                Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană, vă
+                invităm să vizitați{' '}
                 <a
                   href="https://oportunitati-ue.gov.ro/"
                   target="_blank"
@@ -82,25 +197,46 @@ export function FundingPage() {
                 </a>
                 .
               </p>
-            </div>
-          </div>
+            </section>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {updates.map((item) => {
-              const Icon = item.icon;
-              return (
-                <article key={item.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg border border-blue-100 bg-blue-50">
-                    <Icon className="h-5 w-5 text-blue-800" aria-hidden />
+            <section className="border-t border-slate-200 pt-8">
+              <h2 className="text-2xl font-semibold text-slate-950">Comunicate de presă</h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                {communications.map((item) => (
+                  <div key={item.title} className="rounded-lg border border-slate-200 bg-white p-5">
+                    <h3 className="text-lg font-semibold text-slate-950">{item.title}</h3>
+                    {item.body ? <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.body}</p> : null}
+                    {item.href ? (
+                      <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
+                        >
+                          {item.label}
+                          <ExternalLink className="h-4 w-4" aria-hidden />
+                        </a>
+                        {item.secondaryHref ? (
+                          <a
+                            href={item.secondaryHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 underline underline-offset-2 hover:text-blue-950"
+                          >
+                            {item.secondaryLabel}
+                            <ExternalLink className="h-4 w-4" aria-hidden />
+                          </a>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </div>
-                  <h2 className="text-lg font-semibold text-slate-900">{item.title}</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.body}</p>
-                </article>
-              );
-            })}
-          </div>
+                ))}
+              </div>
+            </section>
+          </article>
         </div>
-      </section>
+      </main>
     </div>
   );
 }

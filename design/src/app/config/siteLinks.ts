@@ -1,10 +1,11 @@
 export const publicSiteUrl = (import.meta.env.VITE_SITE_URL || 'https://syshub.ro').replace(/\/$/, '');
 export const publicHomeUrl = `${publicSiteUrl}/`;
+export const facebookProfileUrl = 'https://www.facebook.com/profile.php?id=61590108433393';
 
 export const socialShareLinks = [
   {
     label: 'Facebook',
-    href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(publicHomeUrl)}`,
+    href: facebookProfileUrl,
   },
   {
     label: 'LinkedIn',

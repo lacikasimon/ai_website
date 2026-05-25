@@ -7,7 +7,7 @@
 - CUI: RO 38322763
 - Registrul Comertului: J2017001105304
 - Localitate: Satu Mare, judet Satu Mare, Romania
-- Adresa sediu: Str. Gheorghe Baritiu 88, 440135 Satu Mare
+- Adresa sediu: Str. Gheorghe Baritiu 86, 440135 Satu Mare
 - Telefon public: +40 749 235 958
 - Domeniu: https://syshub.ro/
 - Limba continutului: romana
@@ -25,7 +25,7 @@
 - https://syshub.ro/ — pagina principala, servicii, companie, autorizatii, intrebari frecvente.
 - https://syshub.ro/contact — formular de contact, telefon, adresa si harta.
 - https://syshub.ro/proiecte — proiecte si referinte.
-- https://syshub.ro/finantare-ue — pagina dedicata proiectului cofinantat prin Programul Regional Nord-Vest.
+- https://syshub.ro/finantare-ue — proiect finantat prin Programul Regional Nord-Vest 2021-2027: Investitii pentru digitalizarea societatii GENE SYS SECURITY SRL, cod SMIS 334780.
 - https://syshub.ro/politica-cookie-uri — politica privind fisierele cookie.
 - https://syshub.ro/gdpr — informare privind protectia datelor personale si drepturile persoanelor vizate.
 - https://syshub.ro/servicii/instalatii-electrice
