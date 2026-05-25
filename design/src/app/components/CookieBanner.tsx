@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { Cookie } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { COOKIE_CONSENT_CHANGED_EVENT, COOKIE_CONSENT_STORAGE_KEY } from '../utils/cookieConsent';
 
@@ -18,14 +19,36 @@ export function CookieBanner() {
   const dismiss = (value: 'all' | 'essential') => {
     try {
       window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, value);
-      window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_CHANGED_EVENT));
+      window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_CHANGED_EVENT, { detail: { visible: false } }));
     } catch {
       /* ignore */
     }
     setVisible(false);
   };
 
-  if (!visible) return null;
+  const reopenBanner = () => {
+    try {
+      window.localStorage.removeItem(COOKIE_CONSENT_STORAGE_KEY);
+      window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_CHANGED_EVENT, { detail: { visible: true } }));
+    } catch {
+      /* ignore */
+    }
+    setVisible(true);
+  };
+
+  if (!visible) {
+    return (
+      <button
+        type="button"
+        aria-label="Deschide setările cookie"
+        title="Setări cookie"
+        className="fixed bottom-5 left-1/2 z-[54] inline-flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-blue-100 bg-white text-blue-900 shadow-xl shadow-blue-950/20 ring-4 ring-white transition-colors hover:bg-blue-50 md:bottom-6"
+        onClick={reopenBanner}
+      >
+        <Cookie className="h-5 w-5" aria-hidden />
+      </button>
+    );
+  }
 
   return (
     <>

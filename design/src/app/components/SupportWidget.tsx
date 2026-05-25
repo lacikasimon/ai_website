@@ -13,7 +13,12 @@ export function SupportWidget() {
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   useEffect(() => {
-    const syncCookieState = () => {
+    const syncCookieState = (event?: Event) => {
+      if (event instanceof CustomEvent && typeof event.detail?.visible === 'boolean') {
+        setCookieVisible(event.detail.visible);
+        return;
+      }
+
       try {
         setCookieVisible(!window.localStorage.getItem(COOKIE_CONSENT_STORAGE_KEY));
       } catch {
@@ -34,7 +39,7 @@ export function SupportWidget() {
   return (
     <div
       className={`fixed right-4 z-[55] flex flex-col items-end gap-3 transition-[bottom] duration-200 ${
-        cookieVisible ? 'bottom-40 md:bottom-36' : 'bottom-5 md:bottom-6'
+        cookieVisible ? 'bottom-64 md:bottom-36' : 'bottom-5 md:bottom-6'
       }`}
     >
       {open && (

@@ -5,7 +5,7 @@ import { siteContent } from '../content/siteContent';
 
 const projectTitle = 'Investiții pentru digitalizarea societății GENE SYS SECURITY SRL, cod SMIS 334780';
 const launchPressPdfUrl = '/docs/smis-334780-comunicat-demarare.pdf';
-const launchPressUrl = 'https://portalsm.ro/2026/12/comunicat-de-presa-gene-sys-security-srl/';
+const launchPressUrl = 'https://portalsm.ro/2025/12/comunicat-de-presa-gene-sys-security-srl/';
 const regionalLinks = [
   { label: 'www.regionordvest.ro', href: 'https://regionordvest.ro/' },
   { label: 'www.nord-vest.ro', href: 'https://www.nord-vest.ro/' },

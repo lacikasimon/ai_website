@@ -1,7 +1,8 @@
 import { ArrowRight, Search, X } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { searchEntries, searchSite } from '../content/searchIndex';
+import { getSearchEntries, searchSite } from '../content/searchIndex';
+import { cmsContentChangedEvent } from '../utils/contentManagement';
 
 type SiteSearchProps = {
   variant?: 'icon' | 'menu';
@@ -12,16 +13,29 @@ type SiteSearchProps = {
 export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSearchProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const [searchVersion, setSearchVersion] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dialogTitleId = useId();
   const inputId = useId();
   const resultsId = useId();
+  const entries = useMemo(() => getSearchEntries(), [searchVersion]);
 
   const results = useMemo(() => {
-    if (!query.trim()) return searchEntries.slice(0, 6);
-    return searchSite(query, 8);
-  }, [query]);
+    if (!query.trim()) return entries.slice(0, 6);
+    return searchSite(query, 8, entries);
+  }, [entries, query]);
+
+  useEffect(() => {
+    const refreshSearchEntries = () => setSearchVersion((version) => version + 1);
+
+    window.addEventListener('storage', refreshSearchEntries);
+    window.addEventListener(cmsContentChangedEvent, refreshSearchEntries);
+    return () => {
+      window.removeEventListener('storage', refreshSearchEntries);
+      window.removeEventListener(cmsContentChangedEvent, refreshSearchEntries);
+    };
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -54,7 +68,10 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
         aria-label="Caută în site"
         title="Caută în site"
         className={className ?? defaultButtonClass}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setSearchVersion((version) => version + 1);
+          setOpen(true);
+        }}
       >
         <Search className="h-4 w-4" aria-hidden />
         {variant === 'menu' && <span>Caută în site</span>}
@@ -87,7 +104,7 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
                 onChange={(event) => setQuery(event.target.value)}
                 aria-controls={resultsId}
                 className="min-w-0 flex-1 bg-transparent py-2 text-base text-slate-900 outline-none placeholder:text-slate-400"
-                placeholder="Caută servicii, proiecte, contact..."
+                placeholder="Caută după cuvinte cheie: SMIS, panouri, CCTV..."
               />
               <button
                 type="button"
@@ -128,7 +145,9 @@ export function SiteSearch({ variant = 'icon', className, onNavigate }: SiteSear
               ) : (
                 <div className="px-4 py-10 text-center">
                   <p className="text-sm font-semibold text-slate-900">Nu am găsit rezultate.</p>
-                  <p className="mt-2 text-sm text-slate-500">Încercați un termen precum fotovoltaice, CCTV, mentenanță sau contact.</p>
+                  <p className="mt-2 text-sm text-slate-500">
+                    Încercați un termen precum SMIS, panouri solare, alarmă, CCTV, mentenanță sau contact.
+                  </p>
                 </div>
               )}
             </div>
