@@ -13,17 +13,16 @@ const regionalLinks = [
 
 const projectObjectives = {
   general:
-    'Obiectivul general al proiectului este creșterea competitivității GENE SYS SECURITY SRL prin digitalizarea activității și prin integrarea unor soluții moderne care susțin eficientizarea proceselor interne.',
+    'Obiectivul general al proiectului este de a valorifica avantajele digitalizării în beneficiul companiei, prin realizarea unor investiții ce conduc la atingerea unui nivel de intensitate digitală ridicat în cadrul activității desfășurate de către societate, activitate circumscrisă codului CAEN 4321 - Lucrări de instalații electrice.',
   specific: [
-    'achiziția și implementarea de active corporale și necorporale necesare digitalizării societății;',
-    'modernizarea fluxurilor de lucru prin utilizarea tehnologiilor digitale în activitatea curentă;',
-    'creșterea capacității companiei de a furniza servicii mai eficiente, trasabile și adaptate cerințelor pieței.',
+    'realizarea unei investiții pentru adoptarea tehnologiilor și a instrumentelor digitale care conduce la inovarea modelului de afaceri, prin achiziția de echipamente și tehnologii necesare pentru transformarea digitală, inclusiv pentru derularea proceselor interne, interacțiunea cu clienții, distribuția serviciilor oferite și colectarea și analiza de date (laptop-uri, monitoare, telefoane mobile, soluție cloud privat, imprimantă multifuncțională, soluție de securitate cibernetică, program de gestiune completă a afacerii (ERP/CRM), robot software RPA);',
+    'realizarea unei investiții pentru creșterea utilizării tehnologiei digitale de către societate în scopul creșterii vizibilității, prin crearea unui website adaptat activității de e-commerce și cu un grad ridicat de interactivitate, crearea unei prezențe active pe rețelele sociale și implementarea unei soluții pentru promovarea online.',
   ],
 };
 
 const projectDescription = [
-  'Proiectul urmărește dezvoltarea capacității digitale a societății GENE SYS SECURITY SRL prin investiții în soluții și instrumente moderne, utile pentru administrarea activităților curente și pentru creșterea eficienței operaționale.',
-  'Prin implementarea proiectului, compania își propune să îmbunătățească procesele interne, trasabilitatea activităților și calitatea interacțiunii cu beneficiarii serviciilor sale.',
+  'Proiectul propus își va aduce contribuția în mod direct la atingerea obiectivului Priorității 1 - O regiune competitivă prin inovare, digitalizare și întreprinderi dinamice din cadrul Programului Regional Nord-Vest 2021-2027.',
+  'Inițiativele propuse vor conduce la consolidarea culturii digitale în cadrul societății, la transformarea și îmbunătățirea experienței utilizatorilor și a clienților acesteia și la eficientizarea activităților derulate.',
 ];
 
 const implementationStages = [
@@ -43,7 +42,7 @@ const implementationStages = [
 
 const communications = [
   {
-    title: 'Comunicat de presă lansare proiect',
+    title: 'Comunicat de lansare proiect',
     href: launchPressPdfUrl,
     label: 'Descarcă comunicatul PDF',
     secondaryHref: launchPressUrl,
