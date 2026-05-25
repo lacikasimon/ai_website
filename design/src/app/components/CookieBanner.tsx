@@ -42,7 +42,7 @@ export function CookieBanner() {
         type="button"
         aria-label="Deschide setările cookie"
         title="Setări cookie"
-        className="fixed bottom-5 left-1/2 z-[54] inline-flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-blue-100 bg-white text-blue-900 shadow-xl shadow-blue-950/20 ring-4 ring-white transition-colors hover:bg-blue-50 md:bottom-6"
+        className="fixed bottom-5 left-4 z-[54] inline-flex h-11 w-11 items-center justify-center rounded-full border border-blue-100 bg-white text-blue-900 shadow-xl shadow-blue-950/20 ring-4 ring-white transition-colors hover:bg-blue-50 md:bottom-6"
         onClick={reopenBanner}
       >
         <Cookie className="h-5 w-5" aria-hidden />

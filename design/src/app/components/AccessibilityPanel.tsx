@@ -127,7 +127,7 @@ export function AccessibilityPanel() {
   return (
     <aside
       className={`fixed left-4 z-[56] flex max-w-[calc(100vw-2rem)] flex-col items-start gap-3 transition-[bottom] duration-200 ${
-        cookieVisible ? 'bottom-64 md:bottom-36' : 'bottom-5 md:bottom-6'
+        cookieVisible ? 'bottom-64 md:bottom-36' : 'bottom-20 md:bottom-20'
       }`}
       aria-label="Instrumente de accesibilitate"
     >
