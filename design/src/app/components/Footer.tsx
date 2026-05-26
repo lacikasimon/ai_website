@@ -32,6 +32,7 @@ export function Footer() {
 
   const legalLinks: ({ label: string; to: string } | { label: string; href: string })[] = [
     { label: 'Termeni și condiții', to: '/termeni-si-conditii' },
+    { label: 'Politica de retur', to: '/politica-de-retur' },
     { label: 'Politică cookie', to: '/politica-cookie-uri' },
     { label: 'GDPR', to: '/gdpr' },
     { label: 'ANPC', href: 'https://anpc.ro/' },

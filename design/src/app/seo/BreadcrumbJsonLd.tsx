@@ -18,6 +18,7 @@ function getBreadcrumbName(path: string, segment: string) {
     '/blog': 'Blog',
     '/politica-cookie-uri': siteContent.cookiePolicy.title,
     '/termeni-si-conditii': 'Termeni și condiții',
+    '/politica-de-retur': 'Politica de retur',
     '/gdpr': siteContent.gdprPolicy.title,
     '/admin': 'Admin',
   };

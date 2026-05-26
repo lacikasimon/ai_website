@@ -156,7 +156,11 @@ export function TermsConditionsPage() {
             <Link to="/politica-cookie-uri" className="font-medium text-blue-800 underline underline-offset-2 hover:text-blue-950">
               politica privind fișierele cookie
             </Link>
-            . Pentru întrebări despre o comandă sau retur, folosiți{' '}
+            . Pentru retururi consultați{' '}
+            <Link to="/politica-de-retur" className="font-medium text-blue-800 underline underline-offset-2 hover:text-blue-950">
+              politica de retur
+            </Link>
+            . Pentru întrebări despre o comandă, folosiți{' '}
             <Link to="/contact#contact" className="font-medium text-blue-800 underline underline-offset-2 hover:text-blue-950">
               pagina Contact
             </Link>

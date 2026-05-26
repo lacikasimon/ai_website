@@ -11,6 +11,7 @@ import { CustomPage } from './pages/CustomPage';
 import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { GdprPage } from './pages/GdprPage';
+import { ReturnPolicyPage } from './pages/ReturnPolicyPage';
 import { TermsConditionsPage } from './pages/TermsConditionsPage';
 
 const routeTree = [
@@ -53,6 +54,10 @@ const routeTree = [
       {
         path: 'termeni-si-conditii',
         Component: TermsConditionsPage,
+      },
+      {
+        path: 'politica-de-retur',
+        Component: ReturnPolicyPage,
       },
       {
         path: 'gdpr',

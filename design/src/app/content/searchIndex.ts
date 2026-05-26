@@ -66,6 +66,13 @@ const termsSearchContent = [
   'servicii tehnice proiectare instalare mentenanță consultanță ANPC date personale cookie-uri',
 ].join(' ');
 
+const returnPolicySearchContent = [
+  'Politica de retur drept de retragere 14 zile consumatori OUG 34/2014',
+  'cum se solicită returul comandă factură produs primit cost transport rambursare',
+  'produse exceptate personalizate aduse special la comandă servicii executate integral',
+  'produse neconforme deteriorate la livrare reclamații garanții persoane juridice',
+].join(' ');
+
 function buildBaseSearchEntries(): SearchEntry[] {
   const services = siteContent.servicesCatalog.map((service) => ({
     title: service.title,
@@ -155,6 +162,14 @@ function buildBaseSearchEntries(): SearchEntry[] {
       category: 'Legal',
       keywords: 'termeni condiții conditii livrare retur garanție garantie comandă comanda plată plata rambursare reclamații reclamatii ANPC OUG 34/2014',
       content: termsSearchContent,
+    },
+    {
+      title: 'Politica de retur',
+      description: 'Informații despre dreptul de retragere, pașii pentru retur, costuri, rambursare și excepții.',
+      href: '/politica-de-retur',
+      category: 'Legal',
+      keywords: 'politica retur retragere 14 zile rambursare produse neconforme deteriorate comandă comanda factură factura transport OUG 34/2014',
+      content: returnPolicySearchContent,
     },
     {
       title: siteContent.gdprPolicy.title,

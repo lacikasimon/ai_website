@@ -119,6 +119,207 @@ export const defaultMenuItems: CmsMenuItem[] = [
   { id: 'certifications', label: 'Certificări', href: '/#certificari', kind: 'internal', visible: true, order: 80 },
 ];
 
+const defaultBlogPosts: CmsBlogPost[] = [
+  {
+    id: 'blog-fotovoltaice-on-grid-off-grid',
+    slug: 'sisteme-fotovoltaice-on-grid-off-grid',
+    title: 'Sisteme fotovoltaice on-grid și off-grid: cum alegeți soluția potrivită',
+    excerpt:
+      'Un ghid practic despre diferențele dintre sistemele fotovoltaice conectate la rețea și cele independente, cu criterii utile pentru dimensionare și exploatare.',
+    body: `Sistemele fotovoltaice au devenit o soluție tot mai relevantă pentru locuințe, spații comerciale și obiective industriale. Alegerea între o configurație on-grid, off-grid sau hibridă nu ține doar de buget, ci și de consumul real, disponibilitatea rețelei, spațiul de montaj și nivelul de autonomie dorit.
+
+## Ce înseamnă on-grid
+
+Un sistem on-grid este conectat la rețeaua de distribuție a energiei electrice. Energia produsă este folosită în primul rând pentru consumul propriu al clădirii, iar surplusul poate fi gestionat conform cadrului aplicabil prosumatorilor. Este o soluție potrivită pentru clădiri racordate la rețea, cu consum constant în timpul zilei sau cu obiectiv clar de reducere a facturilor.
+
+Avantajele principale sunt investiția inițială mai eficientă față de sistemele cu stocare, monitorizarea ușoară a producției și posibilitatea de integrare treptată cu alte echipamente. Pentru o dimensionare corectă se analizează consumul anual, profilul orar, orientarea acoperișului, umbrirea și puterea disponibilă în instalația electrică existentă.
+
+## Când are sens off-grid
+
+Un sistem off-grid funcționează independent de rețeaua publică și include, de regulă, baterii pentru stocarea energiei. Este recomandat pentru locații izolate, cabane, anexe, ferme, echipamente tehnice sau obiective unde racordarea la rețea este dificilă ori costisitoare.
+
+În acest caz, analiza trebuie să fie mai atentă: se calculează consumatorii critici, autonomia necesară, perioadele cu producție redusă și modul în care se gestionează vârfurile de sarcină. O soluție off-grid subdimensionată poate crea întreruperi, iar una supradimensionată poate bloca inutil capital.
+
+## Varianta hibridă
+
+Sistemele hibride combină avantajele soluțiilor on-grid cu stocarea în baterii. Ele pot ajuta la creșterea autoconsumului, la susținerea consumatorilor importanți în anumite scenarii și la o mai bună gestionare a energiei produse. Pentru clădiri cu activitate importantă sau cu echipamente sensibile, varianta hibridă merită analizată încă din faza de proiect.
+
+## Pașii recomandați înainte de ofertare
+
+- analiza facturilor și a consumului estimat;
+- verificarea tabloului electric și a traseelor disponibile;
+- evaluarea acoperișului sau a terenului pentru montaj;
+- stabilirea tipului de invertor și a necesarului de protecții;
+- estimarea producției și a perioadei de recuperare;
+- planificarea mentenanței și a monitorizării.
+
+GENE SYS SECURITY SRL abordează proiectele fotovoltaice integrat: evaluare tehnică, dimensionare, execuție și recomandări pentru exploatare. Scopul este ca sistemul să fie eficient, sigur și adaptat modului real în care clădirea consumă energie.`,
+    status: 'published',
+    category: 'Fotovoltaice',
+    tags: ['fotovoltaice', 'on-grid', 'off-grid', 'prosumator', 'energie regenerabilă'],
+    author: 'GENE SYS SECURITY SRL',
+    coverImageId: '',
+    featured: true,
+    publishedAt: '2026-05-26T08:00:00.000Z',
+    createdAt: '2026-05-26T08:00:00.000Z',
+    updatedAt: '2026-05-26T08:00:00.000Z',
+  },
+  {
+    id: 'blog-instalatii-electrice-civile-industriale',
+    slug: 'instalatii-electrice-constructii-civile-industriale',
+    title: 'Instalații electrice pentru construcții civile și industriale: de la proiectare la execuție',
+    excerpt:
+      'De ce contează proiectarea corectă, alegerea materialelor și verificările de recepție în lucrările electrice pentru clădiri noi sau modernizări.',
+    body: `O instalație electrică sigură începe cu o proiectare corectă. În construcțiile civile și industriale, fiecare circuit, tablou, protecție și traseu de cablu trebuie gândit în funcție de consumatori, regim de utilizare, extinderi posibile și cerințe de exploatare pe termen lung.
+
+## De ce proiectarea este etapa critică
+
+În faza de proiect se stabilesc încărcările electrice, împărțirea circuitelor, poziția tablourilor, protecțiile, traseele, soluțiile de iluminat și condițiile de punere în funcțiune. Pentru spații industriale sau comerciale, proiectarea trebuie să țină cont și de echipamente tehnologice, continuitatea operațională, mentenanță și acces facil la intervenții.
+
+Un proiect bine făcut reduce improvizațiile din șantier, limitează costurile neprevăzute și oferă o bază clară pentru recepție. În plus, documentația tehnică ajută beneficiarul să știe ce primește și cum poate extinde instalația în viitor.
+
+## Execuția trebuie să respecte realitatea din teren
+
+Chiar și cel mai bun proiect are nevoie de execuție disciplinată. Pe șantier apar deseori modificări de arhitectură, schimbări de echipamente sau ajustări de trasee. Important este ca aceste modificări să fie verificate tehnic și documentate, nu rezolvate prin soluții rapide care pot crea probleme ulterior.
+
+Lucrările de calitate includ cablare corectă, protecții dimensionate, tablouri ordonate, etichetare, verificări și probe înainte de predare. Pentru beneficiar, aceste detalii înseamnă siguranță, intervenții mai rapide și costuri mai previzibile în exploatare.
+
+## Ce ar trebui să includă o ofertă clară
+
+- descrierea lucrărilor și a zonelor acoperite;
+- materiale și echipamente propuse;
+- etape de execuție și termene estimative;
+- responsabilități privind documentația și accesul în șantier;
+- probe, verificări și documente de predare;
+- condiții de garanție și recomandări de mentenanță.
+
+GENE SYS SECURITY SRL oferă servicii complete de proiectare și execuție pentru instalații electrice în construcții civile și industriale. Abordarea noastră urmărește siguranța, conformitatea și o predare clară, astfel încât instalația să poată fi exploatată fără ambiguități.`,
+    status: 'published',
+    category: 'Instalații electrice',
+    tags: ['instalații electrice', 'proiectare electrică', 'execuție', 'construcții civile', 'industrial'],
+    author: 'GENE SYS SECURITY SRL',
+    coverImageId: '',
+    featured: false,
+    publishedAt: '2026-05-20T08:00:00.000Z',
+    createdAt: '2026-05-20T08:00:00.000Z',
+    updatedAt: '2026-05-20T08:00:00.000Z',
+  },
+  {
+    id: 'blog-mentenanta-tehnica-preventiva',
+    slug: 'mentenanta-tehnica-preventiva-cladiri-echipamente',
+    title: 'Mentenanță tehnică preventivă: siguranță, continuitate și costuri controlate',
+    excerpt:
+      'Mentenanța planificată ajută clădirile și echipamentele să funcționeze optim, reducând riscul de opriri neprevăzute și intervenții costisitoare.',
+    body: `Mentenanța tehnică nu înseamnă doar intervenție atunci când apare o defecțiune. Pentru clădiri, spații comerciale și obiective industriale, mentenanța preventivă este o metodă de control al riscului: verifici periodic instalațiile, identifici uzura și corectezi problemele înainte să devină blocaje.
+
+## Ce urmărește mentenanța preventivă
+
+Un plan de mentenanță bine construit verifică elementele critice ale instalațiilor electrice, sistemelor de securitate, echipamentelor de monitorizare și componentelor care susțin activitatea zilnică. Scopul este simplu: funcționare sigură, durată de viață mai mare pentru echipamente și intervenții mai bine planificate.
+
+Pentru administratorii de clădiri, avantajul major este predictibilitatea. O verificare programată este mai ușor de gestionat decât o oprire bruscă într-un moment aglomerat. În plus, rapoartele de mentenanță oferă o imagine clară asupra stării tehnice și pot susține deciziile de modernizare.
+
+## Elemente verificate frecvent
+
+- tablouri electrice, conexiuni și protecții;
+- trasee, prize, circuite și consumatori importanți;
+- camere CCTV, surse, stocare și conexiuni de rețea;
+- centrale de alarmă, senzori și sirene;
+- echipamente fotovoltaice și monitorizare producție;
+- recomandări pentru înlocuiri sau optimizări.
+
+## Mentenanța la cerere versus contractul periodic
+
+Intervenția la cerere este utilă pentru situații punctuale, dar nu înlocuiește verificarea planificată. Un contract periodic stabilește frecvența vizitelor, responsabilitățile, prioritățile și modul de raportare. Pentru obiective cu activitate continuă, această structură poate reduce semnificativ riscurile operaționale.
+
+GENE SYS SECURITY SRL oferă servicii de mentenanță tehnică adaptate nevoilor fiecărui client. Începem cu evaluarea instalațiilor existente, apoi propunem un plan realist de verificări, intervenții și îmbunătățiri, în funcție de nivelul de risc și de importanța obiectivului.`,
+    status: 'published',
+    category: 'Mentenanță',
+    tags: ['mentenanță tehnică', 'mentenanță preventivă', 'service', 'clădiri', 'echipamente'],
+    author: 'GENE SYS SECURITY SRL',
+    coverImageId: '',
+    featured: false,
+    publishedAt: '2026-05-14T08:00:00.000Z',
+    createdAt: '2026-05-14T08:00:00.000Z',
+    updatedAt: '2026-05-14T08:00:00.000Z',
+  },
+  {
+    id: 'blog-detectie-efractie-sisteme-alarma',
+    slug: 'sisteme-detectie-efractie-alarma',
+    title: 'Sisteme de detecție la efracție: protecție activă pentru perimetre și clădiri',
+    excerpt:
+      'Un sistem de alarmare eficient trebuie proiectat în funcție de riscuri, acces, zone protejate și modul real de utilizare a spațiului.',
+    body: `Sistemele de detecție la efracție au rolul de a identifica rapid o încercare de pătrundere într-un spațiu protejat și de a transmite informații utile pentru reacție. Eficiența lor depinde de proiectare, de alegerea senzorilor, de amplasare și de modul în care sistemul este folosit zi de zi.
+
+## Evaluarea riscului înainte de instalare
+
+Primul pas este analiza obiectivului: puncte de acces, ferestre, zone vulnerabile, program de lucru, flux de persoane și bunuri protejate. O locuință, un birou, un depozit sau un spațiu industrial au riscuri diferite, iar soluția trebuie adaptată acestor diferențe.
+
+Pe baza evaluării se stabilesc zonele de detecție, tipurile de senzori, poziționarea centralei, sirenele, tastaturile, modulele de comunicare și scenariile de armare. Un sistem bine împărțit pe zone este mai ușor de administrat și reduce alarmele false.
+
+## Componente importante
+
+- centrală de alarmă și module de comunicație;
+- senzori de mișcare, contacte magnetice și bariere perimetrale;
+- sirene interioare sau exterioare;
+- tastaturi, telecomenzi sau control prin aplicație;
+- acumulatori și surse de alimentare;
+- integrare cu CCTV sau control acces, unde este necesar.
+
+## De ce contează mentenanța
+
+Un sistem de alarmă trebuie verificat periodic. Senzorii se pot deregla, acumulatorii își pierd capacitatea, iar modificările din spațiu pot influența detecția. Mentenanța reduce riscul de alarme false și ajută sistemul să rămână pregătit atunci când este nevoie.
+
+GENE SYS SECURITY SRL proiectează, instalează și întreține sisteme de detecție la efracție pentru obiective civile și industriale. Punem accent pe soluții clare, configurate pe riscul real al locației și pe exploatare simplă pentru utilizatori.`,
+    status: 'published',
+    category: 'Securitate',
+    tags: ['detecție efracție', 'alarmă', 'securitate', 'senzori', 'protecție perimetrală'],
+    author: 'GENE SYS SECURITY SRL',
+    coverImageId: '',
+    featured: false,
+    publishedAt: '2026-05-08T08:00:00.000Z',
+    createdAt: '2026-05-08T08:00:00.000Z',
+    updatedAt: '2026-05-08T08:00:00.000Z',
+  },
+  {
+    id: 'blog-cctv-supraveghere-video',
+    slug: 'sisteme-supraveghere-video-cctv',
+    title: 'Sisteme de supraveghere video CCTV: monitorizare eficientă pentru proprietăți și infrastructuri',
+    excerpt:
+      'Supravegherea video modernă combină camere potrivite, stocare sigură, acces controlat și mentenanță pentru protecție continuă.',
+    body: `Sistemele CCTV sunt esențiale pentru monitorizarea proprietăților, spațiilor comerciale, halelor, depozitelor și obiectivelor cu cerințe ridicate de securitate. O soluție video eficientă nu se rezumă la numărul camerelor, ci la calitatea imaginii, poziționare, stocare, acces și mentenanță.
+
+## Proiectarea sistemului CCTV
+
+Înainte de instalare se stabilesc zonele care trebuie monitorizate: intrări, parcări, căi de acces, zone de încărcare, spații tehnice sau perimetre exterioare. Apoi se aleg camerele în funcție de lumină, distanță, unghi, rezoluție, condiții meteo și nivelul de detaliu necesar.
+
+Un proiect bun elimină zonele oarbe, evită suprapuneri inutile și asigură imagini utile atunci când trebuie analizat un eveniment. Pentru obiectivele critice, se iau în calcul redundanța, alimentarea, protecția cablurilor și accesul rapid la înregistrări.
+
+## Elemente care influențează performanța
+
+- camere potrivite mediului interior sau exterior;
+- rezoluție și lentile alese după distanță și scop;
+- NVR, stocare și perioadă de păstrare a imaginilor;
+- rețea stabilă și protejată;
+- acces remote configurat controlat;
+- mentenanță periodică pentru curățare, update și verificări.
+
+## CCTV și prevenția riscurilor
+
+Supravegherea video are un rol preventiv important. Prezența camerelor poate descuraja incidentele, iar monitorizarea corectă ajută la identificarea rapidă a situațiilor neobișnuite. În același timp, sistemul trebuie folosit responsabil, cu acces limitat și reguli clare privind imaginile înregistrate.
+
+GENE SYS SECURITY SRL instalează sisteme CCTV adaptate fiecărui obiectiv, de la proprietăți private la spații comerciale și infrastructuri industriale. Punem accent pe acoperire eficientă, echipamente de calitate și suport tehnic după punerea în funcțiune.`,
+    status: 'published',
+    category: 'CCTV',
+    tags: ['CCTV', 'supraveghere video', 'securitate video', 'monitorizare', 'NVR'],
+    author: 'GENE SYS SECURITY SRL',
+    coverImageId: '',
+    featured: false,
+    publishedAt: '2026-05-02T08:00:00.000Z',
+    createdAt: '2026-05-02T08:00:00.000Z',
+    updatedAt: '2026-05-02T08:00:00.000Z',
+  },
+];
+
 const legacyDefaultMenuLabels: Record<string, string[]> = {
   home: ['Home'],
   shop: ['Shop'],
@@ -336,6 +537,14 @@ function sortMenu(items: CmsMenuItem[]) {
   return [...items].sort((a, b) => a.order - b.order || a.label.localeCompare(b.label));
 }
 
+function sortBlogPosts(posts: CmsBlogPost[]) {
+  return [...posts].sort((a, b) => {
+    const aDate = a.publishedAt || a.updatedAt;
+    const bDate = b.publishedAt || b.updatedAt;
+    return bDate.localeCompare(aDate);
+  });
+}
+
 function normalizeDefaultMenuLabels(items: CmsMenuItem[]) {
   const normalizedItems = items.map((item) => {
     const defaultItem = defaultMenuItems.find((candidate) => candidate.id === item.id);
@@ -372,11 +581,8 @@ export function getCmsImages() {
 }
 
 export function getCmsBlogPosts() {
-  return readJsonArray(blogPostsKey, normalizeBlogPost).sort((a, b) => {
-    const aDate = a.publishedAt || a.updatedAt;
-    const bDate = b.publishedAt || b.updatedAt;
-    return bDate.localeCompare(aDate);
-  });
+  const storedPosts = readJsonArray(blogPostsKey, normalizeBlogPost);
+  return sortBlogPosts(storedPosts.length > 0 ? storedPosts : defaultBlogPosts);
 }
 
 export function getCmsImage(imageId: string) {
@@ -659,10 +865,7 @@ function normalizePages(values: unknown[] | undefined) {
 }
 
 function normalizeBlogPosts(values: unknown[] | undefined) {
-  return (values || [])
-    .map(normalizeBlogPost)
-    .filter((post): post is CmsBlogPost => Boolean(post))
-    .sort((a, b) => (b.publishedAt || b.updatedAt).localeCompare(a.publishedAt || a.updatedAt));
+  return sortBlogPosts((values || []).map(normalizeBlogPost).filter((post): post is CmsBlogPost => Boolean(post)));
 }
 
 function normalizeMenuItems(values: unknown[] | undefined) {
@@ -722,7 +925,8 @@ export async function fetchPublishedCmsPage(slug: string) {
 export async function fetchPublishedCmsBlogPosts() {
   try {
     const data = await cmsRequest(new URLSearchParams({ resource: 'blog-posts' }));
-    return normalizeBlogPosts(data.blogPosts);
+    const posts = normalizeBlogPosts(data.blogPosts);
+    return posts.length > 0 ? posts : getPublishedCmsBlogPosts();
   } catch {
     return getPublishedCmsBlogPosts();
   }
@@ -731,7 +935,7 @@ export async function fetchPublishedCmsBlogPosts() {
 export async function fetchPublishedCmsBlogPost(slug: string) {
   try {
     const data = await cmsRequest(new URLSearchParams({ resource: 'blog-post', slug }));
-    return data.blogPost ? normalizeBlogPost(data.blogPost) : null;
+    return data.blogPost ? normalizeBlogPost(data.blogPost) : getPublishedCmsBlogPost(slug);
   } catch {
     return getPublishedCmsBlogPost(slug);
   }

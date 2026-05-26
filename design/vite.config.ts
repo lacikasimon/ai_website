@@ -20,6 +20,14 @@ const SERVICE_SLUGS_FOR_SITEMAP = [
   'consultanta',
 ] as const
 
+const DEFAULT_BLOG_SLUGS_FOR_SITEMAP = [
+  'sisteme-fotovoltaice-on-grid-off-grid',
+  'instalatii-electrice-constructii-civile-industriale',
+  'mentenanta-tehnica-preventiva-cladiri-echipamente',
+  'sisteme-detectie-efractie-alarma',
+  'sisteme-supraveghere-video-cctv',
+] as const
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
@@ -62,6 +70,7 @@ export default defineConfig(({ mode }) => {
             '/contact',
             '/proiecte',
             '/blog',
+            ...DEFAULT_BLOG_SLUGS_FOR_SITEMAP.map((s) => `/blog/${s}`),
             '/finantare-ue',
             '/politica-cookie-uri',
             '/gdpr',
