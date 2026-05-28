@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { MessageCircle, PhoneCall, Send, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { whatsappContactUrl } from '../config/siteLinks';
 import { siteContent } from '../content/siteContent';
 import { COOKIE_CONSENT_CHANGED_EVENT, COOKIE_CONSENT_STORAGE_KEY } from '../utils/cookieConsent';
 
@@ -8,9 +9,6 @@ export function SupportWidget() {
   const [open, setOpen] = useState(false);
   const [cookieVisible, setCookieVisible] = useState(false);
   const phone = siteContent.contact.phones[0];
-  const whatsappNumber = phone.tel.replace(/\D/g, '');
-  const whatsappMessage = encodeURIComponent('Bună ziua, doresc informații despre un proiect.');
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   useEffect(() => {
     const syncCookieState = (event?: Event) => {
@@ -61,7 +59,7 @@ export function SupportWidget() {
 
           <div className="space-y-3 p-4">
             <a
-              href={whatsappUrl}
+              href={whatsappContactUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm font-semibold text-green-900 transition-colors hover:bg-green-100"

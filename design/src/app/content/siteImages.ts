@@ -30,3 +30,35 @@ export const siteImages = {
     technicalMaintenance,
   },
 };
+
+export type SiteBlogCover = {
+  src: string;
+  alt: string;
+};
+
+const blogCoversBySlug: Record<string, SiteBlogCover> = {
+  'sisteme-fotovoltaice-on-grid-off-grid': {
+    src: photovoltaicPanels,
+    alt: 'Panouri fotovoltaice montate pe acoperiș pentru producție de energie regenerabilă',
+  },
+  'instalatii-electrice-constructii-civile-industriale': {
+    src: electricalInstallation,
+    alt: 'Instalație electrică profesională pentru clădiri civile și industriale',
+  },
+  'mentenanta-tehnica-preventiva-cladiri-echipamente': {
+    src: technicalMaintenance,
+    alt: 'Specialist care verifică echipamente tehnice în cadrul unei lucrări de mentenanță',
+  },
+  'sisteme-detectie-efractie-alarma': {
+    src: alarmInstallation,
+    alt: 'Echipamente pentru sistem de alarmare și detecție la efracție',
+  },
+  'sisteme-supraveghere-video-cctv': {
+    src: securityCctv,
+    alt: 'Cameră de supraveghere video CCTV pentru protecția proprietăților',
+  },
+};
+
+export function getBlogCoverImage(slug: string) {
+  return blogCoversBySlug[slug] || null;
+}

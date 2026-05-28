@@ -1,6 +1,10 @@
+import { siteContent } from '../content/siteContent';
+
 export const publicSiteUrl = (import.meta.env.VITE_SITE_URL || 'https://syshub.ro').replace(/\/$/, '');
 export const publicHomeUrl = `${publicSiteUrl}/`;
 export const facebookProfileUrl = 'https://www.facebook.com/profile.php?id=61590108433393';
+export const whatsappMessage = 'Bună ziua, doresc informații despre un proiect.';
+export const whatsappContactUrl = `https://wa.me/${siteContent.contact.phones[0].tel.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappMessage)}`;
 
 export const socialShareLinks = [
   {
@@ -8,11 +12,7 @@ export const socialShareLinks = [
     href: facebookProfileUrl,
   },
   {
-    label: 'LinkedIn',
-    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(publicHomeUrl)}`,
-  },
-  {
     label: 'WhatsApp',
-    href: `https://wa.me/?text=${encodeURIComponent(`GENE SYS SECURITY SRL - ${publicHomeUrl}`)}`,
+    href: whatsappContactUrl,
   },
 ] as const;

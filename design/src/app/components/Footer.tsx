@@ -2,7 +2,7 @@ import logo from '../../assets/genesys-logo.svg';
 import anpcLogo from '../../assets/anpc/anpc-logo.svg';
 import anpcSalLogo from '../../assets/anpc/anpc-sal.svg';
 import anpcSolLogo from '../../assets/anpc/anpc-sol.svg';
-import { Facebook, Linkedin, Mail, MapPin, Phone, Send } from 'lucide-react';
+import { Facebook, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
 import { FundingLogos } from './FundingLogos';
@@ -63,7 +63,6 @@ export function Footer() {
 
   const socialIcons = {
     Facebook,
-    LinkedIn: Linkedin,
     WhatsApp: Send,
   };
 

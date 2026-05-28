@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router';
 import { ArrowLeft, CalendarDays, Clock3, UserRound } from 'lucide-react';
 import { CmsRichText, getBodyImageIds } from '../components/CmsRichText';
 import { siteContent } from '../content/siteContent';
+import { getBlogCoverImage } from '../content/siteImages';
 import { absoluteUrl } from '../seo/siteOrigin';
 import { useSeo } from '../seo/useSeo';
 import {
@@ -41,6 +42,7 @@ export function BlogPostPage() {
   );
   const imageIdsKey = imageIds.join('|');
   const coverImage = post?.coverImageId ? imagesById[post.coverImageId] : null;
+  const fallbackCoverImage = post ? getBlogCoverImage(post.slug) : null;
 
   useSeo({
     title: post ? `${post.title} | Blog | ${siteContent.meta.ogTitle}` : `Articol indisponibil | ${siteContent.meta.ogTitle}`,
@@ -206,11 +208,15 @@ export function BlogPostPage() {
           </div>
         </header>
 
-        {coverImage && (
+        {(coverImage || fallbackCoverImage) && (
           <div className="container mx-auto max-w-5xl px-4 pt-8">
             <figure className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-              <img src={coverImage.dataUrl} alt={coverImage.alt} className="max-h-[34rem] w-full object-cover" />
-              {coverImage.title && <figcaption className="px-4 py-3 text-sm text-slate-500">{coverImage.title}</figcaption>}
+              <img
+                src={coverImage?.dataUrl || fallbackCoverImage?.src}
+                alt={coverImage?.alt || fallbackCoverImage?.alt || post.title}
+                className="max-h-[34rem] w-full object-cover"
+              />
+              {coverImage?.title && <figcaption className="px-4 py-3 text-sm text-slate-500">{coverImage.title}</figcaption>}
             </figure>
           </div>
         )}

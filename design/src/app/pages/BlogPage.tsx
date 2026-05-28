@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, CalendarDays, Clock3, FileText, Star } from 'lucide-react';
 import { siteContent } from '../content/siteContent';
+import { getBlogCoverImage, type SiteBlogCover } from '../content/siteImages';
 import { absoluteUrl } from '../seo/siteOrigin';
 import { useSeo } from '../seo/useSeo';
 import {
@@ -33,12 +34,35 @@ function getExcerpt(post: CmsBlogPost) {
   return post.excerpt || post.body.replace(/\[\[image:[^\]]+\]\]/g, '').slice(0, 180);
 }
 
-function BlogCover({ image, title, featured = false }: { image?: CmsImage | null; title: string; featured?: boolean }) {
+function BlogCover({
+  image,
+  fallback,
+  title,
+  featured = false,
+}: {
+  image?: CmsImage | null;
+  fallback?: SiteBlogCover | null;
+  title: string;
+  featured?: boolean;
+}) {
   if (image) {
     return (
       <img
         src={image.dataUrl}
         alt={image.alt}
+        className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
+          featured ? 'min-h-[22rem]' : 'min-h-56'
+        }`}
+        loading={featured ? 'eager' : 'lazy'}
+      />
+    );
+  }
+
+  if (fallback) {
+    return (
+      <img
+        src={fallback.src}
+        alt={fallback.alt}
         className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] ${
           featured ? 'min-h-[22rem]' : 'min-h-56'
         }`}
@@ -198,7 +222,12 @@ export function BlogPage() {
           <article className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
               <Link to={`/blog/${featuredPost.slug}`} className="block overflow-hidden" aria-label={featuredPost.title}>
-                <BlogCover image={imagesById[featuredPost.coverImageId]} title={featuredPost.title} featured />
+                <BlogCover
+                  image={imagesById[featuredPost.coverImageId]}
+                  fallback={getBlogCoverImage(featuredPost.slug)}
+                  title={featuredPost.title}
+                  featured
+                />
               </Link>
               <div className="flex flex-col justify-center p-6 md:p-8">
                 <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -262,7 +291,11 @@ export function BlogPage() {
                   className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
                 >
                   <Link to={`/blog/${post.slug}`} className="block overflow-hidden" aria-label={post.title}>
-                    <BlogCover image={imagesById[post.coverImageId]} title={post.title} />
+                    <BlogCover
+                      image={imagesById[post.coverImageId]}
+                      fallback={getBlogCoverImage(post.slug)}
+                      title={post.title}
+                    />
                   </Link>
                   <div className="p-5">
                     <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-600">
