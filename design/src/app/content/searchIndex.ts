@@ -58,7 +58,7 @@ const fundingSearchContent = [
   '28.11.2025 Semnare Contract de finanțare',
   '29.12.2025 Publicare comunicat de presă demarare proiect PresaSM',
   'galerie foto galerie video clip proiect activitate instalații electrice securitate monitorizare video',
-  'Investim în viitorul regiunii BH BN CJ MM SJ SM www.regionordvest.ro www.nord-vest.ro www.oportunitati-ue.gov.ro',
+  'Investim în viitorul regiunii BH BN CJ MM SJ SM www.regionordvest.ro www.nord-vest.ro',
 ].join(' ');
 
 const termsSearchContent = [
@@ -137,7 +137,7 @@ function buildBaseSearchEntries(): SearchEntry[] {
       href: '/finantare-ue',
       category: 'Informare',
       keywords:
-        'finanțare finantare UE Uniunea Europeană Europeana REGIO Nord-Vest ADR Guvernul României Romaniei proiect finanțat finantat SMIS 334780 digitalizare digitalizarea investiții investitii comunicat presă presa lansare demarare oportunitati Programul Regional',
+        'finanțare finantare UE Uniunea Europeană Europeana REGIO Nord-Vest ADR Guvernul României Romaniei proiect finanțat finantat SMIS 334780 digitalizare digitalizarea investiții investitii comunicat presă presa lansare demarare Programul Regional',
       content: fundingSearchContent,
     },
     {

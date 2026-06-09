@@ -254,23 +254,7 @@ export function FundingPage() {
               </div>
             </section>
 
-            <section className="border-y border-slate-200 py-4 text-center">
-              <p className="text-xs leading-relaxed text-slate-600 sm:text-sm">
-                Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
-                vă invităm să vizitați{' '}
-                <a
-                  href="https://oportunitati-ue.gov.ro/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
-                >
-                  www.oportunitati-ue.gov.ro
-                </a>
-                .
-              </p>
-            </section>
-
-            <section className="pt-2 text-center" aria-label="Subsol obligatoriu Programul Regional Nord-Vest">
+            <section className="border-t border-slate-200 pt-8 text-center" aria-label="Subsol obligatoriu Programul Regional Nord-Vest">
               <p className="text-xl font-semibold italic text-slate-950">Investim în viitorul regiunii!</p>
               <div className="mx-auto mt-4 grid max-w-md grid-cols-6 overflow-hidden text-sm font-bold text-white sm:text-base">
                 {countyBand.map((county) => (
