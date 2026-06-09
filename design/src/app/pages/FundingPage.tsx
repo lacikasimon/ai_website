@@ -2,13 +2,44 @@ import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
 import { useSeo } from '../seo/useSeo';
 import { siteContent } from '../content/siteContent';
+import electricalEngineerPhoto from '../../assets/photos/electrical-engineer.jpg';
+import electricalInstallationPhoto from '../../assets/photos/electrical-installation.jpg';
+import securityCctvPhoto from '../../assets/photos/security-cctv.jpg';
+import technicalMaintenancePhoto from '../../assets/photos/technical-maintenance.jpg';
 
 const projectTitle = 'Investiții pentru digitalizarea societății GENE SYS SECURITY SRL, cod SMIS 334780';
 const launchPressPdfUrl = '/docs/smis-334780-comunicat-demarare.pdf';
 const launchPressUrl = 'https://portalsm.ro/2025/12/comunicat-de-presa-gene-sys-security-srl/';
+const projectVideoUrl = '/videos/funding/project-overview.mp4';
 const regionalLinks = [
   { label: 'www.regionordvest.ro', href: 'https://regionordvest.ro/' },
   { label: 'www.nord-vest.ro', href: 'https://www.nord-vest.ro/' },
+];
+const countyBand = [
+  { label: 'BH', color: '#84CDDD' },
+  { label: 'BN', color: '#2EBBD5' },
+  { label: 'CJ', color: '#188CB1' },
+  { label: 'MM', color: '#196194' },
+  { label: 'SJ', color: '#1E528F' },
+  { label: 'SM', color: '#2A416F' },
+];
+
+const galleryPhotos = [
+  {
+    src: technicalMaintenancePhoto,
+    alt: 'Specialist tehnic care verifică echipamente digitale și infrastructură de mentenanță',
+    caption: 'Echipamente și procese digitale pentru activitatea tehnică',
+  },
+  {
+    src: securityCctvPhoto,
+    alt: 'Cameră de supraveghere video instalată pentru protecția unui obiectiv',
+    caption: 'Soluții de securitate și monitorizare video',
+  },
+  {
+    src: electricalInstallationPhoto,
+    alt: 'Lucrări de instalații electrice într-un spațiu tehnic',
+    caption: 'Activități de instalații electrice și infrastructură',
+  },
 ];
 
 const projectObjectives = {
@@ -75,13 +106,22 @@ export function FundingPage() {
           </nav>
 
           <article className="space-y-10">
-            <header className="max-w-4xl">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-blue-800">
-                Proiect finanțat prin Programul Regional Nord-Vest 2021-2027
-              </p>
-              <h1 className="text-3xl font-semibold tracking-tight text-blue-950 sm:text-4xl">
-                {projectTitle}
-              </h1>
+            <header>
+              <div className="max-w-4xl">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-blue-800">
+                  Proiect finanțat prin Programul Regional Nord-Vest 2021-2027
+                </p>
+                <h1 className="text-3xl font-semibold tracking-tight text-blue-950 sm:text-4xl">
+                  {projectTitle}
+                </h1>
+              </div>
+              <div className="mt-8 aspect-[16/7] overflow-hidden rounded-md border border-slate-200 bg-slate-100">
+                <img
+                  src={electricalEngineerPhoto}
+                  alt="Specialist GENE SYS SECURITY care lucrează cu infrastructură tehnică și echipamente digitale"
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </header>
 
             <section className="border-t border-slate-200 pt-8">
@@ -149,53 +189,33 @@ export function FundingPage() {
               </div>
             </section>
 
-            <section className="grid gap-6 border-t border-slate-200 pt-8 md:grid-cols-2">
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <h2 className="text-xl font-semibold text-slate-950">Galerie foto</h2>
-                <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                  Materialele foto relevante pentru evoluția proiectului vor fi publicate pe această pagină pe
-                  parcursul implementării.
-                </p>
-              </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-                <h2 className="text-xl font-semibold text-slate-950">Galerie video</h2>
-                <p className="mt-3 text-sm leading-relaxed text-slate-700">
-                  Materialele video sau alte materiale grafice elocvente vor fi adăugate atunci când vor fi
-                  disponibile.
-                </p>
+            <section className="border-t border-slate-200 pt-8">
+              <h2 className="text-2xl font-semibold text-slate-950">Galerie foto</h2>
+              <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {galleryPhotos.map((photo) => (
+                  <figure key={photo.caption} className="overflow-hidden rounded-md border border-slate-200 bg-white">
+                    <img src={photo.src} alt={photo.alt} className="aspect-[4/3] w-full object-cover" loading="lazy" />
+                    <figcaption className="px-4 py-3 text-sm leading-relaxed text-slate-700">
+                      {photo.caption}
+                    </figcaption>
+                  </figure>
+                ))}
               </div>
             </section>
 
             <section className="border-t border-slate-200 pt-8">
-              <div className="rounded-lg bg-blue-950 px-5 py-6 text-white sm:px-6">
-                <p className="text-2xl font-semibold">Investim în viitorul regiunii!</p>
-                <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm text-blue-100">
-                  {regionalLinks.map((link, index) => (
-                    <span key={link.href} className="inline-flex items-center gap-3">
-                      <a href={link.href} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                        {link.label}
-                      </a>
-                      {index < regionalLinks.length - 1 ? <span aria-hidden>I</span> : null}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            <section className="rounded-lg border border-blue-100 bg-blue-50 p-5 sm:p-6">
-              <p className="text-sm leading-relaxed text-slate-700">
-                Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană, vă
-                invităm să vizitați{' '}
-                <a
-                  href="https://oportunitati-ue.gov.ro/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
+              <h2 className="text-2xl font-semibold text-slate-950">Galerie video</h2>
+              <div className="mt-5 overflow-hidden rounded-md border border-slate-200 bg-black">
+                <video
+                  className="aspect-video w-full bg-black"
+                  controls
+                  preload="metadata"
+                  poster={securityCctvPhoto}
                 >
-                  www.oportunitati-ue.gov.ro
-                </a>
-                .
-              </p>
+                  <source src={projectVideoUrl} type="video/mp4" />
+                  Browserul dumneavoastră nu poate reda clipul video.
+                </video>
+              </div>
             </section>
 
             <section className="border-t border-slate-200 pt-8">
@@ -230,6 +250,48 @@ export function FundingPage() {
                       </div>
                     ) : null}
                   </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="border-y border-slate-200 py-4 text-center">
+              <p className="text-xs leading-relaxed text-slate-600 sm:text-sm">
+                Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
+                vă invităm să vizitați{' '}
+                <a
+                  href="https://oportunitati-ue.gov.ro/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
+                >
+                  www.oportunitati-ue.gov.ro
+                </a>
+                .
+              </p>
+            </section>
+
+            <section className="pt-2 text-center" aria-label="Subsol obligatoriu Programul Regional Nord-Vest">
+              <p className="text-xl font-semibold italic text-slate-950">Investim în viitorul regiunii!</p>
+              <div className="mx-auto mt-4 grid max-w-md grid-cols-6 overflow-hidden text-sm font-bold text-white sm:text-base">
+                {countyBand.map((county) => (
+                  <span key={county.label} className="py-1.5" style={{ backgroundColor: county.color }}>
+                    {county.label}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm font-semibold text-blue-950">
+                {regionalLinks.map((link, index) => (
+                  <span key={link.href} className="inline-flex items-center gap-3">
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2 hover:text-blue-700"
+                    >
+                      {link.label}
+                    </a>
+                    {index < regionalLinks.length - 1 ? <span aria-hidden>|</span> : null}
+                  </span>
                 ))}
               </div>
             </section>

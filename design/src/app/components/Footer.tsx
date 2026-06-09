@@ -5,7 +5,6 @@ import anpcSolLogo from '../../assets/anpc/anpc-sol.svg';
 import { Facebook, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
-import { FundingLogos } from './FundingLogos';
 import { socialShareLinks } from '../config/siteLinks';
 
 export function Footer() {
@@ -191,22 +190,6 @@ export function Footer() {
         </div>
 
         <div className="border-t border-slate-200 pt-8 pb-8">
-          <div className="mb-8 rounded-lg border border-blue-100 bg-blue-50/45 px-4 py-6">
-            <FundingLogos className="mb-5" />
-            <p className="mx-auto max-w-4xl text-center text-sm leading-relaxed text-slate-700">
-              Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
-              vă invităm să vizitați{' '}
-              <a
-                href="https://oportunitati-ue.gov.ro/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-950"
-              >
-                www.oportunitati-ue.gov.ro
-              </a>
-              .
-            </p>
-          </div>
           <div className="text-center">
             <h4 className="text-slate-600 text-sm mb-4">Servicii complete:</h4>
             <div className="flex flex-wrap justify-center gap-3">

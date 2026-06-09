@@ -7,22 +7,22 @@ const fundingLogos = [
   {
     src: euLogo,
     alt: 'Cofinanțat de Uniunea Europeană',
-    className: 'h-8 w-auto max-w-[11rem] object-contain sm:h-10 md:h-12',
+    className: 'max-h-8 w-auto max-w-[7rem] object-contain sm:max-h-10 sm:max-w-[10rem] md:max-h-12 md:max-w-[13rem]',
   },
   {
     src: govLogo,
     alt: 'Guvernul României',
-    className: 'h-8 w-auto object-contain sm:h-10 md:h-12',
+    className: 'h-8 w-8 object-contain sm:h-10 sm:w-10 md:h-12 md:w-12',
   },
   {
     src: regioLogo,
     alt: 'REGIO Nord-Vest',
-    className: 'h-8 w-auto object-contain sm:h-10 md:h-12',
+    className: 'h-8 w-8 object-contain sm:h-10 sm:w-10 md:h-12 md:w-12',
   },
   {
     src: adrLogo,
     alt: 'Agenția de Dezvoltare Regională Nord-Vest',
-    className: 'h-8 w-auto max-w-[11rem] object-contain sm:h-10 md:h-12',
+    className: 'max-h-8 w-auto max-w-[6rem] object-contain sm:max-h-10 sm:max-w-[9rem] md:max-h-12 md:max-w-[12rem]',
   },
 ];
 
@@ -33,7 +33,7 @@ type FundingLogosProps = {
 export function FundingLogos({ className = '' }: FundingLogosProps) {
   return (
     <div
-      className={`flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-x-6 ${className}`}
+      className={`mx-auto flex w-full max-w-4xl flex-nowrap items-center justify-center gap-x-3 sm:gap-x-8 md:gap-x-12 ${className}`}
       aria-label="Sigle obligatorii Programul Regional Nord-Vest"
     >
       {fundingLogos.map((item) => (

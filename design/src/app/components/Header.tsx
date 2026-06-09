@@ -116,11 +116,6 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-blue-100/80 bg-gradient-to-r from-white via-blue-50/80 to-white shadow-sm shadow-blue-950/5 backdrop-blur-md">
-      <div className="border-b border-blue-100/80 bg-white/95 py-2">
-        <div className="container mx-auto px-4">
-          <FundingLogos />
-        </div>
-      </div>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link
@@ -130,7 +125,7 @@ export function Header() {
           >
             <img src={logo} alt="GENE SYS SECURITY" className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
             <div className="min-w-0">
-              <div className="text-base font-bold tracking-wide text-blue-950 sm:text-xl">GENE SYS SECURITY</div>
+              <div className="text-xs font-bold leading-tight tracking-wide text-blue-950 sm:text-xl">GENE SYS SECURITY</div>
               <div className="text-xs font-medium text-blue-800/80">SRL</div>
             </div>
           </Link>
@@ -212,6 +207,11 @@ export function Header() {
             {menuItems.map((item) => renderMenuItem(item, true))}
           </nav>
         )}
+      </div>
+      <div className="border-t border-blue-100/80 bg-white py-3">
+        <div className="container mx-auto px-4">
+          <FundingLogos />
+        </div>
       </div>
     </header>
   );
