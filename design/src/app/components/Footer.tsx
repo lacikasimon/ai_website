@@ -7,6 +7,20 @@ import { Link } from 'react-router';
 import { siteContent } from '../content/siteContent';
 import { socialShareLinks } from '../config/siteLinks';
 
+const regionalLinks = [
+  { label: 'www.regionordvest.ro', href: 'https://regionordvest.ro/' },
+  { label: 'www.nord-vest.ro', href: 'https://www.nord-vest.ro/' },
+];
+
+const countyBand = [
+  { label: 'BH', color: '#84CDDD' },
+  { label: 'BN', color: '#2EBBD5' },
+  { label: 'CJ', color: '#188CB1' },
+  { label: 'MM', color: '#196194' },
+  { label: 'SJ', color: '#1E528F' },
+  { label: 'SM', color: '#2A416F' },
+];
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -67,6 +81,34 @@ export function Footer() {
 
   return (
     <footer className="bg-white border-t border-blue-200/80">
+      <section
+        className="border-b border-slate-200 px-4 py-8 text-center"
+        aria-label="Subsol obligatoriu Programul Regional Nord-Vest"
+      >
+        <p className="text-xl font-semibold italic text-slate-950">Investim în viitorul regiunii!</p>
+        <div className="mx-auto mt-4 grid max-w-md grid-cols-6 overflow-hidden text-sm font-bold text-white sm:text-base">
+          {countyBand.map((county) => (
+            <span key={county.label} className="py-1.5" style={{ backgroundColor: county.color }}>
+              {county.label}
+            </span>
+          ))}
+        </div>
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm font-semibold text-blue-950">
+          {regionalLinks.map((link, index) => (
+            <span key={link.href} className="inline-flex items-center gap-3">
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-blue-700"
+              >
+                {link.label}
+              </a>
+              {index < regionalLinks.length - 1 ? <span aria-hidden>|</span> : null}
+            </span>
+          ))}
+        </div>
+      </section>
       <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950 py-3 text-center">
         <p className="text-sm text-blue-100/95 tracking-wide">
           Instalații electrice · Fotovoltaice · Securitate — soluții integrate pentru proiectul tău
