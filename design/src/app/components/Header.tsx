@@ -208,7 +208,7 @@ export function Header() {
           </nav>
         )}
       </div>
-      <div className="border-t border-blue-100/80 bg-white py-3">
+      <div className="border-t border-blue-100/80 bg-white py-2">
         <div className="container mx-auto px-4">
           <FundingLogos />
         </div>
