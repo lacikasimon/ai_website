@@ -1,3 +1,5 @@
+import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import projectCableDetailPhoto from '../../assets/funding-project/project-cable-detail.jpg';
 import projectCableTrayPhoto from '../../assets/funding-project/project-cable-tray.jpg';
 import projectCctvCamerasPhoto from '../../assets/funding-project/project-cctv-cameras.jpg';
@@ -68,6 +70,59 @@ const galleryPhotos = [
 ];
 
 export function HomeProjectGallery() {
+  const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+  const photoRefs = useRef<Array<HTMLElement | null>>([]);
+
+  const isGalleryOpen = activePhotoIndex !== null;
+
+  const closeGallery = () => setActivePhotoIndex(null);
+
+  const scrollToPhoto = (index: number) => {
+    const nextIndex = (index + galleryPhotos.length) % galleryPhotos.length;
+    setActivePhotoIndex(nextIndex);
+
+    window.requestAnimationFrame(() => {
+      photoRefs.current[nextIndex]?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  };
+
+  useEffect(() => {
+    if (activePhotoIndex === null) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const frame = window.requestAnimationFrame(() => {
+      photoRefs.current[activePhotoIndex]?.scrollIntoView({ block: 'start' });
+    });
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeGallery();
+      }
+
+      if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollToPhoto(activePhotoIndex + 1);
+      }
+
+      if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollToPhoto(activePhotoIndex - 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [activePhotoIndex]);
+
   return (
     <section id="galerie-lucrari" className="bg-white py-20">
       <div className="container mx-auto px-4">
@@ -86,9 +141,12 @@ export function HomeProjectGallery() {
 
         <div className="grid auto-rows-[16rem] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {galleryPhotos.map((photo, index) => (
-            <figure
+            <button
+              type="button"
               key={photo.caption}
-              className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-slate-100 shadow-sm ${photo.className}`}
+              onClick={() => setActivePhotoIndex(index)}
+              className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-slate-100 text-left shadow-sm outline-none transition focus-visible:ring-4 focus-visible:ring-blue-500/35 ${photo.className}`}
+              aria-label={`Deschide galeria foto: ${photo.caption}`}
             >
               <img
                 src={photo.src}
@@ -97,13 +155,85 @@ export function HomeProjectGallery() {
                 loading={index === 0 ? 'eager' : 'lazy'}
                 decoding="async"
               />
-              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/82 via-slate-950/45 to-transparent px-4 pb-4 pt-12 text-sm font-semibold text-white">
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/82 via-slate-950/45 to-transparent px-4 pb-4 pt-12 text-sm font-semibold text-white">
                 {photo.caption}
-              </figcaption>
-            </figure>
+              </span>
+            </button>
           ))}
         </div>
       </div>
+
+      {isGalleryOpen && (
+        <div
+          className="fixed inset-0 z-[90] bg-slate-950 text-white"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Galerie foto lucrări GENE SYS SECURITY"
+        >
+          <div className="flex h-dvh flex-col">
+            <div className="flex min-h-16 items-center justify-between gap-4 border-b border-white/12 bg-slate-950/96 px-4 py-3 shadow-lg shadow-black/25 sm:px-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/55">Galerie foto</p>
+                <p className="mt-1 text-sm font-semibold text-white">Lucrări GENE SYS SECURITY</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => scrollToPhoto(activePhotoIndex - 1)}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/8 text-white transition hover:bg-white/16 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20"
+                  aria-label="Imaginea precedentă"
+                >
+                  <ChevronUp className="h-5 w-5" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToPhoto(activePhotoIndex + 1)}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/8 text-white transition hover:bg-white/16 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20"
+                  aria-label="Imaginea următoare"
+                >
+                  <ChevronDown className="h-5 w-5" aria-hidden />
+                </button>
+                <button
+                  type="button"
+                  onClick={closeGallery}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white text-slate-950 transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/20"
+                  aria-label="Închide galeria"
+                >
+                  <X className="h-5 w-5" aria-hidden />
+                </button>
+              </div>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto scroll-smooth bg-slate-950 snap-y snap-mandatory">
+              {galleryPhotos.map((photo, index) => (
+                <figure
+                  key={`lightbox-${photo.caption}`}
+                  ref={(element) => {
+                    photoRefs.current[index] = element;
+                  }}
+                  className="flex min-h-[calc(100dvh-4rem)] snap-start flex-col justify-center px-4 py-6 sm:px-6 lg:px-10"
+                >
+                  <div className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="max-h-[calc(100dvh-11rem)] w-full rounded-lg object-contain shadow-2xl shadow-black/35"
+                      loading={index === activePhotoIndex ? 'eager' : 'lazy'}
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption className="mx-auto mt-4 flex w-full max-w-6xl flex-col gap-1 text-sm text-white/72 sm:flex-row sm:items-center sm:justify-between">
+                    <span className="font-semibold text-white">{photo.caption}</span>
+                    <span>
+                      {index + 1} / {galleryPhotos.length}
+                    </span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
