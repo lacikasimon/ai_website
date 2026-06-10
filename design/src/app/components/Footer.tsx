@@ -82,6 +82,20 @@ export function Footer() {
 
   return (
     <footer className="bg-white border-t border-blue-200/80">
+      <section className="border-b border-slate-200 px-4 py-5 text-center" aria-label="Informații programe europene">
+        <p className="mx-auto max-w-3xl text-sm leading-relaxed text-slate-700">
+          Pentru informații detaliate despre celelalte programe cofinanțate de Uniunea Europeană,
+          <br className="hidden sm:block" /> vă invităm să vizitați{' '}
+          <a
+            href="https://www.oportunitati-ue.gov.ro/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-blue-950 hover:text-blue-700 hover:underline"
+          >
+            www.oportunitati-ue.gov.ro
+          </a>
+        </p>
+      </section>
       <section
         className="border-b border-slate-200 px-4 py-8 text-center"
         aria-label="Subsol obligatoriu Programul Regional Nord-Vest"

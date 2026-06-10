@@ -18,7 +18,7 @@ export function Hero() {
           style={{
             backgroundImage: `url('${siteImages.hero.electricalInstallationMobile}')`,
             backgroundPosition: 'center bottom',
-            backgroundSize: 'auto 115%',
+            backgroundSize: 'auto 112%',
           }}
         />
         <div

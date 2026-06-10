@@ -8,7 +8,7 @@ const fundingLogos = [
     src: euLogo,
     alt: 'Cofinanțat de Uniunea Europeană',
     href: 'https://european-union.europa.eu/index_ro',
-    className: 'h-8 w-[5.5rem] object-contain sm:h-10 sm:w-[10rem] md:h-12 md:w-[13rem]',
+    className: 'h-8 w-[5.25rem] object-contain sm:h-10 sm:w-[10rem] md:h-12 md:w-[13rem]',
   },
   {
     src: govLogo,
@@ -26,7 +26,7 @@ const fundingLogos = [
     src: adrLogo,
     alt: 'Agenția de Dezvoltare Regională Nord-Vest',
     href: 'https://www.nord-vest.ro/',
-    className: 'h-8 w-[4.25rem] object-contain sm:h-10 sm:w-[9rem] md:h-12 md:w-[12rem]',
+    className: 'h-8 w-16 object-contain sm:h-10 sm:w-20 md:h-12 md:w-24',
   },
 ];
 
@@ -37,7 +37,7 @@ type FundingLogosProps = {
 export function FundingLogos({ className = '' }: FundingLogosProps) {
   return (
     <div
-      className={`mx-auto flex w-full max-w-4xl flex-nowrap items-center justify-center gap-x-3 sm:gap-x-8 md:gap-x-12 ${className}`}
+      className={`mx-auto flex w-full max-w-4xl flex-nowrap items-center justify-center gap-x-0.5 sm:gap-x-4 md:gap-x-6 ${className}`}
       aria-label="Sigle obligatorii Programul Regional Nord-Vest"
     >
       {fundingLogos.map((item) => (
