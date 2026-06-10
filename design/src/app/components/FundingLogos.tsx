@@ -37,7 +37,7 @@ type FundingLogosProps = {
 export function FundingLogos({ className = '' }: FundingLogosProps) {
   return (
     <div
-      className={`mx-auto flex w-full max-w-4xl flex-nowrap items-center justify-center gap-x-0.5 sm:gap-x-4 md:gap-x-6 ${className}`}
+      className={`mx-auto flex w-full max-w-4xl flex-nowrap items-center justify-center gap-x-5 sm:gap-x-5 md:gap-x-6 ${className}`}
       aria-label="Sigle obligatorii Programul Regional Nord-Vest"
     >
       {fundingLogos.map((item) => (
