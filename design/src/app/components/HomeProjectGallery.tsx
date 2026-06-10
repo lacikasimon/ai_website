@@ -193,7 +193,7 @@ export function HomeProjectGallery() {
           <button
             type="button"
             onClick={() => setActiveMediaIndex(0)}
-            className="group relative flex min-h-[16rem] flex-col justify-start gap-8 overflow-hidden rounded-lg border border-blue-900 bg-blue-950 p-5 text-left text-white shadow-sm outline-none transition hover:bg-blue-900 focus-visible:ring-4 focus-visible:ring-blue-500/35 lg:col-span-2"
+            className="group relative flex min-h-[16rem] flex-col justify-start gap-8 overflow-hidden rounded-lg border border-blue-900 bg-blue-950 p-5 text-left text-white shadow-sm outline-none transition hover:bg-blue-900 focus-visible:ring-4 focus-visible:ring-blue-500/35"
             aria-label="Deschide galeria completă cu toate fotografiile și videourile"
           >
             <span className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.16),transparent_36%)]" aria-hidden />
