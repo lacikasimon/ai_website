@@ -33,6 +33,7 @@ export function Footer() {
     { label: 'Despre Noi', to: '/#despre-noi' },
     { label: 'De ce noi', to: '/#de-ce-noi' },
     { label: 'Servicii', to: '/#servicii' },
+    { label: 'Galerie lucrări', to: '/#galerie-lucrari' },
     { label: 'Sectoare', to: '/#sectoare' },
     { label: 'Proces', to: '/#proces' },
     { label: 'Certificări', to: '/#certificari' },

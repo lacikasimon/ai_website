@@ -5,10 +5,11 @@ import electricalInstallation from '../../assets/photos/electrical-installation.
 import photovoltaicPanels from '../../assets/photos/photovoltaic-panels.jpg';
 import securityCctv from '../../assets/photos/security-cctv.jpg';
 import technicalMaintenance from '../../assets/photos/technical-maintenance.jpg';
+import projectMainWork from '../../assets/funding-project/project-main-work.jpg';
 
 export const siteImages = {
   hero: {
-    electricalInstallation,
+    electricalInstallation: projectMainWork,
   },
   about: {
     electricalEngineer,

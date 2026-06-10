@@ -15,10 +15,12 @@ export function Hero() {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('${siteImages.hero.electricalInstallation}')`
+          backgroundImage: `url('${siteImages.hero.electricalInstallation}')`,
+          backgroundPosition: 'center 42%',
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/25 via-white/93 to-blue-50/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/84 to-blue-50/72" />
+        <div className="absolute inset-0 bg-blue-950/10" />
       </div>
 
       {/* Hero Content */}

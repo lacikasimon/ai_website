@@ -48,6 +48,12 @@ const projectsSearchContent = [
   'Contract Mentenanță Multisite mentenanță preventivă corectivă retail intervenții disponibilitate',
 ].join(' ');
 
+const gallerySearchContent = [
+  'Galerie lucrări imagini reale șantier instalare cablare trasee tehnice montaj',
+  'camere supraveghere video CCTV infrastructură electrică trasare laser verificări',
+  'GENE SYS SECURITY SYSHUB fotografii reale activitate companie proiecte',
+].join(' ');
+
 const fundingSearchContent = [
   'Proiect finanțat prin Programul Regional Nord-Vest 2021-2027',
   'Investiții pentru digitalizarea societății GENE SYS SECURITY SRL, cod SMIS 334780',
@@ -129,6 +135,14 @@ function buildBaseSearchEntries(): SearchEntry[] {
       category: 'Proiecte',
       keywords: 'portofoliu referințe lucrări proiecte',
       content: projectsSearchContent,
+    },
+    {
+      title: 'Galerie lucrări',
+      description: 'Fotografii reale din lucrările GENE SYS SECURITY pentru cablare, montaj și sisteme CCTV.',
+      href: '/#galerie-lucrari',
+      category: 'Galerie',
+      keywords: 'galerie foto fotografii imagini reale lucrări santier șantier cablare CCTV',
+      content: gallerySearchContent,
     },
     {
       title: 'Finanțare UE',
