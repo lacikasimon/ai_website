@@ -111,6 +111,7 @@ export const defaultMenuItems: CmsMenuItem[] = [
   { id: 'home', label: 'Acasă', href: '/', kind: 'internal', visible: true, order: 10 },
   { id: 'shop', label: 'Magazin', href: 'https://shop.syshub.ro/', kind: 'external', visible: true, order: 20 },
   { id: 'projects', label: 'Proiecte', href: '/proiecte', kind: 'internal', visible: true, order: 30 },
+  { id: 'gallery', label: 'Galerie', href: '/#galerie-lucrari', kind: 'internal', visible: true, order: 32 },
   { id: 'blog', label: 'Blog', href: '/blog', kind: 'internal', visible: true, order: 35 },
   { id: 'funding', label: 'Finanțare UE', href: '/finantare-ue', kind: 'internal', visible: true, order: 40 },
   { id: 'about', label: 'Despre Noi', href: '/#despre-noi', kind: 'internal', visible: true, order: 50 },

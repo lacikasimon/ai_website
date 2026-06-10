@@ -172,7 +172,7 @@ export function Header() {
             </Link>
             <SiteSearch />
             <div className="hidden h-8 w-px shrink-0 bg-blue-200/80 lg:block" aria-hidden />
-            <nav className="flex items-center gap-4 text-sm font-medium text-blue-950/75 lg:gap-6" aria-label="Navigare principală">
+            <nav className="flex items-center gap-3 text-sm font-medium text-blue-950/75 2xl:gap-5" aria-label="Navigare principală">
               {menuItems.map((item) => renderMenuItem(item))}
             </nav>
           </div>

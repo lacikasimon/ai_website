@@ -5,11 +5,13 @@ import electricalInstallation from '../../assets/photos/electrical-installation.
 import photovoltaicPanels from '../../assets/photos/photovoltaic-panels.jpg';
 import securityCctv from '../../assets/photos/security-cctv.jpg';
 import technicalMaintenance from '../../assets/photos/technical-maintenance.jpg';
-import projectMainWork from '../../assets/funding-project/project-main-work.jpg';
+import projectHeroShirtLogo from '../../assets/funding-project/project-hero-shirt-logo.jpg';
+import projectHeroShirtLogoMobile from '../../assets/funding-project/project-hero-shirt-logo-mobile.jpg';
 
 export const siteImages = {
   hero: {
-    electricalInstallation: projectMainWork,
+    electricalInstallation: projectHeroShirtLogo,
+    electricalInstallationMobile: projectHeroShirtLogoMobile,
   },
   about: {
     electricalEngineer,

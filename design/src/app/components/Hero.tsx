@@ -12,15 +12,24 @@ export function Hero() {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${siteImages.hero.electricalInstallation}')`,
-          backgroundPosition: 'center 42%',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/72 via-white/84 to-blue-50/72" />
-        <div className="absolute inset-0 bg-blue-950/10" />
+      <div className="absolute inset-0">
+        <div
+          className="absolute inset-0 bg-no-repeat md:hidden"
+          style={{
+            backgroundImage: `url('${siteImages.hero.electricalInstallationMobile}')`,
+            backgroundPosition: 'center bottom',
+            backgroundSize: 'auto 115%',
+          }}
+        />
+        <div
+          className="absolute inset-0 hidden bg-cover md:block"
+          style={{
+            backgroundImage: `url('${siteImages.hero.electricalInstallation}')`,
+            backgroundPosition: 'center 92%',
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/56 via-white/64 to-white/32" />
+        <div className="absolute inset-0 bg-blue-950/5" />
       </div>
 
       {/* Hero Content */}
