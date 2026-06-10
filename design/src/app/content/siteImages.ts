@@ -4,8 +4,8 @@ import electricalEngineer from '../../assets/photos/electrical-engineer.jpg';
 import electricalInstallation from '../../assets/photos/electrical-installation.jpg';
 import photovoltaicPanels from '../../assets/photos/photovoltaic-panels.jpg';
 import securityCctv from '../../assets/photos/security-cctv.jpg';
-import technicalMaintenance from '../../assets/photos/technical-maintenance.jpg';
 import projectHeroClientSelected from '../../assets/funding-project/project-hero-client-selected.jpg';
+import projectInstallationDetail from '../../assets/funding-project/project-installation-detail.jpg';
 
 export const siteImages = {
   hero: {
@@ -20,7 +20,7 @@ export const siteImages = {
     photovoltaicPanels,
     securityCctv,
     alarmInstallation,
-    technicalMaintenance,
+    technicalMaintenance: projectInstallationDetail,
     electricalEngineer,
   },
   projects: {
@@ -29,7 +29,7 @@ export const siteImages = {
     securityCctv,
     electricalInstallation,
     alarmInstallation,
-    technicalMaintenance,
+    technicalMaintenance: projectInstallationDetail,
   },
 };
 
@@ -48,8 +48,8 @@ const blogCoversBySlug: Record<string, SiteBlogCover> = {
     alt: 'Instalație electrică profesională pentru clădiri civile și industriale',
   },
   'mentenanta-tehnica-preventiva-cladiri-echipamente': {
-    src: technicalMaintenance,
-    alt: 'Specialist care verifică echipamente tehnice în cadrul unei lucrări de mentenanță',
+    src: projectInstallationDetail,
+    alt: 'Specialist GENE SYS SECURITY montează cabluri într-un spațiu tehnic',
   },
   'sisteme-detectie-efractie-alarma': {
     src: alarmInstallation,
