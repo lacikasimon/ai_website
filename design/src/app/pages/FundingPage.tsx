@@ -2,31 +2,31 @@ import { ExternalLink } from 'lucide-react';
 import { Link } from 'react-router';
 import { useSeo } from '../seo/useSeo';
 import { siteContent } from '../content/siteContent';
-import electricalEngineerPhoto from '../../assets/photos/electrical-engineer.jpg';
-import electricalInstallationPhoto from '../../assets/photos/electrical-installation.jpg';
-import securityCctvPhoto from '../../assets/photos/security-cctv.jpg';
-import technicalMaintenancePhoto from '../../assets/photos/technical-maintenance.jpg';
+import projectCableTrayPhoto from '../../assets/funding-project/project-cable-tray.jpg';
+import projectCctvCamerasPhoto from '../../assets/funding-project/project-cctv-cameras.jpg';
+import projectCeilingMarkingPhoto from '../../assets/funding-project/project-ceiling-marking.jpg';
+import projectMainWorkPhoto from '../../assets/funding-project/project-main-work.jpg';
 
 const projectTitle = 'Investiții pentru digitalizarea societății GENE SYS SECURITY SRL, cod SMIS 334780';
 const launchPressPdfUrl = '/docs/smis-334780-comunicat-demarare.pdf';
 const launchPressUrl = 'https://portalsm.ro/2025/12/comunicat-de-presa-gene-sys-security-srl/';
-const projectVideoUrl = '/videos/funding/project-overview.mp4';
+const projectVideoUrl = '/videos/funding/client-project-work.mp4';
 
 const galleryPhotos = [
   {
-    src: technicalMaintenancePhoto,
-    alt: 'Specialist tehnic care verifică echipamente digitale și infrastructură de mentenanță',
-    caption: 'Echipamente și procese digitale pentru activitatea tehnică',
+    src: projectCableTrayPhoto,
+    alt: 'Specialist GENE SYS SECURITY montează cabluri pe traseu metalic într-un spațiu tehnic',
+    caption: 'Lucrări de cablare și pregătire a traseelor pentru infrastructură tehnică',
   },
   {
-    src: securityCctvPhoto,
-    alt: 'Cameră de supraveghere video instalată pentru protecția unui obiectiv',
-    caption: 'Soluții de securitate și monitorizare video',
+    src: projectCctvCamerasPhoto,
+    alt: 'Camere de supraveghere video instalate pe structură metalică',
+    caption: 'Sisteme de supraveghere video și monitorizare pentru obiective',
   },
   {
-    src: electricalInstallationPhoto,
-    alt: 'Lucrări de instalații electrice într-un spațiu tehnic',
-    caption: 'Activități de instalații electrice și infrastructură',
+    src: projectCeilingMarkingPhoto,
+    alt: 'Specialist GENE SYS SECURITY folosește trasare laser pentru montaj tehnic',
+    caption: 'Trasare, montaj și verificări pentru infrastructura electrică',
   },
 ];
 
@@ -103,11 +103,11 @@ export function FundingPage() {
                   {projectTitle}
                 </h1>
               </div>
-              <div className="mt-8 aspect-[16/7] overflow-hidden rounded-md border border-slate-200 bg-slate-100">
+              <div className="mt-8 aspect-[4/3] overflow-hidden rounded-md border border-slate-200 bg-slate-100 sm:aspect-[16/10] lg:aspect-[16/9]">
                 <img
-                  src={electricalEngineerPhoto}
-                  alt="Specialist GENE SYS SECURITY care lucrează cu infrastructură tehnică și echipamente digitale"
-                  className="h-full w-full object-cover"
+                  src={projectMainWorkPhoto}
+                  alt="Specialist GENE SYS SECURITY execută lucrări de instalații tehnice într-un spațiu de lucru"
+                  className="h-full w-full object-cover object-[50%_42%]"
                 />
               </div>
             </header>
@@ -182,7 +182,7 @@ export function FundingPage() {
               <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {galleryPhotos.map((photo) => (
                   <figure key={photo.caption} className="overflow-hidden rounded-md border border-slate-200 bg-white">
-                    <img src={photo.src} alt={photo.alt} className="aspect-[4/3] w-full object-cover" loading="lazy" />
+                    <img src={photo.src} alt={photo.alt} className="aspect-[3/4] w-full object-cover" loading="lazy" />
                     <figcaption className="px-4 py-3 text-sm leading-relaxed text-slate-700">
                       {photo.caption}
                     </figcaption>
@@ -198,7 +198,7 @@ export function FundingPage() {
                   className="aspect-video w-full bg-black"
                   controls
                   preload="metadata"
-                  poster={securityCctvPhoto}
+                  poster={projectCctvCamerasPhoto}
                 >
                   <source src={projectVideoUrl} type="video/mp4" />
                   Browserul dumneavoastră nu poate reda clipul video.
