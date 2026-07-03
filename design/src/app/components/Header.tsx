@@ -121,13 +121,10 @@ export function Header() {
           <Link
             to="/"
             className="flex min-w-0 shrink items-center gap-3 hover:opacity-90 transition-opacity"
-            aria-label="GENE SYS SECURITY SRL — pagina principală"
+            aria-label="syshub — pagina principală"
           >
-            <img src={logo} alt="GENE SYS SECURITY" className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
-            <div className="min-w-0">
-              <div className="text-xs font-bold leading-tight tracking-wide text-blue-950 sm:text-xl">GENE SYS SECURITY</div>
-              <div className="text-xs font-medium text-blue-800/80">SRL</div>
-            </div>
+            <img src={logo} alt="syshub" className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
+            <span className="min-w-0 text-lg font-bold leading-none tracking-wide text-blue-950 sm:text-2xl">syshub</span>
           </Link>
 
           {/* Mobile: CTA-uri vizibile înainte de meniu */}
