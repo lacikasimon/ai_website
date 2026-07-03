@@ -133,8 +133,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="syshub" className="h-10 w-10" />
-              <div className="text-lg text-blue-950 tracking-wide font-semibold">syshub</div>
+              <img src={logo} alt="SysHUB" className="h-10 w-10" />
+              <div className="text-lg text-blue-950 tracking-wide font-semibold">SysHUB</div>
             </div>
             <p className="text-slate-600 mb-4 text-sm italic">
               Proiectare, execuție și mentenanță pentru instalații electrice, fotovoltaice și sisteme de securitate.

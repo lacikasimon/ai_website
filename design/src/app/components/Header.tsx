@@ -121,10 +121,10 @@ export function Header() {
           <Link
             to="/"
             className="flex min-w-0 shrink items-center gap-3 hover:opacity-90 transition-opacity"
-            aria-label="syshub — pagina principală"
+            aria-label="SysHUB — pagina principală"
           >
-            <img src={logo} alt="syshub" className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
-            <span className="min-w-0 text-lg font-bold leading-none tracking-wide text-blue-950 sm:text-2xl">syshub</span>
+            <img src={logo} alt="SysHUB" className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" />
+            <span className="min-w-0 text-lg font-bold leading-none tracking-wide text-blue-950 sm:text-2xl">SysHUB</span>
           </Link>
 
           {/* Mobile: CTA-uri vizibile înainte de meniu */}
