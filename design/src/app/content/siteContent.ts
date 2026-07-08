@@ -397,7 +397,7 @@ export const siteContent = {
         heading: 'Google Analytics',
         paragraphs: [
           'Folosim Google Analytics 4 pentru statistici privind vizitele, paginile accesate, sursele de trafic și informații tehnice despre browser sau dispozitiv. Scopul este îmbunătățirea conținutului și a experienței pe site.',
-          'Google Analytics este încărcat numai după ce alegeți „Accept toate” în bannerul de cookie-uri. Dacă alegeți „Doar esențiale” sau retrageți acordul, tag-ul de analiză nu este activat pentru navigarea ulterioară.',
+          'Google Analytics este configurat prin Google tag (gtag.js) cu identificatorul de măsurare al proprietății noastre GA4.',
         ],
       },
       {

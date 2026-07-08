@@ -7,7 +7,6 @@ import { BreadcrumbJsonLd } from '../seo/BreadcrumbJsonLd';
 import { RouteScroll } from './RouteScroll';
 import { SupportWidget } from './SupportWidget';
 import { AccessibilityPanel } from './AccessibilityPanel';
-import { GoogleAnalytics } from '../analytics/GoogleAnalytics';
 
 export function Layout() {
   return (
@@ -15,7 +14,6 @@ export function Layout() {
       <JsonLdOrg />
       <BreadcrumbJsonLd />
       <RouteScroll />
-      <GoogleAnalytics />
       <a href="#main-content" className="skip-link">
         Sari la conținutul principal
       </a>

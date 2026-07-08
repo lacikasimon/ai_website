@@ -14,4 +14,4 @@ Set `VITE_SITE_URL=https://syshub.ro` before building so canonical URLs, `robots
 
 For Google Search Console, copy only the token from Google's HTML tag verification method into `VITE_GOOGLE_SITE_VERIFICATION`, then run `npm run build`. The build injects the required `<meta name="google-site-verification" ...>` tag into `dist/index.html`.
 
-For Google Analytics 4, set `VITE_GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX`. The site loads `gtag.js` only after the visitor accepts optional cookies, and it sends page views on React route changes.
+Google Analytics 4 is added directly in `index.html` with measurement ID `G-PM6616M1MP`.

@@ -4,7 +4,6 @@ interface ImportMetaEnv {
   readonly VITE_USE_HASH?: string;
   readonly VITE_SITE_URL?: string;
   readonly VITE_GOOGLE_SITE_VERIFICATION?: string;
-  readonly VITE_GOOGLE_ANALYTICS_ID?: string;
   readonly VITE_ADMIN_PIN?: string;
   readonly VITE_ENABLE_LOCAL_ADMIN?: string;
   readonly VITE_ADMIN_MAX_FAILED_ATTEMPTS?: string;
