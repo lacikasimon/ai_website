@@ -374,7 +374,7 @@ export const siteContent = {
   /** Politică cookie — informare conform practicilor GDPR / ePrivacy (RO) */
   cookiePolicy: {
     title: 'Politică privind fișierele cookie',
-    lastUpdated: '28 martie 2026',
+    lastUpdated: '8 iulie 2026',
     intro:
       'Această politică descrie modul în care GENE SYS SECURITY SRL („noi”) utilizează fișierele cookie și tehnologii similare pe site-ul nostru. O putem actualiza periodic; versiunea în vigoare este cea publicată pe această pagină.',
     sections: [
@@ -389,8 +389,15 @@ export const siteContent = {
         paragraphs: [
           'Cookie-uri strict necesare: asigură funcții de bază (navigare, securitate, încărcarea paginilor). Fără ele, site-ul nu poate funcționa corect.',
           'Cookie-uri de preferințe: memorează alegeri (ex. limbă sau regiune), dacă le activați.',
-          'Cookie-uri de analiză / statistici (dacă sunt implementate): ne ajută să înțelegem cum este folosit site-ul, în formă agregată. Acestea se plasează doar cu acordul dumneavoastră, acolo unde legea o cere.',
+          'Cookie-uri de analiză / statistici: dacă Google Analytics este configurat pe site, acestea ne ajută să înțelegem cum este folosit site-ul, în formă agregată. Se activează doar după acceptarea cookie-urilor opționale.',
           'Cookie-uri de marketing (dacă sunt implementate): pot fi folosite pentru conținut personalizat sau măsurători publicitare, doar cu consimțământ.',
+        ],
+      },
+      {
+        heading: 'Google Analytics',
+        paragraphs: [
+          'Folosim Google Analytics 4 pentru statistici privind vizitele, paginile accesate, sursele de trafic și informații tehnice despre browser sau dispozitiv. Scopul este îmbunătățirea conținutului și a experienței pe site.',
+          'Google Analytics este încărcat numai după ce alegeți „Accept toate” în bannerul de cookie-uri. Dacă alegeți „Doar esențiale” sau retrageți acordul, tag-ul de analiză nu este activat pentru navigarea ulterioară.',
         ],
       },
       {

@@ -1,7 +1,11 @@
 import { Link } from 'react-router';
 import { Cookie } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { COOKIE_CONSENT_CHANGED_EVENT, COOKIE_CONSENT_STORAGE_KEY } from '../utils/cookieConsent';
+import {
+  COOKIE_CONSENT_CHANGED_EVENT,
+  COOKIE_CONSENT_STORAGE_KEY,
+  type CookieConsentChoice,
+} from '../utils/cookieConsent';
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
@@ -16,10 +20,10 @@ export function CookieBanner() {
     }
   }, []);
 
-  const dismiss = (value: 'all' | 'essential') => {
+  const dismiss = (value: CookieConsentChoice) => {
     try {
       window.localStorage.setItem(COOKIE_CONSENT_STORAGE_KEY, value);
-      window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_CHANGED_EVENT, { detail: { visible: false } }));
+      window.dispatchEvent(new CustomEvent(COOKIE_CONSENT_CHANGED_EVENT, { detail: { visible: false, value } }));
     } catch {
       /* ignore */
     }
