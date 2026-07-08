@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# După deploy cu VITE_SITE_URL, `npm run build` generează sitemap.xml și completează linia Sitemap în dist/robots.txt.
+# La build cu VITE_SITE_URL, `npm run build` regenerează sitemap.xml și linia Sitemap în dist/robots.txt.
 # Context pentru motoare AI:
 # https://syshub.ro/llms.txt
 # https://syshub.ro/ai-context.json
@@ -21,3 +21,5 @@ Allow: /
 
 User-agent: PerplexityBot
 Allow: /
+
+Sitemap: https://syshub.ro/sitemap.xml

@@ -28,6 +28,13 @@ const DEFAULT_BLOG_SLUGS_FOR_SITEMAP = [
   'sisteme-supraveghere-video-cctv',
 ] as const
 
+const LEGAL_PATHS_FOR_SITEMAP = [
+  '/politica-cookie-uri',
+  '/termeni-si-conditii',
+  '/politica-de-retur',
+  '/gdpr',
+] as const
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
@@ -39,6 +46,23 @@ export default defineConfig(({ mode }) => {
       {
         name: 'seo-sitemap-robots',
         apply: 'build',
+        transformIndexHtml() {
+          const googleSiteVerification = env.VITE_GOOGLE_SITE_VERIFICATION?.trim()
+          if (!googleSiteVerification) {
+            return
+          }
+
+          return [
+            {
+              tag: 'meta',
+              attrs: {
+                name: 'google-site-verification',
+                content: googleSiteVerification,
+              },
+              injectTo: 'head',
+            },
+          ]
+        },
         closeBundle() {
           const distDir = path.join(process.cwd(), 'dist')
           const apiDir = path.join(distDir, 'api')
@@ -72,9 +96,8 @@ export default defineConfig(({ mode }) => {
             '/blog',
             ...DEFAULT_BLOG_SLUGS_FOR_SITEMAP.map((s) => `/blog/${s}`),
             '/finantare-ue',
-            '/politica-cookie-uri',
-            '/gdpr',
             ...SERVICE_SLUGS_FOR_SITEMAP.map((s) => `/servicii/${s}`),
+            ...LEGAL_PATHS_FOR_SITEMAP,
           ]
           const lastmod = new Date().toISOString().slice(0, 10)
 
