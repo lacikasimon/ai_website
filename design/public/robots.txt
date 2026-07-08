@@ -1,25 +1,4 @@
 User-agent: *
 Allow: /
 
-# La build cu VITE_SITE_URL, `npm run build` regenerează sitemap.xml și linia Sitemap în dist/robots.txt.
-# Context pentru motoare AI:
-# https://syshub.ro/llms.txt
-# https://syshub.ro/ai-context.json
-
-# Crawlere AI / answer engines permise pentru descoperire si citare.
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
 Sitemap: https://syshub.ro/sitemap.xml

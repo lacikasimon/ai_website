@@ -125,26 +125,6 @@ ${urlset}
             `User-agent: *
 Allow: /
 
-# Context pentru motoare AI:
-# ${loc('/llms.txt')}
-# ${loc('/ai-context.json')}
-
-# Crawlere AI / answer engines permise pentru descoperire si citare.
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
 Sitemap: ${sitemapUrl}
 `,
             'utf8',
